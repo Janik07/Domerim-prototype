@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Двенадцать экранов приложения донерной «Донерим» с фото блюд.">
+<meta name="description" content="Шестнадцать экранов приложения донерной «Донерим»: меню, донеркоины, заказ и светлая тема.">
 <meta name="theme-color" content="#0A0A0B">
 <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
 <title>Экраны приложения Донерим</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&family=Unbounded:wght@600;700&display=swap">
 <style>
-/* Layout: a presentation sheet. Brand header, then the twelve screens in phone frames, grouped by the order a guest meets them. One dark look, matching the app. */
+/* Layout: a presentation sheet. Brand header, then sixteen screens in phone frames, grouped by the order a guest meets them, the last group in the light theme. The page itself stays dark. */
 :root {
   color-scheme: dark;
   --bg: #0A0A0B;
@@ -20,10 +20,10 @@
   --fg: #FFFFFF;
   --fg2: #A1A1A8;
   --fg3: #6E6E76;
-  --saffron: #FFB800;
-  --on-accent: #141416;
+  --accent: #FF6900;
+  --on-accent: #FFFFFF;
   --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
-  --text: 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 [hidden] { display: none !important; }
 body {
@@ -36,7 +36,7 @@ header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48
 .lock svg { width: 52px; height: 52px; flex: none; }
 h1 { margin: 20px 0 10px; font: 600 clamp(26px, 4vw, 44px)/1.15 var(--display); letter-spacing: -.02em; text-wrap: balance; max-width: 18ch; }
 .lead { margin: 0; color: var(--fg2); font-size: 17px; max-width: 62ch; }
-.cta { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 24px; border-radius: 26px; background: var(--saffron); color: var(--on-accent); font: 600 16px/1 var(--text); text-decoration: none; white-space: nowrap; }
+.cta { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 24px; border-radius: 26px; background: var(--accent); color: var(--on-accent); font: 600 16px/1 var(--text); text-decoration: none; white-space: nowrap; }
 .cta:hover { filter: brightness(1.06); }
 .cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 .cta svg { width: 18px; height: 18px; }
@@ -50,7 +50,7 @@ figure { margin: 0; display: flex; flex-direction: column; gap: 16px; min-width:
 .phone { position: relative; border-radius: 13% / 6%; padding: 3.2%; background: #1B1B1F; box-shadow: inset 0 0 0 1px #34343A, 0 30px 60px rgba(0, 0, 0, .55); }
 .phone img { display: block; width: 100%; height: auto; aspect-ratio: 393 / 852; border-radius: 10.5% / 4.9%; max-width: 100%; }
 figcaption { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
-figcaption b { grid-row: span 2; font: 600 14px/22px var(--display); color: var(--saffron); font-variant-numeric: tabular-nums; }
+figcaption b { grid-row: span 2; font: 600 14px/22px var(--display); color: var(--accent); font-variant-numeric: tabular-nums; }
 figcaption strong { font: 600 16px/22px var(--text); }
 figcaption span { color: var(--fg2); font-size: 14px; line-height: 20px; }
 .style { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -74,7 +74,7 @@ footer { color: var(--fg3); font-size: 13px; line-height: 1.6; border-top: 1px s
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="spit" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#FFB800"/><path d="M24 6.5v34M18.5 41h11" stroke="#141416" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M14 13.2c0-1.5 1.2-2.7 2.7-2.7h14.6c1.5 0 2.7 1.2 2.7 2.7l-3.1 19.6c-.2 1.3-1.3 2.2-2.6 2.2h-8.6c-1.3 0-2.4-.9-2.6-2.2L14 13.2z" fill="#141416"/><path d="M16.4 17.5h15.2M17.3 23h13.4M18.2 28.5h11.6" stroke="#FFB800" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="spit" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#FF6900"/><path d="M24 6.5v34M18.5 41h11" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M14 13.2c0-1.5 1.2-2.7 2.7-2.7h14.6c1.5 0 2.7 1.2 2.7 2.7l-3.1 19.6c-.2 1.3-1.3 2.2-2.6 2.2h-8.6c-1.3 0-2.4-.9-2.6-2.2L14 13.2z" fill="#FFFFFF"/><path d="M16.4 17.5h15.2M17.3 23h13.4M18.2 28.5h11.6" stroke="#FF6900" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -82,8 +82,8 @@ footer { color: var(--fg3); font-size: 13px; line-height: 1.6; border-top: 1px s
     <div>
       <div class="lock"><svg><use href="#spit"/></svg>донерим</div>
       <h1>Мобильное приложение донерной</h1>
-      <p class="lead">Двенадцать экранов: от запуска до доставленного заказа. Тёмная тема, фирменный жёлтый и меню с фотографиями блюд. Структура повторяет привычное приложение Додо, стиль — свой.</p>
-      <div class="facts"><span>iPhone 15 Pro · 393 × 852</span><span>Тенге, русский язык</span><span>Астана</span><span>Фото из меню ailillu</span></div>
+      <p class="lead">Шестнадцать экранов: от запуска до курьера на карте, донеркоины и светлая тема. Экраны, цвета и поведение — как в приложении Додо, вместо пиццы — донеры. Название и логотип — «Донерим».</p>
+      <div class="facts"><span>iPhone 15 Pro · 393 × 852</span><span>Тенге, русский язык</span><span>Астана</span><span>Тёмная и светлая тема</span><span>Фото из меню ailillu</span></div>
     </div>
     <a class="cta" href="../">Открыть кликабельный прототип <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
   </header>
@@ -91,7 +91,7 @@ footer { color: var(--fg3); font-size: 13px; line-height: 1.6; border-top: 1px s
   <section aria-labelledby="s1">
     <h2 id="s1">Запуск и меню <small>01–04</small></h2>
     <div class="grid">
-      <figure><div class="phone"><img src="screens/01-zastavka.jpg" alt="Заставка Донерим на жёлтом фоне" loading="lazy"></div><figcaption><b>01</b><strong>Заставка</strong><span>Логотип на фирменном жёлтом при запуске</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/01-zastavka.jpg" alt="Заставка Донерим на оранжевом фоне" loading="lazy"></div><figcaption><b>01</b><strong>Заставка</strong><span>Логотип на фирменном оранжевом при запуске</span></figcaption></figure>
       <figure><div class="phone"><img src="screens/02-glavnaya.jpg" alt="Главная: подарки, сторис, подборка Для вас" loading="lazy"></div><figcaption><b>02</b><strong>Главная</strong><span>Подарки, донеркоины, сторис и подборка «Для вас»</span></figcaption></figure>
       <figure><div class="phone"><img src="screens/03-donery.jpg" alt="Категория Донеры с крупной карточкой фирменного донера" loading="lazy"></div><figcaption><b>03</b><strong>Донеры</strong><span>Фирменный донер крупно и фильтры по видам</span></figcaption></figure>
       <figure><div class="phone"><img src="screens/04-kombo.jpg" alt="Категория Комбо с промо-карточкой Обед-комбо" loading="lazy"></div><figcaption><b>04</b><strong>Комбо</strong><span>Промо-карточка с выгодой и наборы на компанию</span></figcaption></figure>
@@ -99,30 +99,40 @@ footer { color: var(--fg3); font-size: 13px; line-height: 1.6; border-top: 1px s
   </section>
 
   <section aria-labelledby="s2">
-    <h2 id="s2">Выбор блюда <small>05–08</small></h2>
+    <h2 id="s2">Выбор блюда и бонусы <small>05–08</small></h2>
     <div class="grid">
       <figure><div class="phone"><img src="screens/05-tovar.jpg" alt="Карточка донера: большое фото, размер и лаваш" loading="lazy"></div><figcaption><b>05</b><strong>Карточка донера</strong><span>Большое фото, «Изменить состав», размер и лаваш</span></figcaption></figure>
       <figure><div class="phone"><img src="screens/06-sborka-donera.jpg" alt="Выбор размера, лаваша и добавок" loading="lazy"></div><figcaption><b>06</b><strong>Сборка донера</strong><span>Добавки по вкусу, цена на кнопке обновляется сразу</span></figcaption></figure>
       <figure><div class="phone"><img src="screens/07-storis.jpg" alt="Сторис Как мы готовим" loading="lazy"></div><figcaption><b>07</b><strong>Сторис</strong><span>Акции и рассказ о кухне с кнопкой заказа</span></figcaption></figure>
-      <figure><div class="phone"><img src="screens/08-korzina.jpg" alt="Корзина с товарами и подарками" loading="lazy"></div><figcaption><b>08</b><strong>Корзина</strong><span>Количество, подарки за сумму, промокод и бонусы</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/08-donerkoiny.jpg" alt="Донеркоины: баланс на горке монет и товары за донеркоины" loading="lazy"></div><figcaption><b>08</b><strong>Донеркоины</strong><span>Баланс, 5% с заказа и товары, которые можно взять за донеркоины</span></figcaption></figure>
     </div>
   </section>
 
   <section aria-labelledby="s3">
-    <h2 id="s3">Заказ <small>09–12</small></h2>
+    <h2 id="s3">Заказ и профиль <small>09–12</small></h2>
     <div class="grid">
-      <figure><div class="phone"><img src="screens/09-oformlenie.jpg" alt="Оформление заказа: адрес, время, оплата" loading="lazy"></div><figcaption><b>09</b><strong>Оформление</strong><span>Доставка или самовывоз, время и оплата через Kaspi</span></figcaption></figure>
-      <figure><div class="phone"><img src="screens/10-kurer-v-puti.jpg" alt="Статус заказа: курьер в пути на карте" loading="lazy"></div><figcaption><b>10</b><strong>Курьер в пути</strong><span>Статусы заказа и курьер на карте в реальном времени</span></figcaption></figure>
-      <figure><div class="phone"><img src="screens/11-zakaz-dostavlen.jpg" alt="Заказ доставлен, оценка" loading="lazy"></div><figcaption><b>11</b><strong>Заказ доставлен</strong><span>Оценка заказа и начисление донеркоинов</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/09-korzina.jpg" alt="Корзина с товарами, соусом за донеркоины и подарком" loading="lazy"></div><figcaption><b>09</b><strong>Корзина</strong><span>Количество, подарки за сумму, промокод и соус за донеркоины</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/10-oformlenie.jpg" alt="Оформление заказа: адрес, время, оплата" loading="lazy"></div><figcaption><b>10</b><strong>Оформление</strong><span>Доставка или самовывоз, время и оплата через Kaspi</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/11-kurer-v-puti.jpg" alt="Статус заказа: курьер в пути на карте" loading="lazy"></div><figcaption><b>11</b><strong>Курьер в пути</strong><span>Статусы заказа и курьер на карте в реальном времени</span></figcaption></figure>
       <figure><div class="phone"><img src="screens/12-profil.jpg" alt="Профиль: донеркоины, заказы и персональные предложения" loading="lazy"></div><figcaption><b>12</b><strong>Профиль</strong><span>Донеркоины, заказы, персональные предложения и миссии</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="s5">
+    <h2 id="s5">Светлая тема <small>13–16</small></h2>
+    <div class="grid">
+      <figure><div class="phone"><img src="screens/13-svetlaya-glavnaya.jpg" alt="Главная в светлой теме со статусом заказа" loading="lazy"></div><figcaption><b>13</b><strong>Главная</strong><span>Светлая тема включается в настройках или по системе</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/14-svetlaya-donerkoiny.jpg" alt="Донеркоины в светлой теме" loading="lazy"></div><figcaption><b>14</b><strong>Донеркоины</strong><span>Тот же экран бонусов на светлом фоне</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/15-svetlaya-korzina.jpg" alt="Корзина в светлой теме" loading="lazy"></div><figcaption><b>15</b><strong>Корзина</strong><span>Товары, соус за донеркоины и подарок к заказу</span></figcaption></figure>
+      <figure><div class="phone"><img src="screens/16-svetlaya-profil.jpg" alt="Профиль в светлой теме" loading="lazy"></div><figcaption><b>16</b><strong>Профиль</strong><span>Карточки профиля и персональные предложения</span></figcaption></figure>
     </div>
   </section>
 
   <section aria-labelledby="s4">
     <h2 id="s4">Стиль</h2>
     <div class="style">
-      <div class="tile"><h3>Цвета</h3><div class="sw"><i style="background:#FFB800" title="Шафран #FFB800"></i><i style="background:#FF8A00" title="Апельсин #FF8A00"></i><i style="background:#FF4A2E" title="Чили #FF4A2E"></i><i style="background:#3DBE5A" title="Зелень #3DBE5A"></i><i style="background:#0A0A0B" title="Фон #0A0A0B"></i><i style="background:#1E1E21" title="Карточки #1E1E21"></i></div><p>Шафрановый жёлтый — кнопки и бонусы, чили — новинки и острое.</p></div>
-      <div class="tile"><h3>Шрифты</h3><div class="type-a">Unbounded</div><div class="type-b">Onest — интерфейс, цены, описания</div></div>
+      <div class="tile"><h3>Цвета</h3><div class="sw"><i style="background:#FF6900" title="Оранжевый #FF6900"></i><i style="background:#FFB800" title="Золото донеркоинов #FFB800"></i><i style="background:#FF4A2E" title="Чили #FF4A2E"></i><i style="background:#3DBE5A" title="Зелень #3DBE5A"></i><i style="background:#0A0A0B" title="Тёмный фон #0A0A0B"></i><i style="background:#FFFFFF" title="Светлый фон #FFFFFF"></i></div><p>Оранжевый — кнопки, цены и акценты. Золото — только донеркоины. Две темы: тёмная и светлая.</p></div>
+      <div class="tile"><h3>Шрифты</h3><div class="type-a" style="font-family:var(--text)">Rubik</div><div class="type-b">Заголовки, интерфейс, цены. Unbounded — только логотип</div></div>
       <div class="tile"><h3>Логотип</h3><div class="lock" style="font-size:28px"><svg style="width:44px;height:44px"><use href="#spit"/></svg>донерим</div><p>Вертел с донером. Название и знак временные.</p></div>
     </div>
   </section>
