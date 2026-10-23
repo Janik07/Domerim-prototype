@@ -18,7 +18,7 @@
 <title>Донерим</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Unbounded:wght@700&display=swap">
 <style>
 /* Layout: phone-first ordering app. On wide screens it sits in a device frame next to a short brief; on phones it fills the screen. One dark look by design. */
 :root {
@@ -40,8 +40,9 @@
   --fresh: #3DBE5A;
   --scrim: rgba(0, 0, 0, .62);
   --gold: linear-gradient(135deg, #FFD24D 0%, #FFB800 55%, #FF8A00 100%);
-  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
-  --text: 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --display: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --logo: 'Unbounded', 'Arial Black', system-ui, sans-serif;
   --ease: cubic-bezier(.2, .8, .2, 1);
   --sat: 0px;
   --sab: 0px;
@@ -64,7 +65,7 @@ svg.i { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor;
 /* Stage & device */
 .stage { height: 100%; display: flex; align-items: center; justify-content: center; gap: 64px; padding: 24px; box-sizing: border-box; }
 .brief { width: 300px; display: flex; flex-direction: column; gap: 22px; }
-.brief-logo { display: flex; align-items: center; gap: 12px; font: 700 30px/1 var(--display); letter-spacing: -.02em; }
+.brief-logo { display: flex; align-items: center; gap: 12px; font: 700 30px/1 var(--logo); letter-spacing: -.02em; }
 .brief-logo svg { width: 46px; height: 46px; }
 .brief p { margin: 0; color: var(--fg2); line-height: 1.5; }
 .brief ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; counter-reset: s; }
@@ -144,7 +145,7 @@ svg.i { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor;
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(var(--sat) + 6px) 16px 8px; background: var(--bg); position: relative; z-index: 6; }
 .logo-btn { width: 40px; height: 40px; flex: none; border-radius: 12px; overflow: hidden; }
 .logo-btn svg { width: 40px; height: 40px; display: block; }
-.addr-btn { min-width: 0; display: flex; align-items: center; gap: 4px; font: 600 16px/20px var(--text); }
+.addr-btn { min-width: 0; display: flex; align-items: center; gap: 6px; font: 500 17px/22px var(--text); }
 .addr-btn span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .addr-btn svg.i { width: 18px; height: 18px; }
 .order-strip { margin: 2px 12px 10px; padding: 10px 14px; border-radius: 20px; background: var(--card); display: flex; align-items: center; gap: 12px; text-align: left; width: calc(100% - 24px); box-sizing: border-box; }
@@ -164,7 +165,7 @@ svg.i { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor;
 .story-card span { position: absolute; left: 9px; right: 7px; bottom: 9px; z-index: 1; font: 600 14px/18px var(--text); text-align: left; }
 .tabbar { position: sticky; top: 0; z-index: 5; background: var(--sheet); padding: 16px 0 10px; }
 .tabs { gap: 6px; padding: 0 12px; align-items: center; }
-.tab { height: 40px; padding: 0 16px; border-radius: 20px; font: 500 16px/40px var(--text); white-space: nowrap; flex: none; transition: background .2s, color .2s; }
+.tab { height: 40px; padding: 0 16px; border-radius: 20px; font: 500 17px/40px var(--text); white-space: nowrap; flex: none; transition: background .2s, color .2s; }
 .tab.on { background: #fff; color: var(--on-accent); }
 .coins-pill { height: 40px; border-radius: 20px; padding: 0 14px 0 6px; display: flex; align-items: center; gap: 6px; flex: none; background: linear-gradient(90deg, #FFC633, #FF8A00); color: var(--on-accent); font: 600 15px/1 var(--text); }
 .coins-pill .coin { width: 28px; height: 28px; }
@@ -199,7 +200,7 @@ svg.i { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor;
 .arch img { width: 100%; height: 100%; object-fit: cover; }
 .arch::after { content: ""; position: absolute; inset: 62% 0 0; background: linear-gradient(transparent, var(--fade, var(--card))); }
 .hero .txt { padding: 4px 12px 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
-.hero h3 { margin: 0; font: 600 24px/30px var(--display); letter-spacing: -.01em; text-wrap: balance; }
+.hero h3 { margin: 0; font: 700 27px/32px var(--display); letter-spacing: -.01em; text-wrap: balance; }
 .hero p { margin: 0; color: var(--fg2); font-size: 14px; line-height: 20px; }
 .hero .ft { display: flex; justify-content: flex-end; padding: 16px 12px 0; }
 .hero .ft .pill { height: 44px; border-radius: 22px; padding: 0 18px; font-size: 17px; }
@@ -208,7 +209,7 @@ svg.i { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor;
 .promo-hero .ph { aspect-ratio: 337 / 230; border-radius: 24px; overflow: hidden; }
 .promo-hero .ph img { width: 100%; height: 100%; object-fit: cover; }
 .promo-hero .sticker { position: absolute; left: 24px; top: 30px; transform: rotate(-6deg); background: var(--chili); color: #fff; padding: 7px 12px; border-radius: 14px; font: 600 14px/18px var(--text); box-shadow: 0 6px 18px rgba(0, 0, 0, .25); }
-.promo-hero h3 { margin: 0 6px; font: 600 24px/30px var(--display); }
+.promo-hero h3 { margin: 0 6px; font: 700 27px/32px var(--display); }
 .promo-hero p { margin: 0 6px; font-size: 14px; line-height: 20px; opacity: .78; }
 .promo-hero .ft { display: flex; justify-content: flex-end; align-items: center; gap: 14px; }
 .promo-hero .old { text-decoration: line-through; opacity: .5; font-weight: 600; }
@@ -473,10 +474,131 @@ textarea.note { width: 100%; box-sizing: border-box; min-height: 52px; height: 5
 .paying p { margin: 0; color: var(--fg2); }
 .splash { position: absolute; inset: 0; z-index: 250; background: var(--saffron); color: var(--on-accent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; transition: opacity .45s ease; }
 .splash.out { opacity: 0; pointer-events: none; }
-.splash .lock { display: flex; align-items: center; gap: 16px; font: 700 46px/1 var(--display); letter-spacing: -.03em; animation: pop .7s var(--ease); }
+.splash .lock { display: flex; align-items: center; gap: 16px; font: 700 46px/1 var(--logo); letter-spacing: -.03em; animation: pop .7s var(--ease); }
 .splash .lock svg { width: 64px; height: 64px; }
 .splash p { margin: 0; opacity: .7; font-size: 16px; }
 .splash small { position: absolute; bottom: calc(var(--sab) + 40px); opacity: .55; font-weight: 500; }
+
+/* Dodo-style header and promo chips */
+.mode-btn { width: 42px; height: 42px; border-radius: 21px; background: var(--raised); color: var(--saffron); display: grid; place-items: center; flex: none; }
+.mode-btn svg.i { width: 22px; height: 22px; stroke-width: 2.4; }
+.ava-btn { width: 44px; height: 44px; border-radius: 22px; background: var(--gold); color: var(--on-accent); display: grid; place-items: center; font: 700 19px/1 var(--display); flex: none; box-shadow: 0 6px 16px rgba(255, 138, 0, .25); }
+.pchips { gap: 8px; padding: 24px 12px 14px; align-items: flex-end; }
+.pchip { height: 56px; border-radius: 28px; background: var(--card); display: flex; align-items: center; gap: 12px; padding: 0 22px 0 10px; flex: none; text-align: left; font: 500 15px/19px var(--text); position: relative; scroll-snap-align: start; }
+.pchip svg.ill { width: 46px; height: 46px; flex: none; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .35)); }
+.pchip.v { padding: 0 24px; justify-content: center; align-items: flex-end; padding-bottom: 9px; min-width: 96px; box-sizing: border-box; }
+.pchip.v svg.ill { position: absolute; left: 50%; top: -22px; transform: translateX(-50%) rotate(-8deg); width: 48px; height: 48px; }
+.pchip.i { padding: 0 10px; }
+.pchip.i svg.ill { width: 52px; height: 52px; }
+
+/* Dodo-style product card */
+.pc-layer { position: absolute; inset: 0; }
+.pc { position: absolute; inset: 0; background: linear-gradient(180deg, var(--tint) 0%, var(--tint) 55%, color-mix(in srgb, var(--tint) 70%, #000) 100%); overflow: hidden; animation: rise .4s var(--ease) both; }
+.pc-layer.closing .pc { animation: sink .27s var(--ease) both; }
+.pc::before { content: ""; position: absolute; inset: 0 0 auto; height: calc(var(--sat) + 78px); z-index: 5; pointer-events: none; background: linear-gradient(var(--tint) 62%, transparent); opacity: 0; transition: opacity .2s; }
+.pc.scrolled::before { opacity: 1; }
+.pc-scroll { position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; }
+.pc-scroll::-webkit-scrollbar { display: none; }
+.pc-hero { position: relative; }
+.pc-hero img { width: 100%; height: 100%; object-fit: cover; }
+.pc-hero::before { content: ""; position: absolute; inset: 0 0 auto; height: 130px; background: linear-gradient(rgba(0, 0, 0, .38), transparent); z-index: 1; }
+.pc-hero::after { content: ""; position: absolute; inset: 40% 0 0; background: linear-gradient(transparent, var(--tint) 92%); }
+.pc-close { position: absolute; left: 16px; top: calc(var(--sat) + 10px); width: 50px; height: 50px; border-radius: 25px; background: rgba(28, 28, 30, .55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #fff; display: grid; place-items: center; z-index: 6; }
+.pc-close svg.i { width: 26px; height: 26px; stroke-width: 2.2; }
+.pc-edit { --b: #F2F2F4; position: absolute; right: 16px; bottom: 30px; z-index: 3; height: 52px; padding: 0 22px 0 18px; border-radius: 26px; background: var(--b); color: var(--on-accent); display: flex; align-items: center; gap: 10px; font: 500 17px/1 var(--text); box-shadow: 0 10px 26px rgba(0, 0, 0, .3); transition: background .25s; }
+.pc-edit svg { width: 22px; height: 22px; flex: none; }
+.pc-edit::before { content: ""; position: absolute; right: 70px; bottom: -13px; width: 12px; height: 12px; border-radius: 6px; background: var(--b); transition: background .25s; }
+.pc-edit::after { content: ""; position: absolute; right: 84px; bottom: -24px; width: 7px; height: 7px; border-radius: 4px; background: var(--b); transition: background .25s; }
+.pc-edit.changed { --b: var(--saffron); }
+.pc-body { position: relative; z-index: 2; margin-top: -10px; padding: 0 20px calc(var(--sab) + 170px); display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.pc-body h2 { margin: 0; font: 700 31px/37px var(--display); letter-spacing: -.01em; text-wrap: balance; }
+.pc-body h2 .chili-ic { width: 26px; height: 26px; vertical-align: -2px; }
+.pc-meta { margin-top: -10px; font: 500 14px/18px var(--text); color: rgba(255, 255, 255, .62); }
+.pc-desc { margin: -4px 0 6px; font: 400 17px/23px var(--text); color: rgba(255, 255, 255, .84); max-width: 34ch; }
+.pc-deal { margin-top: -6px; font: 500 15px/20px var(--text); color: #fff; padding: 6px 12px; border-radius: 14px; background: rgba(255, 255, 255, .12); }
+.pc-deal s { opacity: .6; margin-right: 4px; }
+.dseg { position: relative; display: inline-flex; padding: 5px; border-radius: 32px; background: rgba(0, 0, 0, .26); max-width: 100%; box-sizing: border-box; }
+.dseg .thumb { position: absolute; left: 0; top: 5px; bottom: 5px; width: 0; border-radius: 27px; background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, .2); transition: transform .32s var(--ease), width .32s var(--ease); }
+.dseg button { position: relative; z-index: 1; height: 54px; padding: 0 20px; border-radius: 27px; font: 500 17px/1 var(--text); color: #fff; white-space: nowrap; transition: color .25s; }
+.dseg button.on { color: var(--on-accent); }
+.csel { display: flex; align-items: center; justify-content: space-between; gap: 4px; height: 64px; padding: 0 6px; border-radius: 32px; background: rgba(0, 0, 0, .26); width: min(100%, 300px); box-sizing: border-box; }
+.csel .arr { width: 48px; height: 54px; display: grid; place-items: center; color: #fff; border-radius: 27px; flex: none; }
+.csel .arr:active { background: rgba(255, 255, 255, .08); }
+.csel .arr svg.i { width: 26px; height: 26px; stroke-width: 2.4; }
+.csel .mid { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 12px; font: 500 17px/20px var(--text); color: #fff; animation: fadeIn .25s ease both; }
+.csel .mid img, .csel .mid svg { width: 44px; height: 44px; border-radius: 22px; object-fit: cover; flex: none; }
+.csel .mid > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.csel .mid > span { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; }
+.csel .mid .add { color: var(--saffron); font-size: 14px; line-height: 16px; }
+.pc-inc { align-self: stretch; display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 24px; background: rgba(0, 0, 0, .22); text-align: left; }
+.pc-inc div { display: flex; align-items: center; gap: 10px; font: 500 16px/20px var(--text); }
+.pc-inc svg.i { width: 18px; height: 18px; color: var(--saffron); stroke-width: 2.6; }
+.pc-sec { align-self: stretch; margin: 16px 0 0; text-align: left; font: 700 22px/28px var(--display); }
+.pc-tops { align-self: stretch; }
+.pc-tops .top { background: rgba(255, 255, 255, .1); }
+.pc-foot { position: absolute; inset: auto 0 0; height: calc(var(--sab) + 160px); z-index: 4; pointer-events: none; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--tint) 75%, #000) 70%); }
+.pc-foot::before { content: ""; position: absolute; inset: 0; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); -webkit-mask-image: linear-gradient(transparent, #000 50%); mask-image: linear-gradient(transparent, #000 50%); }
+.pc-cta { position: absolute; left: 50%; bottom: calc(var(--sab) + 22px); z-index: 6; transform: translateX(-50%); height: 64px; min-width: 250px; padding: 0 36px; box-sizing: border-box; border-radius: 32px; background: var(--saffron); color: var(--on-accent); display: flex; align-items: center; justify-content: center; gap: 10px; font: 500 25px/1 var(--text); white-space: nowrap; box-shadow: 0 12px 30px rgba(0, 0, 0, .35); transition: transform .15s; }
+.pc-cta:active { transform: translateX(-50%) scale(.97); }
+.pc-cta svg.i { width: 28px; height: 28px; stroke-width: 2.4; }
+.ing-list { display: flex; flex-direction: column; gap: 8px; }
+.ing-row { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 18px; background: var(--card); text-align: left; width: 100%; box-sizing: border-box; font: 500 16px/20px var(--text); transition: color .2s; }
+.ing-row .box { width: 26px; height: 26px; border-radius: 13px; background: var(--saffron); color: var(--on-accent); display: grid; place-items: center; flex: none; transition: background .2s, box-shadow .2s; }
+.ing-row .box svg.i { width: 16px; height: 16px; stroke-width: 3; }
+.ing-row.off { color: var(--fg3); text-decoration: line-through; }
+.ing-row.off .box { background: transparent; box-shadow: inset 0 0 0 2px var(--fg3); color: transparent; }
+
+/* Dodo-style profile */
+@keyframes inUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes outDown { from { transform: none; } to { transform: translateY(100%); } }
+.a-inUp { animation: inUp .4s var(--ease) both; z-index: 2; }
+.a-outDown { animation: outDown .3s var(--ease) both; z-index: 2; }
+.pf-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(var(--sat) + 10px) 16px 8px; }
+.pf-x { width: 52px; height: 52px; border-radius: 26px; background: var(--card); display: grid; place-items: center; flex: none; }
+.pf-x svg.i { width: 26px; height: 26px; stroke-width: 2.2; }
+.pf-right { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.support { height: 52px; border-radius: 26px; background: var(--card); padding: 0 20px 0 14px; display: flex; align-items: center; gap: 10px; font: 600 19px/1 var(--text); }
+.support svg { width: 30px; height: 30px; flex: none; }
+.pf-me { display: flex; align-items: center; flex: none; }
+.pf-me .ava { width: 52px; height: 52px; border-radius: 26px; background: var(--gold); color: var(--on-accent); display: grid; place-items: center; font: 700 22px/1 var(--display); }
+.pf-me .gear { width: 52px; height: 52px; border-radius: 26px; background: var(--card); margin-left: -12px; display: grid; place-items: center; box-shadow: 0 0 0 3px var(--bg); }
+.pf-me .gear svg { width: 26px; height: 26px; }
+.pf-cards { gap: 10px; padding: 12px 16px 4px; }
+.pf-card { width: 178px; height: 232px; flex: none; border-radius: 30px; background: var(--card); padding: 20px 18px 18px; box-sizing: border-box; display: flex; flex-direction: column; text-align: left; scroll-snap-align: start; }
+.pf-card.dashed { background: transparent; border: 2.5px dashed #3A3A40; }
+.pf-card svg.ill { width: 70px; height: 70px; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .35)); }
+.pf-card .thumbw img { width: 66px; height: 66px; border-radius: 33px; object-fit: cover; }
+.pf-card h3 { margin: auto 0 12px; font: 700 25px/28px var(--display); letter-spacing: -.01em; }
+.pf-card h3.accent { color: var(--saffron); }
+.capchip { align-self: flex-start; height: 34px; padding: 0 14px; border-radius: 17px; background: var(--raised); font: 600 13px/34px var(--text); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+.pf-card.dashed .capchip { background: var(--card); }
+.pf-h { margin: 36px 16px 16px; font: 700 31px/37px var(--display); letter-spacing: -.01em; }
+.offers { scroll-snap-type: x mandatory; }
+.offer-page { flex: none; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 16px; box-sizing: border-box; scroll-snap-align: start; }
+.offer-txt, .offer-img { border-radius: 30px; background: var(--card); min-height: 200px; }
+.offer-txt { padding: 20px 18px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.offer-txt .k { font: 500 12px/16px var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--fg2); }
+.offer-txt b { font: 500 18px/23px var(--text); }
+.offer-txt .until { color: var(--fg2); font-size: 15px; }
+.offer-txt .apply { margin-top: auto; align-self: flex-start; height: 40px; padding: 0 18px; border-radius: 20px; background: var(--saffron); color: var(--on-accent); font: 500 17px/40px var(--text); }
+.offer-txt .apply.done { background: var(--raised); color: var(--fg); }
+.offer-img { position: relative; overflow: hidden; display: grid; place-items: center; }
+.offer-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.offer-img svg.ill { width: 86%; height: auto; filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .4)); }
+.offer-img .ibtn { position: absolute; right: 12px; top: 12px; z-index: 2; width: 26px; height: 26px; border-radius: 13px; background: var(--raised); display: grid; place-items: center; font: 700 14px/1 var(--text); }
+.dots { display: flex; justify-content: center; gap: 6px; margin-top: 18px; }
+.dots i { width: 22px; height: 3px; border-radius: 2px; background: var(--raised); transition: background .3s; }
+.dots i.on { background: #fff; }
+.mission { display: block; margin: 0 16px; border-radius: 30px; background: var(--card); overflow: hidden; text-align: left; width: calc(100% - 32px); }
+.mission .pics { height: 200px; display: flex; justify-content: center; align-items: center; background: radial-gradient(60% 80% at 50% 60%, rgba(255, 184, 0, .22), transparent); }
+.mission .pics img { width: 118px; height: 118px; border-radius: 59px; object-fit: cover; border: 4px solid var(--card); margin: 0 -16px; box-shadow: 0 12px 24px rgba(0, 0, 0, .45); }
+.mission .pics img:nth-child(2) { width: 146px; height: 146px; border-radius: 73px; z-index: 1; position: relative; }
+.mission .tx { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+.mission h3 { margin: 0; font: 700 23px/28px var(--display); }
+.mission p { margin: 0; color: var(--fg2); line-height: 1.45; }
+.mission .prog { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.mission .prog .bar { flex: 1; }
+.pf-foot { padding: 30px 16px calc(var(--sab) + 30px); display: flex; flex-direction: column; gap: 10px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
@@ -581,7 +703,7 @@ const clock = d => d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-d
 
 // ---------- data ----------
 const DONER_REMOVE = ['томаты', 'огурцы', 'лук', 'капуста', 'соус'];
-const SIZES_DONER = [{ id: 'std', label: 'Стандарт', delta: 0 }, { id: 'big', label: 'Большой', delta: 500 }];
+const SIZES_DONER = [{ id: 'mini', label: 'Мини', delta: -400, k: .72 }, { id: 'std', label: 'Стандарт', delta: 0, k: 1 }, { id: 'big', label: 'Большой', delta: 500, k: 1.35 }];
 const BASES = [{ id: 'lavash', label: 'Лаваш', delta: 0 }, { id: 'pita', label: 'Пита', delta: 0 }, { id: 'cheese', label: 'Сырный', full: 'Сырный лаваш', delta: 200 }];
 const TOPS = [
   { id: 't-cheese', name: 'Сыр моцарелла', price: 350, img: 'syr-mocarella' },
@@ -596,14 +718,14 @@ const COMBO_SAUCES = ['Сырный', 'Чесночный', 'Кетчуп'];
 
 const P = [
   // Донеры
-  { id: 'd-firm', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Фирменный донер «Донерим»', desc: 'Говядина и курица с гриля, томаты, огурцы, хрустящий лук и два фирменных соуса', price: 2490, img: 'doner-firmennyy', w: [420, 560], kcal: 720, n: [11, 13, 21], tags: ['new'] },
-  { id: 'd-classic', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер классический', desc: 'Курица с гриля, томаты, огурцы, капуста и фирменный белый соус в тонком лаваше', price: 1890, img: 'doner-klassicheskiy', w: [380, 520], kcal: 640, n: [12, 10, 22], tags: ['hit'] },
-  { id: 'd-beef', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер говяжий', desc: 'Сочная говядина, томаты, маринованный лук и фирменный соус', price: 1830, old: 2290, img: 'doner-govyazhiy', w: [390, 530], kcal: 690, n: [13, 12, 20], tags: ['deal'] },
-  { id: 'd-spicy', cat: 'doners', sub: 'Острые', kind: 'doner', name: 'Донер острый', desc: 'Курица, халапеньо, соус чили и хрустящий лук', price: 1990, img: 'doner-ostryy', w: [380, 520], kcal: 650, n: [12, 11, 21], tags: ['new', 'spicy'], remove: ['халапеньо', 'лук', 'томаты', 'соус чили'] },
-  { id: 'd-cheese', cat: 'doners', sub: 'Сырные', kind: 'doner', name: 'Донер сырный', desc: 'Курица, двойной сыр, картофель фри и чесночный соус', price: 2190, img: 'doner-syrnyy', w: [400, 540], kcal: 760, n: [13, 15, 22], tags: [], remove: ['картофель фри', 'томаты', 'чесночный соус'] },
-  { id: 'd-pita', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер в пите', desc: 'Классический донер в пышной пите с овощами', price: 1990, img: 'doner-v-pite', w: [380, 520], kcal: 680, n: [12, 10, 26], tags: [] },
+  { id: 'd-firm', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Фирменный донер «Донерим»', desc: 'Говядина и курица с гриля, томаты, огурцы, хрустящий лук и два фирменных соуса', price: 2490, img: 'doner-firmennyy', w: [300, 420, 560], kcal: 720, n: [11, 13, 21], tags: ['new'] },
+  { id: 'd-classic', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер классический', desc: 'Курица с гриля, томаты, огурцы, капуста и фирменный белый соус в тонком лаваше', price: 1890, img: 'doner-klassicheskiy', w: [280, 380, 520], kcal: 640, n: [12, 10, 22], tags: ['hit'] },
+  { id: 'd-beef', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер говяжий', desc: 'Сочная говядина, томаты, маринованный лук и фирменный соус', price: 1830, old: 2290, img: 'doner-govyazhiy', w: [290, 390, 530], kcal: 690, n: [13, 12, 20], tags: ['deal'] },
+  { id: 'd-spicy', cat: 'doners', sub: 'Острые', kind: 'doner', name: 'Донер острый', desc: 'Курица, халапеньо, соус чили и хрустящий лук', price: 1990, img: 'doner-ostryy', w: [280, 380, 520], kcal: 650, n: [12, 11, 21], tags: ['new', 'spicy'], remove: ['халапеньо', 'лук', 'томаты', 'соус чили'] },
+  { id: 'd-cheese', cat: 'doners', sub: 'Сырные', kind: 'doner', name: 'Донер сырный', desc: 'Курица, двойной сыр, картофель фри и чесночный соус', price: 2190, img: 'doner-syrnyy', w: [300, 400, 540], kcal: 760, n: [13, 15, 22], tags: [], remove: ['картофель фри', 'томаты', 'чесночный соус'] },
+  { id: 'd-pita', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер в пите', desc: 'Классический донер в пышной пите с овощами', price: 1990, img: 'doner-v-pite', w: [280, 380, 520], kcal: 680, n: [12, 10, 26], tags: [] },
   { id: 'd-plate', cat: 'doners', sub: 'На тарелке', kind: 'plate', name: 'Донер-тарелка', desc: 'Мясо, рис, картофель фри, салат и два соуса', price: 2790, img: 'doner-tarelka', w: [480], kcal: 820, n: [10, 9, 18], tags: [], remove: ['рис', 'картофель фри', 'лук', 'соус'] },
-  { id: 'd-xxl', cat: 'doners', sub: 'XXL', kind: 'doner', name: 'Донер XXL', desc: 'Двойная порция мяса, сыр и овощи для самых голодных', price: 2990, img: 'doner-xxl', w: [560, 700], kcal: 980, n: [14, 13, 19], tags: ['spicy'] },
+  { id: 'd-xxl', cat: 'doners', sub: 'XXL', kind: 'doner', name: 'Донер XXL', desc: 'Двойная порция мяса, сыр и овощи для самых голодных', price: 2990, img: 'doner-xxl', w: [420, 560, 700], kcal: 980, n: [14, 13, 19], tags: ['spicy'] },
   { id: 'd-bowl', cat: 'doners', sub: 'На тарелке', kind: 'plate', name: 'Донер-боул', desc: 'Мясо, рис, свежие овощи, кукуруза и соус в боуле', price: 2190, img: 'doner-boul', w: [420], kcal: 560, n: [9, 6, 15], tags: ['new'], remove: ['рис', 'кукуруза', 'лук', 'соус'] },
   // Комбо
   { id: 'c-lunch', cat: 'combo', sub: 'Обед', kind: 'combo', name: 'Обед-комбо', desc: 'Донер классический, картофель фри, соус на выбор и напиток', price: 2990, old: 3680, img: 'obed-kombo', includes: ['Донер классический', 'Картофель фри', 'Соус на выбор', 'Напиток 0,5 л'], tags: ['hit'] },
@@ -654,6 +776,7 @@ const CATS = [
   { id: 'drinks', name: 'Напитки', chips: ['Лимонады', 'Газировка', 'Айран и вода', 'Холодный чай'], hero: 'dr-mango', arch: '#8A5512' },
   { id: 'desserts', name: 'Десерты', hero: 'ds-cheesecake', arch: '#5A2A4A' },
 ];
+const TINT = {"airan": "#492F1F", "belyy-sous": "#342723", "chesnochnyy-sous": "#4F3221", "chiken-chili": "#4B3120", "chizkeyk-klassik": "#4B3020", "chizkeyk": "#4B3121", "cola": "#2F2927", "detskoe-kombo": "#482E1E", "doner-airan": "#554335", "doner-boul": "#584941", "doner-firmennyy": "#5C4A3D", "doner-govyazhiy": "#4E4847", "doner-klassicheskiy": "#4D4746", "doner-ostryy": "#604939", "doner-syrnyy": "#504446", "doner-tarelka": "#4A4343", "doner-v-pite": "#584641", "doner-xxl": "#574642", "dvoynoe-myaso": "#332623", "fanta": "#54422A", "fistashkovyy-rulet": "#472E1E", "halapenyo": "#3E2719", "holodnyy-chay": "#3A3028", "kartofel-derevenski": "#4E3120", "kartofel-fri": "#503322", "ketchup": "#3D2719", "kombo-dlya-dvoih": "#4A301E", "kombo-kompaniya": "#47311D", "kombo-xxl": "#553923", "krylyshki": "#4F3220", "limonad": "#462D1D", "mango": "#3F261A", "mohito": "#422B1D", "naggetsy": "#4F3320", "obed-kombo": "#573A23", "ostrye-perchiki": "#38241E", "shokoladnyy-tort": "#4D3120", "sous-chili": "#2A2A2D", "sprite": "#323B32", "studencheskoe": "#473021", "syr-mocarella": "#452A1C", "syrnye-palochki": "#4F3322", "syrnyy-sous": "#4E3221", "voda": "#3C393B", "yagodnyy-limonad": "#41281A"};
 const CAT_ARCH = { doners: '#8A4A1F', combo: '#8A6112', snacks: '#8A2E12', sauces: '#5C5524', drinks: '#1F4F5A', desserts: '#5A2A4A' };
 const FOR_YOU = ['d-classic', 'd-spicy', 'c-two', 's-fries', 'dr-airan', 'd-cheese', 's-nuggets', 'dr-mango', 'd-bowl', 'sc-white', 'ds-cheesecake', 'd-beef'];
 const STORIES = [
@@ -692,8 +815,27 @@ const PAYMENTS = [
   { id: 'cash', label: 'Наличными курьеру', note: 'Подготовим сдачу', icon: 'cash' },
 ];
 
+const ILL = {
+  gift: `<svg class="ill" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="gfB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#E2441A"/></linearGradient><linearGradient id="gfL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFAE6E"/><stop offset="1" stop-color="#FF7A2E"/></linearGradient><linearGradient id="gfR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#DADAE2"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#BDBDC8"/></linearGradient></defs><path d="M24 20c-7-9 3-15 8-5 5-10 15-4 8 5" fill="none" stroke="url(#gfR)" stroke-width="5" stroke-linecap="round"/><rect x="12" y="31" width="40" height="26" rx="5" fill="url(#gfB)"/><rect x="9" y="21" width="46" height="13" rx="5" fill="url(#gfL)"/><rect x="28" y="21" width="8" height="36" fill="url(#gfR)"/><rect x="12" y="34" width="40" height="3" fill="#000" opacity=".12"/></svg>`,
+  coin: `<svg class="ill" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="cnG" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFF1A8"/><stop offset=".45" stop-color="#FFC21A"/><stop offset="1" stop-color="#E08600"/></radialGradient><linearGradient id="cnE" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D98300"/><stop offset="1" stop-color="#9E5600"/></linearGradient></defs><circle cx="32" cy="35" r="25" fill="url(#cnE)"/><circle cx="32" cy="31" r="25" fill="url(#cnG)"/><circle cx="32" cy="31" r="18.5" fill="none" stroke="#E59400" stroke-width="2.5" opacity=".7"/><text x="32" y="40" text-anchor="middle" font-family="Rubik, Arial, sans-serif" font-weight="700" font-size="24" fill="#8A4B00">Д</text></svg>`,
+  percent: `<svg class="ill" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="pcG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFA2B3"/><stop offset="1" stop-color="#FF3D5A"/></linearGradient></defs><path d="M47 13 17 51" stroke="url(#pcG)" stroke-width="9" stroke-linecap="round"/><circle cx="19" cy="18" r="9" fill="none" stroke="url(#pcG)" stroke-width="8"/><circle cx="45" cy="46" r="9" fill="none" stroke="url(#pcG)" stroke-width="8"/></svg>`,
+  card: `<svg class="ill" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="cdG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EC0"/><stop offset="1" stop-color="#E0457B"/></linearGradient></defs><rect x="8" y="16" width="48" height="34" rx="8" fill="url(#cdG)"/><rect x="8" y="24" width="48" height="7" fill="#7A1E44" opacity=".55"/><rect x="15" y="37" width="12" height="7" rx="2" fill="#FFE3EC"/></svg>`,
+  pin: `<svg class="ill" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="pnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD24D"/><stop offset="1" stop-color="#FF8A00"/></linearGradient></defs><ellipse cx="32" cy="56" rx="12" ry="3.5" fill="#000" opacity=".3"/><path d="M32 6c-11 0-19 8-19 19 0 13 19 30 19 30s19-17 19-30C51 14 43 6 32 6Z" fill="url(#pnG)"/><circle cx="32" cy="25" r="7.5" fill="#141416"/></svg>`,
+  coins: `<svg class="ill" viewBox="0 0 160 120" aria-hidden="true"><defs><linearGradient id="csS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2A100"/><stop offset="1" stop-color="#B86A00"/></linearGradient><radialGradient id="csT" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#FFF0A0"/><stop offset=".6" stop-color="#FFC21A"/><stop offset="1" stop-color="#F2A100"/></radialGradient><linearGradient id="csP" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8E7BFF"/><stop offset="1" stop-color="#5B47E0"/></linearGradient></defs><rect x="20" y="14" width="56" height="24" rx="12" fill="url(#csP)" transform="rotate(-8 48 26)"/><text x="48" y="32" text-anchor="middle" font-family="Rubik, Arial" font-weight="700" font-size="16" fill="#fff" transform="rotate(-8 48 26)">Д</text><g><rect x="80" y="52" width="58" height="46" rx="0" fill="url(#csS)"/><ellipse cx="109" cy="98" rx="29" ry="10" fill="url(#csS)"/><ellipse cx="109" cy="52" rx="29" ry="10" fill="url(#csT)"/><path d="M80 63h58M80 74h58M80 85h58" stroke="#9E5600" stroke-width="1.5" opacity=".5"/></g><g><rect x="22" y="70" width="58" height="30" fill="url(#csS)"/><ellipse cx="51" cy="100" rx="29" ry="10" fill="url(#csS)"/><ellipse cx="51" cy="70" rx="29" ry="10" fill="url(#csT)"/><path d="M22 82h58M22 92h58" stroke="#9E5600" stroke-width="1.5" opacity=".5"/></g><circle cx="56" cy="62" r="20" fill="url(#csS)"/><circle cx="54" cy="60" r="20" fill="url(#csT)"/><text x="54" y="68" text-anchor="middle" font-family="Rubik, Arial" font-weight="700" font-size="20" fill="#9E5600">Д</text></svg>`,
+};
+const PENCIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 3.8a2.6 2.6 0 0 1 3.7 0l1.1 1.1a2.6 2.6 0 0 1 0 3.7L9.5 19.3 3.6 20.6l1.3-5.9Z" fill="#141416"/></svg>';
+const CHAT = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 9a5 5 0 0 1 5-5h14a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5h-8l-6 5v-5H9a5 5 0 0 1-5-5Z" fill="#fff"/><path d="M10 12h12M10 16.5h8" stroke="#1E1E21" stroke-width="2.2" stroke-linecap="round"/><circle cx="26" cy="5.5" r="4.5" fill="#FF8A00" stroke="#1E1E21" stroke-width="2"/></svg>';
+const GEAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 20.2 7.3v9.4L12 21.4 3.8 16.7V7.3Z" fill="#fff"/><circle cx="12" cy="12" r="3.4" fill="#1E1E21"/></svg>';
+const BASE_ART = {
+  lavash: '<svg viewBox="0 0 44 44" aria-hidden="true"><ellipse cx="22" cy="24" rx="19" ry="11" fill="#E8C690"/><path d="M5 24c4-6 30-6 34 0" fill="none" stroke="#C99A55" stroke-width="2"/><circle cx="14" cy="22" r="1.4" fill="#BF8743"/><circle cx="27" cy="27" r="1.2" fill="#BF8743"/><circle cx="31" cy="21" r="1.1" fill="#BF8743"/></svg>',
+  pita: '<svg viewBox="0 0 44 44" aria-hidden="true"><path d="M6 27a16 16 0 0 1 32 0Z" fill="#D9A25E"/><path d="M6 27h32" stroke="#B57C35" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="22" cy="19" rx="9" ry="3" fill="#EBC07F" opacity=".8"/></svg>',
+  cheese: '<svg viewBox="0 0 44 44" aria-hidden="true"><ellipse cx="22" cy="24" rx="19" ry="11" fill="#E8C690"/><path d="M5 24c4-6 30-6 34 0" fill="none" stroke="#C99A55" stroke-width="2"/><circle cx="14" cy="23" r="3.2" fill="#FFC633"/><circle cx="25" cy="27" r="3.6" fill="#FFB800"/><circle cx="30" cy="20" r="2.6" fill="#FFC633"/><circle cx="19" cy="18" r="2.2" fill="#FFD24D"/></svg>',
+};
+const SAUCE_IMG = { 'Сырный': 'syrnyy-sous', 'Чесночный': 'chesnochnyy-sous', 'Кетчуп': 'ketchup' };
+const MODE_ICON = { delivery: 'bike', pickup: 'store', dinein: 'dine' };
+
 // ---------- state ----------
-const KEY = 'donerim-demo-v2';
+const KEY = 'donerim-demo-v3';
 const fresh = () => ({
   cart: [], coins: 1250, useCoins: false, promo: null, orderType: 'delivery', spot: 'turan',
   addresses: [{ id: 'a1', label: 'Дом', text: 'пр. Туран, 37, кв. 12' }, { id: 'a2', label: 'Работа', text: 'ул. Сыганак, 10, офис 304' }],
@@ -724,8 +866,10 @@ const unitPrice = (p, c) => {
   return v;
 };
 const hasOptions = p => p.kind === 'doner' || p.kind === 'sized' || (p.kind === 'combo' && !p.noDrink);
-const priceLabel = p => (hasOptions(p) ? 'от ' : '') + money(p.price);
-const weightOf = (p, c) => p.w ? (p.kind === 'doner' && c.size === 'big' ? p.w[1] : p.w[0]) : null;
+const minPrice = p => p.price + (p.kind === 'doner' ? Math.min(...SIZES_DONER.map(s => s.delta)) : 0);
+const priceLabel = p => (hasOptions(p) ? 'от ' : '') + money(minPrice(p));
+const weightOf = (p, c) => !p.w ? null : p.kind === 'doner' ? p.w[SIZES_DONER.findIndex(s => s.id === c.size)] : p.w[0];
+const kcalOf = (p, c) => p.kind === 'doner' ? Math.round(p.kcal * SIZES_DONER.find(s => s.id === c.size).k) : p.kcal;
 const details = (p, c) => {
   const out = [];
   if (p.kind === 'doner') { out.push(SIZES_DONER.find(s => s.id === c.size).label.toLowerCase(), (b => b.full || b.label)(BASES.find(b => b.id === c.base)).toLowerCase()); }
@@ -754,9 +898,10 @@ const totals = () => {
   const coinsMax = Math.min(S.coins, Math.floor(afterDisc * 0.25));
   const coins = S.useCoins ? coinsMax : 0;
   const total = Math.max(0, afterDisc - coins + fee);
-  const earn = Math.floor((afterDisc - coins) * 0.05);
+  const offerBonus = S.offer300 && items >= 5000 ? 300 : 0;
+  const earn = Math.floor((afterDisc - coins) * 0.05) + offerBonus;
   const minOk = S.orderType !== 'delivery' || items >= 1500;
-  return { items, gifts, nextGift, disc, promoErr, fee, coinsMax, coins, total, earn, minOk, count: cartCount() };
+  return { items, gifts, nextGift, disc, promoErr, fee, coinsMax, coins, total, earn, offerBonus, minOk, count: cartCount() };
 };
 
 // ---------- toast ----------
@@ -792,6 +937,10 @@ function push(name, params = {}, anim = 'push') {
   if (prev && anim === 'push') {
     entry.el.classList.add('a-inRight'); prev.el.classList.add('a-outLeft');
     setTimeout(() => { entry.el.classList.remove('a-inRight'); prev.el.classList.remove('a-outLeft'); prev.el.classList.add('below'); }, 360);
+  } else if (prev && anim === 'up') {
+    entry.anim = 'up';
+    entry.el.classList.add('a-inUp');
+    setTimeout(() => { entry.el.classList.remove('a-inUp'); prev.el.classList.add('below'); }, 420);
   } else if (prev) {
     entry.el.classList.add('a-fadeIn');
     setTimeout(() => { entry.el.classList.remove('a-fadeIn'); prev.el.classList.add('below'); }, 320);
@@ -806,8 +955,8 @@ function pop() {
   SCREENS[cur.name].leave && SCREENS[cur.name].leave(cur);
   prev.el.classList.remove('below');
   refresh(prev);
-  cur.el.classList.add('a-outRight'); prev.el.classList.add('a-inLeft');
-  setTimeout(() => { cur.el.remove(); prev.el.classList.remove('a-inLeft'); }, 310);
+  if (cur.anim === 'up') { cur.el.classList.add('a-outDown'); setTimeout(() => cur.el.remove(), 310); }
+  else { cur.el.classList.add('a-outRight'); prev.el.classList.add('a-inLeft'); setTimeout(() => { cur.el.remove(); prev.el.classList.remove('a-inLeft'); }, 310); }
   syncChrome();
 }
 function popToRoot() {
@@ -835,6 +984,7 @@ function openLayer(html, opts = {}) {
   const app = $('#app');
   const layer = document.createElement('div');
   layer.className = 'layer';
+  layer.style.zIndex = 50 + UI.layers.length * 5;
   layer.innerHTML = `<div class="backdrop" data-act="closeLayer"></div><div class="sheet ${opts.tall ? 'tall' : ''}" role="dialog" aria-modal="true">${opts.grabber === false ? '' : '<div class="grabber"></div>'}${html}</div>`;
   app.appendChild(layer);
   const entry = { el: layer, opts };
@@ -850,6 +1000,21 @@ function closeLayer(instant) {
   if (instant) { entry.el.remove(); return; }
   entry.el.classList.add('closing');
   setTimeout(() => entry.el.remove(), 280);
+}
+function openFull(html) {
+  const layer = document.createElement('div');
+  layer.className = 'layer pc-layer';
+  layer.style.zIndex = 50 + UI.layers.length * 5;
+  layer.innerHTML = html;
+  $('#app').appendChild(layer);
+  const entry = { el: layer, opts: {} };
+  UI.layers.push(entry);
+  const pc = $('.pc', layer), sc = $('.pc-scroll', layer);
+  let y0 = null, dy = 0;
+  pc.addEventListener('touchstart', e => { if (sc.scrollTop > 0) return; y0 = e.touches[0].clientY; dy = 0; }, { passive: true });
+  pc.addEventListener('touchmove', e => { if (y0 == null) return; dy = Math.max(0, e.touches[0].clientY - y0); if (dy > 6) { pc.style.animation = 'none'; pc.style.transform = `translateY(${dy}px)`; } }, { passive: true });
+  pc.addEventListener('touchend', () => { if (y0 == null) return; y0 = null; if (dy > 140) closeLayer(); else { pc.style.transition = 'transform .25s var(--ease)'; pc.style.transform = ''; setTimeout(() => { pc.style.transition = ''; }, 260); } });
+  return entry;
 }
 function closeAllLayers() { while (UI.layers.length) closeLayer(true); closeStory(true); }
 function enableDrag(layer) {
@@ -908,16 +1073,16 @@ SCREENS.menu = {
     const ao = activeOrder();
     const stage = ao ? orderStage(ao) : null;
     return `<header class="topbar">
-        <button class="logo-btn press" data-act="orderType" aria-label="Способ получения">${logo()}</button>
+        <button class="mode-btn press" data-act="orderType" aria-label="Способ получения">${ic(MODE_ICON[S.orderType] || 'bike')}</button>
         <button class="addr-btn" data-act="address"><span>${esc(headerAddr())}</span>${ic('chevron-down')}</button>
-        <button class="icon-btn" data-act="profile" aria-label="Профиль">${ic('user')}</button>
+        <button class="ava-btn press" data-act="profile" aria-label="Профиль">${esc((S.user.name || 'Г').trim().charAt(0).toUpperCase())}</button>
       </header>
       <div class="scroll" id="menuScroll">
         <div id="orderStrip">${ao && stage.key !== 'done' ? stripHtml(ao, stage) : ''}</div>
-        <div class="promo-row hscroll">
-          <button class="promo-chip press" data-act="gifts"><span class="bubble" style="background:var(--chili)">${ic('gift')}</span>Подарки</button>
-          <button class="promo-chip press" data-act="coinsInfo"><span class="bubble" style="background:var(--raised)">${coin()}</span>+5% донеркоинами<br>с каждого заказа</button>
-          <button class="promo-chip press" data-act="promos"><span class="bubble" style="background:var(--fresh)">${ic('percent')}</span>Акции</button>
+        <div class="pchips hscroll">
+          <button class="pchip v press" data-act="gifts">${ILL.gift}<span>Подарки!</span></button>
+          <button class="pchip press" data-act="coinsInfo">${ILL.coin}<span>+300 донеркоинов<br>за заказ от 5 000 ₸</span></button>
+          <button class="pchip i press" data-act="promos" aria-label="Акции">${ILL.percent}</button>
         </div>
         <section class="menu-sheet">
           <div class="stories hscroll">${STORIES.map((s, i) => `<button class="story-card press" data-act="story" data-i="${i}" style="background:${s.color}">${img(s.thumb, s.title)}<span>${esc(s.title)}</span></button>`).join('')}</div>
@@ -952,61 +1117,98 @@ function switchTab(id) {
   tabs.scrollTo({ left: tab.offsetLeft - (tabs.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
 }
 
-// ---------- product sheet ----------
+// ---------- product card ----------
 function openProduct(pid, editLine) {
   const p = PM[pid];
   const c = editLine ? JSON.parse(JSON.stringify(editLine.cfg)) : cfgDefault(p);
-  const arch = CAT_ARCH[p.cat] || '#5A4A2A';
+  const tint = TINT[p.img] || '#4A3A2E';
+  const heroH = Math.round(Math.min($('#app').clientHeight * 0.5, 430));
   const meta = () => {
-    const w = weightOf(p, c);
     const parts = [];
-    if (p.kind === 'doner') parts.push(SIZES_DONER.find(s => s.id === c.size).label);
-    if (p.kind === 'sized') parts.push(p.sizes.find(s => s.id === c.size).label);
+    const w = weightOf(p, c);
     if (w) parts.push(w + ' г');
-    if (p.kcal) parts.push((p.kind === 'doner' && c.size === 'big' ? Math.round(p.kcal * 1.35) : p.kcal) + ' ккал');
-    if (p.kind === 'combo') parts.push(p.old ? 'Выгода ' + money(p.old - p.price) : 'Комбо');
+    if (p.kcal) parts.push(kcalOf(p, c) + ' ккал');
+    if (p.kind === 'combo') parts.push(p.old ? 'Выгода ' + money(p.old - p.price) : p.includes.length + ' ' + plural(p.includes.length, 'позиция', 'позиции', 'позиций'));
     return parts.join(' · ');
   };
-  const seg = (name, opts, cur) => `<div class="seg" role="radiogroup">${opts.map(o => `<button class="${o.id === cur ? 'on' : ''}" data-opt="${name}" data-v="${o.id}" role="radio" aria-checked="${o.id === cur}">${esc(o.label)}${o.delta ? ` <span class="muted">+${o.delta}</span>` : ''}</button>`).join('')}</div>`;
-  let opts = '';
-  if (p.kind === 'doner' || p.kind === 'plate') {
-    const rm = p.remove || DONER_REMOVE;
-    opts += `<div class="grp"><div class="grp-t">Можно убрать</div><div class="ing">${rm.map(r => `<button class="${c.removed.includes(r) ? 'off' : ''}" data-opt="remove" data-v="${esc(r)}">${esc(r)}${ic(c.removed.includes(r) ? 'plus' : 'close')}</button>`).join('')}</div></div>`;
-  }
-  if (p.kind === 'doner') opts += seg('size', SIZES_DONER, c.size) + seg('base', BASES, c.base);
-  if (p.kind === 'sized') opts += seg('size', p.sizes, c.size);
-  if (p.kind === 'combo') {
-    opts += `<div class="grp"><div class="grp-t">В комбо</div><div class="includes">${p.includes.map(x => `<div>${ic('check')}${esc(x)}</div>`).join('')}</div></div>`;
-    if (!p.noDrink) opts += `<div class="grp"><div class="grp-t">Напиток</div><div class="choice">${COMBO_DRINKS.map(d => `<button class="${d.id === c.drink ? 'on' : ''}" data-opt="drink" data-v="${d.id}">${img(d.img, d.label)}${esc(d.label)}<small>${d.delta ? '+' + money(d.delta) : 'включён'}</small></button>`).join('')}</div></div>`;
-    opts += `<div class="grp"><div class="grp-t">Соус</div>${seg('sauce', COMBO_SAUCES.map(s => ({ id: s, label: s })), c.sauce)}</div>`;
-  }
-  if (p.kind === 'doner' || p.kind === 'plate') {
-    opts += `<h3 class="h-section">Добавить по вкусу</h3><div class="tops">${TOPS.map(t => `<button class="top ${c.tops.includes(t.id) ? 'on' : ''}" data-opt="top" data-v="${t.id}">${img(t.img, t.name)}<span class="nm">${esc(t.name)}</span><span class="pr num">+${money(t.price)}</span><span class="ck">${ic('check')}</span></button>`).join('')}</div>`;
-  }
-  const nutri = p.n ? `<div class="nutri" id="nutri" hidden><div><b>${p.n[0]} г</b><span>белки</span></div><div><b>${p.n[1]} г</b><span>жиры</span></div><div><b>${p.n[2]} г</b><span>углеводы</span></div><div><b>${Math.round(p.kcal / weightOf(p, c) * 100)}</b><span>ккал на 100 г</span></div></div>` : '';
-  const ctaText = () => (editLine ? 'Сохранить · ' : 'В корзину за ') + money(unitPrice(p, c));
-  const html = `<button class="icon-btn sheet-close" data-act="closeLayer" aria-label="Закрыть">${ic('close')}</button>
-    <div class="sheet-body p-body">
-      <div class="arch p-arch" style="--arch:${arch}">${img(p.img, p.name, true)}</div>
-      <div class="p-head"><h2>${esc(p.name)}${p.tags.includes('spicy') ? ' ' + chili() : ''}</h2>${p.n ? `<button class="info" data-act="nutri" aria-label="Пищевая ценность">${ic('info')}</button>` : ''}</div>
-      <div class="p-meta num" id="pmeta" ${meta() ? '' : 'hidden'}>${esc(meta())}</div>
-      ${nutri}
-      <p class="p-desc">${esc(p.desc)}</p>
-      ${p.old ? `<div class="hint ok">Акция: ${money(p.old)} → ${money(p.price)}</div>` : ''}
-      ${opts}
-    </div>
-    <div class="p-cta"><button class="btn btn-primary num" id="pcta" data-act="addConfigured">${ctaText()}</button></div>`;
-  const layer = openLayer(html, { tall: true });
-  layer.product = { p, c, editLine };
+  const sizeOpts = p.kind === 'doner' ? SIZES_DONER : p.kind === 'sized' ? p.sizes : null;
+  const carousels = [];
+  if (p.kind === 'doner') carousels.push({ key: 'base', opts: BASES.map(b => ({ id: b.id, label: b.full || b.label, art: BASE_ART[b.id], add: b.delta })) });
+  if (p.kind === 'combo' && !p.noDrink) carousels.push({ key: 'drink', opts: COMBO_DRINKS.map(d => ({ id: d.id, label: d.label, img: d.img, add: d.delta })) });
+  if (p.kind === 'combo') carousels.push({ key: 'sauce', opts: COMBO_SAUCES.map(x => ({ id: x, label: x + ' соус', img: SAUCE_IMG[x] })) });
+  const mid = o => `${o.img ? img(o.img, o.label, true) : o.art}<span>${esc(o.label)}${o.add ? `<small class="add num">+${money(o.add)}</small>` : ''}</span>`;
+  const editable = p.kind === 'doner' || p.kind === 'plate';
+  const editText = () => c.removed && c.removed.length ? `Без: ${c.removed.length} ${plural(c.removed.length, 'ингредиента', 'ингредиентов', 'ингредиентов')}` : 'Изменить состав';
+  const html = `<div class="pc" style="--tint:${tint}" role="dialog" aria-modal="true" aria-label="${esc(p.name)}">
+      <button class="pc-close" data-act="closeLayer" aria-label="Закрыть">${ic('close')}</button>
+      <div class="pc-scroll">
+        <div class="pc-hero" style="height:${heroH}px">${img(p.img, p.name, true)}${editable ? `<button class="pc-edit ${c.removed.length ? 'changed' : ''}" data-act="editIng">${PENCIL}<span id="editTx">${editText()}</span></button>` : ''}</div>
+        <div class="pc-body">
+          <h2>${esc(p.name)}${p.tags.includes('spicy') ? ' ' + chili() : ''}</h2>
+          <div class="pc-meta num" id="pmeta" ${meta() ? '' : 'hidden'}>${esc(meta())}</div>
+          <p class="pc-desc">${esc(p.desc)}</p>
+          ${p.old ? `<div class="pc-deal num">Акция: <s>${money(p.old)}</s>${money(p.price)}</div>` : ''}
+          ${sizeOpts ? `<div class="dseg" role="radiogroup" aria-label="Размер"><span class="thumb"></span>${sizeOpts.map(o => `<button data-opt="size" data-v="${o.id}" class="${o.id === c.size ? 'on' : ''}" role="radio" aria-checked="${o.id === c.size}">${esc(o.label)}</button>`).join('')}</div>` : ''}
+          ${carousels.map(cs => { const cur = cs.opts.find(o => o.id === c[cs.key]) || cs.opts[0]; return `<div class="csel" data-csel="${cs.key}"><button class="arr" data-step="-1" aria-label="Предыдущий вариант">${ic('chevron-left')}</button><div class="mid">${mid(cur)}</div><button class="arr" data-step="1" aria-label="Следующий вариант">${ic('chevron-right')}</button></div>`; }).join('')}
+          ${p.kind === 'combo' ? `<div class="pc-inc">${p.includes.map(x => `<div>${ic('check')}${esc(x)}</div>`).join('')}</div>` : ''}
+          ${editable ? `<h3 class="pc-sec">Добавить по вкусу</h3><div class="tops pc-tops">${TOPS.map(t => `<button class="top ${c.tops.includes(t.id) ? 'on' : ''}" data-opt="top" data-v="${t.id}">${img(t.img, t.name)}<span class="nm">${esc(t.name)}</span><span class="pr num">+${money(t.price)}</span><span class="ck">${ic('check')}</span></button>`).join('')}</div>` : ''}
+        </div>
+      </div>
+      <div class="pc-foot"></div>
+      <button class="pc-cta num" id="pcta" data-act="addConfigured">${ic(editLine ? 'check' : 'plus')}<span>${money(unitPrice(p, c))}</span></button>
+    </div>`;
+  const layer = openFull(html);
   const el = layer.el;
+  const update = () => {
+    $('#pcta span', el).textContent = money(unitPrice(p, c));
+    const m = $('#pmeta', el); m.textContent = meta(); m.hidden = !meta();
+    const eb = $('.pc-edit', el); if (eb) { eb.classList.toggle('changed', c.removed.length > 0); $('#editTx', el).textContent = editText(); }
+  };
+  const placeThumb = animate => {
+    const seg = $('.dseg', el); if (!seg) return;
+    const on = $('button.on', seg), th = $('.thumb', seg);
+    if (!animate) th.style.transition = 'none';
+    th.style.width = on.offsetWidth + 'px'; th.style.transform = `translateX(${on.offsetLeft}px)`;
+    if (!animate) { void th.offsetWidth; th.style.transition = ''; }
+  };
+  requestAnimationFrame(() => placeThumb(false));
+  const pcEl = $('.pc', el), scEl = $('.pc-scroll', el);
+  scEl.addEventListener('scroll', () => pcEl.classList.toggle('scrolled', scEl.scrollTop > heroH - 120), { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => placeThumb(false));
+  layer.product = { p, c, editLine, update };
   el.addEventListener('click', e => {
+    const arr = e.target.closest('.csel .arr');
+    if (arr) {
+      const box = arr.closest('.csel'); const cs = carousels.find(x => x.key === box.dataset.csel);
+      const i = cs.opts.findIndex(o => o.id === c[cs.key]);
+      const next = cs.opts[(i + +arr.dataset.step + cs.opts.length) % cs.opts.length];
+      c[cs.key] = next.id;
+      const m = $('.mid', box); m.innerHTML = mid(next); m.style.animation = 'none'; void m.offsetWidth; m.style.animation = '';
+      update(); return;
+    }
     const b = e.target.closest('[data-opt]'); if (!b) return;
     const k = b.dataset.opt, v = b.dataset.v;
-    if (k === 'remove') { const i = c.removed.indexOf(v); i >= 0 ? c.removed.splice(i, 1) : c.removed.push(v); b.classList.toggle('off'); b.lastElementChild.outerHTML = ic(c.removed.includes(v) ? 'plus' : 'close'); }
-    else if (k === 'top') { const i = c.tops.indexOf(v); i >= 0 ? c.tops.splice(i, 1) : c.tops.push(v); b.classList.toggle('on'); }
-    else { c[k] = v; $$(`[data-opt="${k}"]`, el).forEach(x => { x.classList.toggle('on', x.dataset.v === v); x.setAttribute('aria-checked', x.dataset.v === v); }); }
-    $('#pcta', el).textContent = ctaText();
-    $('#pmeta', el).textContent = meta();
+    if (k === 'top') { const i = c.tops.indexOf(v); i >= 0 ? c.tops.splice(i, 1) : c.tops.push(v); b.classList.toggle('on'); }
+    else { c[k] = v; $$(`[data-opt="${k}"]`, el).forEach(x => { x.classList.toggle('on', x.dataset.v === v); x.setAttribute('aria-checked', x.dataset.v === v); }); if (k === 'size') placeThumb(true); }
+    update();
+  });
+}
+function sheetIngredients() {
+  const host = UI.layers[UI.layers.length - 1]; if (!host || !host.product) return;
+  const { p, c, update } = host.product;
+  const list = p.remove || DONER_REMOVE;
+  openLayer(`<div class="sheet-body"><h2>Состав</h2><p class="lead">Уберите то, что не нужно. Цена не изменится.</p>
+    <div class="ing-list">${list.map(r => `<button class="ing-row ${c.removed.includes(r) ? 'off' : ''}" data-ing="${esc(r)}" role="switch" aria-checked="${!c.removed.includes(r)}"><span class="box">${ic('check')}</span>${esc(r.charAt(0).toUpperCase() + r.slice(1))}</button>`).join('')}</div>
+    <button class="btn btn-primary" data-act="closeLayer">Готово</button></div>`, {
+    after(layer) {
+      layer.addEventListener('click', e => {
+        const b = e.target.closest('[data-ing]'); if (!b) return;
+        const v = b.dataset.ing, i = c.removed.indexOf(v);
+        i >= 0 ? c.removed.splice(i, 1) : c.removed.push(v);
+        b.classList.toggle('off', c.removed.includes(v)); b.setAttribute('aria-checked', !c.removed.includes(v));
+        update();
+      });
+    },
   });
 }
 function addToCart(pid, cfg, qty = 1) {
@@ -1074,6 +1276,7 @@ SCREENS.cart = {
           ${t.coins ? `<div class="sum-row green"><span>Донеркоины</span><b>−${money(t.coins)}</b></div>` : ''}
           <div class="sum-row"><span>${S.orderType === 'delivery' ? 'Доставка' : 'Самовывоз'}</span><b>${t.fee ? money(t.fee) : 'Бесплатно'}</b></div>
           ${S.orderType === 'delivery' && t.fee ? `<div class="hint" style="padding:0">Бесплатная доставка от 3 000 ₸</div>` : ''}
+          ${t.offerBonus ? `<div class="sum-row"><span>Бонус по предложению</span><b style="color:var(--saffron)">+300 Д</b></div>` : S.offer300 ? `<div class="hint" style="padding:0">Ещё ${money(5000 - t.items)} до +300 донеркоинов по предложению</div>` : ''}
           <div class="sum-row"><span>Начислим донеркоинов</span><b style="color:var(--saffron)">+${NF.format(t.earn)} Д</b></div>
           <div class="divider"></div>
           <div class="sum-row total"><span>Итого</span><b>${money(t.total)}</b></div>
@@ -1271,20 +1474,63 @@ setInterval(() => {
 }, 1000);
 
 // ---------- profile & history ----------
+const OFFERS = [
+  { kicker: 'Для любого заказа', title: '+300 донеркоинов за заказ от 5\u00A0000\u00A0₸', until: 'до 31 октября', act: 'applyOffer', art: 'coins' },
+  { kicker: 'На доставку', title: '−10% на заказ по промокоду ДОНЕР10', until: 'до 30 ноября', act: 'usePromo', v: 'ДОНЕР10', photo: 'doner-firmennyy' },
+  { kicker: 'Для компании', title: 'Комбо для двоих с выгодой 950\u00A0₸', until: 'каждый день', act: 'product', id: 'c-two', label: 'Смотреть', photo: 'kombo-dlya-dvoih' },
+];
 SCREENS.profile = {
   render() {
-    const rows = [['history', 'receipt', 'История заказов', `${S.orders.length} ${plural(S.orders.length, 'заказ', 'заказа', 'заказов')}`], ['address', 'pin', 'Мои адреса', `${S.addresses.length} ${plural(S.addresses.length, 'адрес', 'адреса', 'адресов')}`], ['payments', 'card', 'Способы оплаты', 'Kaspi.kz, карта, наличные'], ['promos', 'tag', 'Промокоды и акции', '2 активных'], ['support', 'headset', 'Поддержка', 'Ежедневно 09:00–02:00']];
-    return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>Профиль</h1><span></span></header>
-      <div class="scroll"><div class="page">
-        <div class="user"><span class="avatar">${esc((S.user.name || 'Г').trim().charAt(0).toUpperCase())}</span><span><div style="font:700 22px/28px var(--text)">${esc(S.user.name || 'Гость')}</div><div class="muted">${esc(S.user.phone)}</div></span></div>
-        <div class="coins-card"><span class="k">Донеркоины</span><span class="v num">${NF.format(S.coins)} ${coin()}</span><p>1 донеркоин = 1 ₸. Копите 5% с каждого заказа и оплачивайте ими до 25% следующего.</p></div>
-        <div class="list">${rows.map(([act, i, t1, t2]) => `<button class="lrow" data-act="${act}">${ic(i)}<span class="tx"><span class="t1">${t1}</span><span class="t2">${t2}</span></span>${ic('chevron-right', 'chev')}</button>`).join('')}
-          <div class="lrow">${ic('bell')}<span class="tx"><span class="t1">Уведомления о заказе</span><span class="t2">Статусы и акции</span></span><button class="toggle ${S.notify ? 'on' : ''}" data-act="notify" role="switch" aria-checked="${S.notify}" aria-label="Уведомления"></button></div></div>
-        <button class="btn btn-secondary" data-act="resetDemo">${ic('refresh')}Сбросить демо</button>
-        <div class="demo-note">Донерим · прототип v1.0</div>
-      </div></div>`;
+    const initial = esc((S.user.name || 'Г').trim().charAt(0).toUpperCase());
+    const last = S.orders[0] && PM[S.orders[0].lines[0].pid];
+    const tried = new Set(S.orders.flatMap(o => o.lines.map(l => l.pid)).filter(id => PM[id] && PM[id].cat === 'doners'));
+    const done = Math.min(3, tried.size);
+    const offerBtn = o => {
+      const applied = (o.act === 'applyOffer' && S.offer300) || (o.act === 'usePromo' && S.promo === o.v);
+      return `<button class="apply ${applied ? 'done' : ''}" data-act="${o.act}" ${o.v ? `data-v="${o.v}"` : ''} ${o.id ? `data-id="${o.id}"` : ''}>${applied ? 'Применено' : o.label || 'Применить'}</button>`;
+    };
+    return `<header class="pf-top">
+        <button class="pf-x" data-act="back" aria-label="Закрыть">${ic('close')}</button>
+        <div class="pf-right">
+          <button class="support" data-act="support">${CHAT}Поддержка</button>
+          <span class="pf-me"><span class="ava" aria-hidden="true">${initial}</span><button class="gear" data-act="settings" aria-label="Настройки">${GEAR}</button></span>
+        </div>
+      </header>
+      <div class="scroll">
+        <div class="pf-cards hscroll">
+          <button class="pf-card dashed" data-act="toMenu">${ILL.coin}<h3 class="accent">Донеркоины в меню</h3><span class="capchip">В меню</span></button>
+          <button class="pf-card" data-act="history">${last ? `<span class="thumbw">${img(last.img, '')}</span>` : ILL.gift}<h3>Мои заказы</h3><span class="capchip num">${S.orders.length} ${plural(S.orders.length, 'заказ', 'заказа', 'заказов')}</span></button>
+          <button class="pf-card" data-act="payments">${ILL.card}<h3>Способы оплаты</h3><span class="capchip">Kaspi и карты</span></button>
+          <button class="pf-card" data-act="address">${ILL.pin}<h3>Мои адреса</h3><span class="capchip num">${S.addresses.length} ${plural(S.addresses.length, 'адрес', 'адреса', 'адресов')}</span></button>
+        </div>
+        <h2 class="pf-h">Персональные предложения</h2>
+        <div class="offers hscroll" id="offers">${OFFERS.map(o => `<div class="offer-page"><div class="offer-txt"><span class="k">${o.kicker}</span><b>${o.title}</b><span class="until">${o.until}</span>${offerBtn(o)}</div><div class="offer-img">${o.photo ? img(o.photo, '') : ILL[o.art]}<button class="ibtn" data-act="${o.act === 'applyOffer' ? 'coinsInfo' : 'promos'}" aria-label="Подробнее">i</button></div></div>`).join('')}</div>
+        <div class="dots" id="offerDots">${OFFERS.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
+        <h2 class="pf-h">Миссии</h2>
+        <button class="mission" data-act="tab" data-tab="doners"><div class="pics">${['doner-ostryy', 'doner-firmennyy', 'doner-syrnyy'].map(k => img(k, '')).join('')}</div>
+          <div class="tx"><h3>Донерный марафон</h3><p>Попробуйте три разных донера до конца месяца и получите 500 донеркоинов.</p><div class="prog num"><div class="bar"><i style="width:${done / 3 * 100}%"></i></div>${done} из 3</div></div></button>
+        <div class="pf-foot"><div class="demo-note">Донерим · прототип v2.0</div></div>
+      </div>`;
+  },
+  after(entry) {
+    const box = $('#offers', entry.el), dots = $$('#offerDots i', entry.el);
+    box.addEventListener('scroll', () => { const i = Math.round(box.scrollLeft / box.clientWidth); dots.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
   },
 };
+function sheetSettings() {
+  openLayer(`<div class="sheet-body"><h2>Настройки</h2>
+    <form class="form" id="meForm"><div class="grp-t">Имя и телефон</div><label class="field">${ic('user')}<input id="meName" value="${esc(S.user.name)}" placeholder="Имя" autocomplete="name"></label><label class="field">${ic('phone')}<input id="mePhone" value="${esc(S.user.phone)}" placeholder="+7 7__ ___ __ __" inputmode="tel" autocomplete="tel"></label><button class="btn btn-primary" type="submit" style="height:50px">Сохранить</button></form>
+    <div class="list"><div class="lrow">${ic('bell')}<span class="tx"><span class="t1">Уведомления о заказе</span><span class="t2">Статусы и акции</span></span><button class="toggle ${S.notify ? 'on' : ''}" data-act="notify" role="switch" aria-checked="${S.notify}" aria-label="Уведомления"></button></div></div>
+    <button class="btn btn-secondary" data-act="resetDemo">${ic('refresh')}Сбросить демо</button></div>`, {
+    after(layer) {
+      $('#meForm', layer).addEventListener('submit', e => {
+        e.preventDefault();
+        S.user.name = $('#meName', layer).value.trim() || S.user.name; S.user.phone = $('#mePhone', layer).value.trim() || S.user.phone; save();
+        closeLayer(); refreshAll(); toast('Сохранено');
+      });
+    },
+  });
+}
 SCREENS.history = {
   render() {
     return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>История заказов</h1><span></span></header>
@@ -1337,6 +1583,7 @@ function sheetGifts() {
 function sheetCoins() {
   openLayer(`<div class="sheet-body"><h2>Донеркоины</h2>
     <div class="coins-card"><span class="k">На вашем счёте</span><span class="v num">${NF.format(S.coins)} ${coin()}</span><p>1 донеркоин = 1 ₸</p></div>
+    <div class="code"><span style="width:52px;height:52px;flex:none">${ILL.coin}</span><span class="tx">+300 донеркоинов за заказ от 5 000 ₸<br><span>до 31 октября</span></span><button class="pill" data-act="applyOffer">${S.offer300 ? 'Применено' : 'Применить'}</button></div>
     <div class="list">${[['plus', 'Копите 5% с каждого заказа', 'Начисляем после доставки'], ['percent', 'Оплачивайте до 25% заказа', 'Включите «Списать донеркоины» в корзине'], ['gift', '+300 Д в день рождения', 'Укажите дату в профиле']].map(([i, a, b]) => `<div class="lrow">${ic(i)}<span class="tx"><span class="t1">${a}</span><span class="t2">${b}</span></span></div>`).join('')}</div></div>`);
 }
 function sheetPromos() {
@@ -1403,7 +1650,7 @@ function closeStory(instant) {
 
 // ---------- actions ----------
 const ACT = {
-  tab: b => switchTab(b.dataset.tab),
+  tab: b => { if (UI.stack.length > 1) popToRoot(); switchTab(b.dataset.tab); },
   chip: b => { const c = b.dataset.chip; UI.chip[UI.tab] = UI.chip[UI.tab] === c ? null : c; $('#catView', UI.stack[0].el).innerHTML = catView(); },
   product: b => { if (storyState) closeStory(true); while (UI.layers.length) closeLayer(true); openProduct(b.dataset.id); },
   quickAdd: (b, e) => { e.stopPropagation(); const p = PM[b.dataset.id]; addToCart(p.id, cfgDefault(p)); toast(`${p.name} — в корзине`); const old = b.innerHTML; if (b.classList.contains('pill') && !b.closest('.ucard')) { b.classList.add('added'); b.innerHTML = ic('check'); setTimeout(() => { b.classList.remove('added'); b.innerHTML = old; }, 900); } if (topScreen().name === 'cart') refresh(topScreen()); },
@@ -1420,7 +1667,10 @@ const ACT = {
   cart: () => push('cart'),
   search: () => push('search', {}, 'fade'),
   searchFill: b => { const q = $('#q'); q.value = b.dataset.q; q.dispatchEvent(new Event('input')); },
-  profile: () => push('profile'),
+  profile: () => push('profile', {}, 'up'),
+  settings: () => sheetSettings(),
+  editIng: () => sheetIngredients(),
+  applyOffer: () => { S.offer300 = true; save(); if (UI.layers.length) closeLayer(); refreshAll(); toast('Предложение активировано: +300 Д за заказ от 5 000 ₸'); },
   history: () => push('history'),
   story: b => openStory(+b.dataset.i),
   closeStory: () => closeStory(),
@@ -1438,7 +1688,7 @@ const ACT = {
   gifts: () => sheetGifts(),
   coinsInfo: () => sheetCoins(),
   promos: () => sheetPromos(),
-  usePromo: b => { S.promo = b.dataset.v; save(); closeLayer(); toast(`Промокод ${b.dataset.v} применён`); refreshAll(); updateFabAll(); },
+  usePromo: b => { S.promo = b.dataset.v; save(); if (UI.layers.length) closeLayer(); toast(`Промокод ${b.dataset.v} применён`); refreshAll(); updateFabAll(); },
   applyPromo: () => applyPromo(),
   removePromo: () => { S.promo = null; save(); refresh(topScreen()); updateFabAll(); },
   toggleCoins: () => { S.useCoins = !S.useCoins; save(); refresh(topScreen()); updateFabAll(); },
