@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="description" content="Кликабельный прототип приложения донерной «Донерим»: меню с фото, сборка донера, корзина, оформление и отслеживание заказа.">
+<meta name="theme-color" content="#0A0A0B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Донерим">
+<meta property="og:title" content="Донерим — прототип приложения">
+<meta property="og:description" content="Меню с фото, корзина, оформление и отслеживание заказа.">
+<meta property="og:image" content="mockup/screens/02-glavnaya.jpg">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Донерим</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600;700&display=swap">
+<style>
+/* Layout: phone-first ordering app. On wide screens it sits in a device frame next to a short brief; on phones it fills the screen. One dark look by design. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0A0B;
+  --sheet: #141416;
+  --card: #1E1E21;
+  --raised: #2A2A2E;
+  --pressed: #3A3A40;
+  --selected: #4E4E55;
+  --line: #2E2E33;
+  --fg: #FFFFFF;
+  --fg2: #A1A1A8;
+  --fg3: #6E6E76;
+  --on-accent: #141416;
+  --saffron: #FFB800;
+  --saffron-deep: #FF8A00;
+  --chili: #FF4A2E;
+  --fresh: #3DBE5A;
+  --scrim: rgba(0, 0, 0, .62);
+  --gold: linear-gradient(135deg, #FFD24D 0%, #FFB800 55%, #FF8A00 100%);
+  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --text: 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --sat: 0px;
+  --sab: 0px;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--text); font-size: 15px;
+  -webkit-font-smoothing: antialiased; overflow: hidden; -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+input, textarea { font: inherit; color: var(--fg); }
+img { display: block; max-width: 100%; }
+svg.i { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.num { font-variant-numeric: tabular-nums; }
+.hscroll { display: flex; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; scroll-snap-type: x proximity; }
+.hscroll::-webkit-scrollbar, .scroll::-webkit-scrollbar { display: none; }
+
+/* Stage & device */
+.stage { height: 100%; display: flex; align-items: center; justify-content: center; gap: 64px; padding: 24px; box-sizing: border-box; }
+.brief { width: 300px; display: flex; flex-direction: column; gap: 22px; }
+.brief-logo { display: flex; align-items: center; gap: 12px; font: 700 30px/1 var(--display); letter-spacing: -.02em; }
+.brief-logo svg { width: 46px; height: 46px; }
+.brief p { margin: 0; color: var(--fg2); line-height: 1.5; }
+.brief ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; counter-reset: s; }
+.brief li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; color: var(--fg); line-height: 1.4; counter-increment: s; }
+.brief li::before { content: counter(s); width: 28px; height: 28px; border-radius: 14px; background: var(--raised); color: var(--saffron); display: grid; place-items: center; font: 600 13px/1 var(--text); }
+.brief-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.ghost-btn { height: 40px; padding: 0 16px; border-radius: 20px; background: var(--raised); font-weight: 500; }
+.ghost-btn:hover { background: var(--pressed); }
+.brief small { color: var(--fg3); line-height: 1.5; }
+.device-wrap { flex: none; width: 417px; height: 876px; display: grid; place-items: center; }
+.device {
+  position: relative; width: 393px; height: 852px; border-radius: 56px; overflow: hidden; background: var(--bg);
+  box-shadow: 0 0 0 12px #1B1B1F, 0 0 0 13px #303036, 0 40px 120px rgba(0, 0, 0, .7); transform: scale(var(--scale, 1));
+}
+.framed { --sat: 54px; --sab: 34px; }
+.statusbar {
+  position: absolute; inset: 0 0 auto; height: 54px; z-index: 300; display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 30px 0 40px; box-sizing: border-box; pointer-events: none; color: #fff; transition: color .3s;
+}
+.statusbar b { font: 600 17px/1 var(--text); letter-spacing: -.01em; }
+.statusbar .sys { display: flex; gap: 6px; align-items: center; }
+.statusbar svg { fill: currentColor; }
+.home-ind { position: absolute; left: 50%; bottom: 8px; width: 139px; height: 5px; border-radius: 3px; background: #fff; transform: translateX(-50%); z-index: 300; pointer-events: none; transition: background .3s; }
+.on-yellow .statusbar { color: var(--on-accent); }
+.on-yellow .home-ind { background: var(--on-accent); }
+.device:not(.framed) .statusbar, .device:not(.framed) .home-ind { display: none; }
+@media (max-width: 760px), (max-height: 560px) {
+  .stage { padding: 0; display: block; }
+  .brief { display: none; }
+  .device-wrap { width: 100%; height: 100%; }
+  .device { width: 100%; height: 100%; border-radius: 0; box-shadow: none; transform: none; }
+}
+
+/* App shell */
+.app { position: absolute; inset: 0; overflow: hidden; }
+.screen { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
+.screen.below { visibility: hidden; }
+.scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; position: relative; }
+@keyframes inRight { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes outLeft { from { transform: none; filter: brightness(1); } to { transform: translateX(-28%); filter: brightness(.55); } }
+@keyframes inLeft { from { transform: translateX(-28%); filter: brightness(.55); } to { transform: none; filter: brightness(1); } }
+@keyframes outRight { from { transform: none; } to { transform: translateX(100%); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes rise { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes sink { from { transform: none; } to { transform: translateY(100%); } }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.a-inRight { animation: inRight .34s var(--ease) both; z-index: 2; }
+.a-outLeft { animation: outLeft .34s var(--ease) both; }
+.a-inLeft { animation: inLeft .3s var(--ease) both; }
+.a-outRight { animation: outRight .3s var(--ease) both; z-index: 2; }
+.a-fadeIn { animation: fadeIn .3s ease both; }
+
+/* Common controls */
+.icon-btn { width: 40px; height: 40px; border-radius: 20px; background: var(--raised); display: grid; place-items: center; flex: none; transition: transform .15s, background .15s; }
+.icon-btn svg.i { width: 20px; height: 20px; }
+.icon-btn:active, .press:active { transform: scale(.94); }
+.pill { height: 36px; padding: 0 16px; border-radius: 18px; background: var(--raised); display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 15px; white-space: nowrap; }
+.btn { height: 56px; border-radius: 28px; padding: 0 24px; font: 600 17px/1 var(--text); display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; transition: transform .15s, opacity .2s; }
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--saffron); color: var(--on-accent); }
+.btn-secondary { background: var(--raised); color: var(--fg); }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.badge { height: 22px; padding: 0 8px; border-radius: 11px; font: 600 11px/22px var(--text); letter-spacing: .02em; display: inline-block; white-space: nowrap; }
+.badge-new { background: var(--chili); color: #fff; }
+.badge-hit { background: var(--saffron); color: var(--on-accent); }
+.badge-deal { background: #fff; color: var(--on-accent); }
+.coin { width: 24px; height: 24px; border-radius: 50%; background: var(--saffron); box-shadow: inset 0 0 0 1.5px var(--saffron-deep); color: var(--on-accent); display: inline-grid; place-items: center; font: 700 13px/1 var(--text); flex: none; }
+.chili-ic { width: 20px; height: 20px; }
+.muted { color: var(--fg2); }
+.h-section { font: 600 18px/24px var(--text); margin: 0; }
+.card-box { background: var(--card); border-radius: 24px; }
+.divider { height: 1px; background: var(--line); }
+
+/* Menu */
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(var(--sat) + 6px) 16px 8px; background: var(--bg); position: relative; z-index: 6; }
+.logo-btn { width: 40px; height: 40px; flex: none; border-radius: 12px; overflow: hidden; }
+.logo-btn svg { width: 40px; height: 40px; display: block; }
+.addr-btn { min-width: 0; display: flex; align-items: center; gap: 4px; font: 600 16px/20px var(--text); }
+.addr-btn span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.addr-btn svg.i { width: 18px; height: 18px; }
+.order-strip { margin: 2px 12px 10px; padding: 10px 14px; border-radius: 20px; background: var(--card); display: flex; align-items: center; gap: 12px; text-align: left; width: calc(100% - 24px); box-sizing: border-box; }
+.order-strip .dot { width: 10px; height: 10px; border-radius: 5px; background: var(--saffron); box-shadow: 0 0 0 4px rgba(255, 184, 0, .2); flex: none; animation: pop 1.6s infinite; }
+.order-strip b { font-weight: 600; }
+.order-strip .muted { font-size: 13px; }
+.order-strip svg.i { width: 18px; height: 18px; color: var(--fg3); margin-left: auto; }
+.promo-row { gap: 8px; padding: 2px 12px 12px; }
+.promo-chip { height: 60px; border-radius: 30px; background: var(--card); display: flex; align-items: center; gap: 10px; padding: 0 18px 0 6px; flex: none; text-align: left; font: 500 14px/18px var(--text); }
+.bubble { width: 48px; height: 48px; border-radius: 24px; display: grid; place-items: center; flex: none; }
+.bubble .coin { width: 30px; height: 30px; font-size: 15px; }
+.menu-sheet { background: var(--sheet); border-radius: 28px 28px 0 0; padding: 16px 0 120px; min-height: 100%; }
+.stories { gap: 8px; padding: 0 12px; }
+.story-card { width: 100px; height: 128px; border-radius: 20px; flex: none; position: relative; overflow: hidden; scroll-snap-align: start; }
+.story-card img { width: 100%; height: 100%; object-fit: cover; }
+.story-card::after { content: ""; position: absolute; inset: 40% 0 0; background: linear-gradient(transparent, rgba(0, 0, 0, .8)); }
+.story-card span { position: absolute; left: 9px; right: 7px; bottom: 9px; z-index: 1; font: 600 14px/18px var(--text); text-align: left; }
+.tabbar { position: sticky; top: 0; z-index: 5; background: var(--sheet); padding: 16px 0 10px; }
+.tabs { gap: 6px; padding: 0 12px; align-items: center; }
+.tab { height: 40px; padding: 0 16px; border-radius: 20px; font: 500 16px/40px var(--text); white-space: nowrap; flex: none; transition: background .2s, color .2s; }
+.tab.on { background: #fff; color: var(--on-accent); }
+.coins-pill { height: 40px; border-radius: 20px; padding: 0 14px 0 6px; display: flex; align-items: center; gap: 6px; flex: none; background: linear-gradient(90deg, #FFC633, #FF8A00); color: var(--on-accent); font: 600 15px/1 var(--text); }
+.coins-pill .coin { width: 28px; height: 28px; }
+.chips { gap: 8px; padding: 2px 12px 14px; }
+.chip { height: 34px; padding: 0 14px; border-radius: 17px; background: var(--raised); font: 500 14px/34px var(--text); white-space: nowrap; flex: none; transition: background .2s, color .2s; }
+.chip.on { background: #fff; color: var(--on-accent); }
+.cat-view { animation: fadeIn .25s ease both; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0 12px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; padding: 0 12px; }
+.pcard { position: relative; background: var(--card); text-align: left; display: flex; flex-direction: column; transition: transform .15s; }
+.pcard:active { transform: scale(.97); }
+.pcard .ph { position: relative; overflow: hidden; background: #26262B; }
+.pcard .ph img { width: 100%; height: 100%; object-fit: cover; }
+.pcard .tags { position: absolute; left: 6px; top: 6px; display: flex; gap: 4px; }
+.pcard .spicy { position: absolute; right: 6px; top: 6px; width: 22px; height: 22px; border-radius: 11px; background: rgba(10, 10, 11, .7); display: grid; place-items: center; }
+.pcard .spicy svg { width: 16px; height: 16px; }
+.pcard.s { border-radius: 20px; padding: 8px; gap: 8px; }
+.pcard.s .ph { aspect-ratio: 103 / 96; border-radius: 16px; }
+.pcard.s .nm { font: 500 14px/18px var(--text); text-align: center; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 36px; }
+.pcard.s .pill { height: 32px; width: 100%; padding: 0; box-sizing: border-box; font-size: 14px; }
+.pcard.m { border-radius: 24px; padding: 10px 10px 12px; gap: 10px; }
+.pcard.m .ph { aspect-ratio: 159 / 150; border-radius: 18px; }
+.pcard.m .info { padding: 0 4px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.pcard.m .nm { font: 600 16px/20px var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pcard.m .ds { font: 400 13px/18px var(--text); color: var(--fg2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pcard.m .ft { padding: 0 4px; display: flex; align-items: center; gap: 8px; }
+.pcard .old { color: var(--fg3); text-decoration: line-through; font-size: 13px; }
+.pill.added { background: var(--fresh); color: #fff; }
+.hero { margin: 0 12px 14px; background: var(--card); border-radius: 32px; padding: 12px; text-align: left; display: block; width: calc(100% - 24px); box-sizing: border-box; transition: transform .15s; }
+.hero:active { transform: scale(.985); }
+.arch { position: relative; aspect-ratio: 345 / 290; border-radius: 999px 999px 0 0; overflow: hidden; background: linear-gradient(var(--arch, #8A4A1F), transparent); }
+.arch img { width: 100%; height: 100%; object-fit: cover; }
+.arch::after { content: ""; position: absolute; inset: 62% 0 0; background: linear-gradient(transparent, var(--fade, var(--card))); }
+.hero .txt { padding: 4px 12px 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.hero h3 { margin: 0; font: 600 24px/30px var(--display); letter-spacing: -.01em; text-wrap: balance; }
+.hero p { margin: 0; color: var(--fg2); font-size: 14px; line-height: 20px; }
+.hero .ft { display: flex; justify-content: flex-end; padding: 16px 12px 0; }
+.hero .ft .pill { height: 44px; border-radius: 22px; padding: 0 18px; font-size: 17px; }
+.promo-hero { margin: 0 12px 14px; border-radius: 32px; padding: 16px; background: linear-gradient(180deg, #FFD24D, #FFB800 55%, #FF7A00); color: var(--on-accent); text-align: left; display: flex; flex-direction: column; gap: 14px; position: relative; width: calc(100% - 24px); box-sizing: border-box; transition: transform .15s; }
+.promo-hero:active { transform: scale(.985); }
+.promo-hero .ph { aspect-ratio: 337 / 230; border-radius: 24px; overflow: hidden; }
+.promo-hero .ph img { width: 100%; height: 100%; object-fit: cover; }
+.promo-hero .sticker { position: absolute; left: 24px; top: 30px; transform: rotate(-6deg); background: var(--chili); color: #fff; padding: 7px 12px; border-radius: 14px; font: 600 14px/18px var(--text); box-shadow: 0 6px 18px rgba(0, 0, 0, .25); }
+.promo-hero h3 { margin: 0 6px; font: 600 24px/30px var(--display); }
+.promo-hero p { margin: 0 6px; font-size: 14px; line-height: 20px; opacity: .78; }
+.promo-hero .ft { display: flex; justify-content: flex-end; align-items: center; gap: 14px; }
+.promo-hero .old { text-decoration: line-through; opacity: .5; font-weight: 600; }
+.promo-hero .pill { background: #fff; color: var(--on-accent); height: 44px; border-radius: 22px; padding: 0 20px; font-size: 17px; }
+.empty-cat { padding: 40px 24px; text-align: center; color: var(--fg2); }
+.cart-fab {
+  position: absolute; right: 16px; bottom: calc(var(--sab) + 12px); z-index: 20; height: 56px; border-radius: 28px; padding: 0 20px 0 8px;
+  display: flex; align-items: center; gap: 12px; background: var(--saffron); color: var(--on-accent); font: 600 17px/1 var(--text);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .45); transition: transform .25s var(--ease), opacity .25s;
+}
+.cart-fab.hide { transform: translateY(140%); opacity: 0; pointer-events: none; }
+.cart-fab .bagc { width: 40px; height: 40px; border-radius: 20px; background: var(--on-accent); color: var(--saffron); display: grid; place-items: center; position: relative; }
+.cart-fab .bagc svg.i { width: 20px; height: 20px; }
+.cart-fab .cnt { position: absolute; right: -6px; top: -4px; min-width: 20px; height: 20px; padding: 0 5px; box-sizing: border-box; border-radius: 10px; background: var(--chili); color: #fff; font: 600 11px/20px var(--text); text-align: center; box-shadow: 0 0 0 2px var(--saffron); }
+.cart-fab.bump { animation: pop .45s var(--ease); }
+
+/* Nav bar for pushed screens */
+.nav { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; gap: 8px; padding: calc(var(--sat) + 8px) 16px 8px; background: var(--bg); position: relative; z-index: 5; }
+.nav h1 { margin: 0; text-align: center; font: 600 18px/24px var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.page { padding: 8px 12px calc(var(--sab) + 140px); display: flex; flex-direction: column; gap: 12px; }
+.page-title { font: 700 22px/28px var(--text); margin: 4px 4px 0; }
+.cta-bar { position: absolute; inset: auto 0 0; padding: 12px 16px calc(var(--sab) + 12px); background: var(--bg); box-shadow: 0 -10px 24px rgba(0, 0, 0, .55); z-index: 8; display: flex; flex-direction: column; gap: 8px; }
+.cta-note { text-align: center; color: var(--fg2); font-size: 13px; }
+
+/* Cart */
+.line { display: flex; gap: 12px; padding: 12px; background: var(--card); border-radius: 24px; transition: opacity .25s, transform .25s; }
+.line.removing { opacity: 0; transform: translateX(-30px); }
+.line .ph { width: 76px; height: 76px; border-radius: 18px; overflow: hidden; flex: none; background: #26262B; }
+.line .ph img { width: 100%; height: 100%; object-fit: cover; }
+.line .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.line .nm { font: 600 16px/20px var(--text); }
+.line .dt { color: var(--fg2); font-size: 13px; line-height: 18px; }
+.line .row { display: flex; align-items: center; justify-content: space-between; padding-top: 6px; margin-top: auto; }
+.line .pr { font: 600 15px/20px var(--text); }
+.line.gift .pr { color: var(--fresh); }
+.stepper { height: 32px; border-radius: 16px; background: var(--raised); display: flex; align-items: center; }
+.stepper button { width: 34px; height: 32px; display: grid; place-items: center; }
+.stepper svg.i { width: 16px; height: 16px; }
+.stepper span { min-width: 16px; text-align: center; font-weight: 500; font-size: 14px; }
+.upsell { gap: 8px; margin: 0 -12px; padding: 0 12px; }
+.ucard { width: 124px; flex: none; background: var(--card); border-radius: 20px; padding: 8px; display: flex; flex-direction: column; gap: 8px; text-align: left; box-sizing: border-box; scroll-snap-align: start; }
+.ucard .ph { aspect-ratio: 108 / 92; border-radius: 14px; overflow: hidden; }
+.ucard .ph img { width: 100%; height: 100%; object-fit: cover; }
+.ucard .nm { font: 500 12px/16px var(--text); height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ucard .pill { height: 30px; font-size: 14px; font-weight: 500; padding: 0; }
+.ucard .pill svg.i { width: 14px; height: 14px; }
+.field { height: 52px; border-radius: 16px; background: var(--raised); display: flex; align-items: center; gap: 10px; padding: 0 16px; }
+.field svg.i { width: 20px; height: 20px; color: var(--fg2); }
+.field input { flex: 1; min-width: 0; background: none; border: 0; outline: none; font-size: 16px; }
+.field input::placeholder, textarea::placeholder { color: var(--fg3); }
+.field .act { color: var(--saffron); font-weight: 500; font-size: 14px; }
+.field.err { box-shadow: inset 0 0 0 1.5px var(--chili); }
+.hint { font-size: 13px; line-height: 18px; color: var(--fg2); padding: 0 4px; }
+.hint.err { color: var(--chili); }
+.hint.ok { color: var(--fresh); }
+.applied { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 16px; background: rgba(61, 190, 90, .12); color: var(--fresh); font-weight: 500; }
+.applied button { margin-left: auto; color: var(--fg2); font-size: 14px; }
+.row-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.toggle { width: 51px; height: 31px; border-radius: 16px; background: var(--selected); position: relative; flex: none; transition: background .2s; }
+.toggle::after { content: ""; position: absolute; left: 2px; top: 2px; width: 27px; height: 27px; border-radius: 14px; background: #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); transition: transform .25s var(--ease); }
+.toggle.on { background: var(--saffron); }
+.toggle.on::after { transform: translateX(20px); }
+.sum { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.sum-row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--fg2); }
+.sum-row b { color: var(--fg); font-weight: 500; }
+.sum-row.green b { color: var(--fresh); }
+.sum-row.total { font: 600 18px/24px var(--text); color: var(--fg); }
+.sum-row.total b { font-weight: 600; }
+.gift-card { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.gift-card .top { display: flex; align-items: center; gap: 12px; }
+.gift-card .top .bubble { width: 40px; height: 40px; background: var(--chili); }
+.gift-card .top svg.i { width: 20px; height: 20px; }
+.bar { height: 6px; border-radius: 3px; background: var(--raised); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 3px; background: var(--gold); transition: width .5s var(--ease); }
+.empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 24px 32px calc(var(--sab) + 60px); }
+.empty svg.logo { width: 96px; height: 96px; }
+.empty h2 { margin: 0; font: 600 20px/26px var(--display); }
+.empty p { margin: 0; color: var(--fg2); line-height: 1.45; }
+.empty .btn { width: auto; padding: 0 28px; }
+
+/* Checkout */
+.seg { height: 40px; border-radius: 20px; background: var(--raised); padding: 3px; display: flex; box-sizing: border-box; }
+.seg button { flex: 1; border-radius: 17px; color: var(--fg2); font: 500 14px/34px var(--text); transition: background .2s, color .2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 6px; }
+.seg button.on { background: var(--selected); color: var(--fg); }
+.list { background: var(--card); border-radius: 24px; padding: 4px 0; }
+.lrow { display: flex; align-items: center; gap: 14px; padding: 14px 16px; width: 100%; text-align: left; box-sizing: border-box; }
+.lrow > svg.i:first-child { width: 22px; height: 22px; }
+.lrow .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.lrow .t1 { font: 500 16px/20px var(--text); }
+.lrow .t2 { font-size: 13px; line-height: 18px; color: var(--fg2); overflow: hidden; text-overflow: ellipsis; }
+.lrow .chev { width: 18px; height: 18px; color: var(--fg3); }
+.radio { width: 22px; height: 22px; border-radius: 11px; box-shadow: inset 0 0 0 2px var(--fg3); flex: none; position: relative; transition: background .2s, box-shadow .2s; }
+.radio.on { background: var(--saffron); box-shadow: none; }
+.radio.on::after { content: ""; position: absolute; inset: 7px; border-radius: 4px; background: var(--on-accent); }
+.inline-inputs { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 0 16px 14px; }
+.inline-inputs .field { height: 46px; border-radius: 14px; }
+.change { gap: 8px; padding: 0 16px 14px 52px; flex-wrap: wrap; }
+textarea.note { width: 100%; box-sizing: border-box; min-height: 52px; height: 52px; resize: none; border: 0; outline: none; background: var(--raised); border-radius: 16px; padding: 15px 16px; font-size: 16px; line-height: 22px; }
+
+/* Order tracking */
+.track-hero { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px 20px 8px; text-align: center; }
+.ring { width: 176px; height: 176px; border-radius: 88px; background: rgba(255, 184, 0, .12); display: grid; place-items: center; position: relative; }
+.ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px dashed rgba(255, 184, 0, .35); animation: spin 18s linear infinite; }
+.disc { width: 132px; height: 132px; border-radius: 66px; background: var(--gold); display: grid; place-items: center; box-shadow: 0 0 40px rgba(255, 184, 0, .35); }
+.disc svg.i { width: 56px; height: 56px; color: var(--on-accent); stroke-width: 1.8; }
+.disc svg.logo { width: 64px; height: 64px; }
+.track-hero h2 { margin: 0; font: 600 20px/26px var(--display); text-wrap: balance; }
+.track-hero p { margin: 0; color: var(--fg2); font-size: 16px; }
+.steps { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.steps .row { display: flex; justify-content: space-between; }
+.step { width: 74px; display: flex; flex-direction: column; align-items: center; gap: 8px; font: 500 12px/16px var(--text); color: var(--fg3); text-align: center; }
+.step .b { width: 44px; height: 44px; border-radius: 22px; background: var(--raised); display: grid; place-items: center; transition: background .3s, box-shadow .3s; }
+.step .b svg.i { width: 22px; height: 22px; }
+.step.done, .step.now { color: var(--fg); }
+.step.done .b, .step.now .b { background: var(--saffron); color: var(--on-accent); }
+.step.now .b { box-shadow: 0 0 18px rgba(255, 184, 0, .55); animation: pop 1.6s infinite; }
+.map { position: relative; height: 210px; border-radius: 24px; overflow: hidden; background: #151518; }
+.map svg { width: 100%; height: 100%; display: block; }
+.courier { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.courier .av { width: 44px; height: 44px; border-radius: 22px; background: var(--raised); display: grid; place-items: center; color: var(--saffron); font: 700 16px/1 var(--text); }
+.courier .tx { flex: 1; }
+.demo-note { text-align: center; color: var(--fg3); font-size: 12px; }
+.stars { display: flex; gap: 8px; justify-content: center; }
+.stars button { width: 44px; height: 44px; display: grid; place-items: center; color: var(--fg3); }
+.stars button.on { color: var(--saffron); }
+.stars svg.i { width: 34px; height: 34px; }
+.stars button.on svg.i { fill: currentColor; }
+
+/* Profile */
+.user { display: flex; align-items: center; gap: 14px; padding: 4px 4px 8px; }
+.avatar { width: 64px; height: 64px; border-radius: 32px; background: var(--gold); color: var(--on-accent); display: grid; place-items: center; font: 600 24px/1 var(--display); flex: none; }
+.coins-card { border-radius: 28px; background: var(--gold); color: var(--on-accent); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.coins-card .k { font-weight: 500; opacity: .7; font-size: 14px; }
+.coins-card .v { display: flex; align-items: center; gap: 10px; font: 700 34px/40px var(--display); letter-spacing: -.02em; }
+.coins-card .v .coin { width: 34px; height: 34px; font-size: 17px; box-shadow: inset 0 0 0 2px var(--saffron-deep), 0 0 0 2px rgba(20, 20, 22, .15); }
+.coins-card p { margin: 0; font-size: 13px; line-height: 18px; opacity: .72; }
+.order-card { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.order-card .hd { display: flex; justify-content: space-between; gap: 8px; }
+.order-card .thumbs { display: flex; gap: 6px; }
+.order-card .thumbs img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; }
+.status-tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 10px; background: rgba(61, 190, 90, .14); color: var(--fresh); }
+.status-tag.live { background: rgba(255, 184, 0, .14); color: var(--saffron); }
+
+/* Search */
+.search-top { display: flex; gap: 10px; align-items: center; padding: calc(var(--sat) + 8px) 16px 8px; }
+.search-top .field { flex: 1; height: 44px; border-radius: 22px; }
+.search-top .cancel { color: var(--saffron); font-weight: 500; }
+.srow { display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 20px; text-align: left; width: 100%; box-sizing: border-box; }
+.srow:active { background: var(--card); }
+.srow img { width: 64px; height: 64px; border-radius: 16px; object-fit: cover; flex: none; }
+.srow .tx { flex: 1; min-width: 0; }
+.srow .nm { font-weight: 600; }
+.srow .ds { font-size: 13px; color: var(--fg2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow .pr { font-weight: 600; white-space: nowrap; }
+
+/* Sheets */
+.layer { position: absolute; inset: 0; z-index: 50; }
+.backdrop { position: absolute; inset: 0; background: var(--scrim); animation: fadeIn .3s ease both; }
+.layer.closing .backdrop { animation: fadeOut .28s ease both; }
+.sheet { position: absolute; inset: auto 0 0; max-height: calc(100% - var(--sat) - 8px); background: var(--sheet); border-radius: 28px 28px 0 0; display: flex; flex-direction: column; animation: rise .36s var(--ease) both; overflow: hidden; }
+.layer.closing .sheet { animation: sink .28s var(--ease) both; }
+.sheet.tall { height: calc(100% - var(--sat) - 4px); }
+.grabber { position: absolute; top: 7px; left: 50%; width: 36px; height: 5px; border-radius: 3px; background: var(--fg3); transform: translateX(-50%); z-index: 3; }
+.sheet-close { position: absolute; right: 16px; top: 16px; z-index: 4; background: rgba(42, 42, 46, .92); }
+.sheet-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: none; padding: 28px 16px calc(var(--sab) + 20px); display: flex; flex-direction: column; gap: 16px; }
+.sheet-body::-webkit-scrollbar { display: none; }
+.sheet-body > * { flex-shrink: 0; }
+.sheet h2 { margin: 0; font: 600 20px/26px var(--display); padding-right: 48px; text-wrap: balance; }
+.sheet .lead { margin: 0; color: var(--fg2); line-height: 1.45; }
+.p-body { padding: 20px 16px 140px; gap: 18px; }
+.p-arch { --fade: var(--sheet); aspect-ratio: 361 / 300; }
+.p-head { display: flex; align-items: center; gap: 8px; }
+.p-head h2 { padding-right: 0; font-size: 24px; line-height: 30px; }
+.p-head .info { width: 28px; height: 28px; display: grid; place-items: center; color: var(--fg2); flex: none; }
+.p-head .info svg.i { width: 20px; height: 20px; }
+.p-meta { color: var(--fg2); font-size: 14px; margin-top: -10px; }
+.p-desc { margin: 0; line-height: 22px; font-size: 16px; color: rgba(255, 255, 255, .9); }
+.nutri { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px; border-radius: 18px; background: var(--card); text-align: center; }
+.nutri b { display: block; font-size: 16px; }
+.nutri span { font-size: 12px; color: var(--fg2); }
+.grp { display: flex; flex-direction: column; gap: 10px; }
+.grp-t { font: 500 14px/18px var(--text); color: var(--fg2); }
+.ing { display: flex; flex-wrap: wrap; gap: 8px; }
+.ing button { height: 32px; border-radius: 16px; background: var(--raised); padding: 0 8px 0 12px; display: flex; align-items: center; gap: 4px; font: 500 14px/1 var(--text); transition: background .2s, color .2s; }
+.ing button svg.i { width: 14px; height: 14px; color: var(--fg2); }
+.ing button.off { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--fg3); text-decoration: line-through; }
+.tops { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.top { position: relative; border-radius: 20px; background: var(--raised); padding: 12px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; transition: box-shadow .2s, background .2s; }
+.top img { width: 64px; height: 64px; border-radius: 32px; object-fit: cover; }
+.top .nm { font: 500 12px/16px var(--text); flex: 1; }
+.top .pr { font: 600 15px/20px var(--text); }
+.top .ck { position: absolute; right: 8px; top: 8px; width: 22px; height: 22px; border-radius: 11px; background: var(--saffron); color: var(--on-accent); display: grid; place-items: center; transform: scale(0); transition: transform .2s var(--ease); }
+.top .ck svg.i { width: 14px; height: 14px; stroke-width: 3; }
+.top.on { box-shadow: inset 0 0 0 2px var(--saffron); }
+.top.on .pr { color: var(--saffron); }
+.top.on .ck { transform: scale(1); }
+.choice { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.choice button { border-radius: 18px; background: var(--raised); padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px; font: 500 13px/16px var(--text); transition: box-shadow .2s; }
+.choice button img { width: 56px; height: 56px; border-radius: 28px; object-fit: cover; }
+.choice button small { color: var(--fg2); font-size: 12px; }
+.choice button.on { box-shadow: inset 0 0 0 2px var(--saffron); }
+.includes { display: flex; flex-direction: column; gap: 8px; }
+.includes div { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.includes svg.i { width: 18px; height: 18px; color: var(--saffron); }
+.p-cta { position: absolute; inset: auto 0 0; padding: 12px 16px calc(var(--sab) + 12px); background: var(--sheet); box-shadow: 0 -10px 24px rgba(0, 0, 0, .5); }
+.opt { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 20px; background: var(--card); text-align: left; width: 100%; box-sizing: border-box; transition: box-shadow .2s; }
+.opt.on { box-shadow: inset 0 0 0 2px var(--saffron); }
+.opt .bubble { width: 44px; height: 44px; background: var(--raised); }
+.opt .bubble svg.i { width: 22px; height: 22px; }
+.opt .tx { flex: 1; }
+.opt .t1 { font-weight: 600; }
+.opt .t2 { font-size: 13px; color: var(--fg2); }
+.slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.slots button { height: 44px; border-radius: 14px; background: var(--raised); font-weight: 500; }
+.slots button.on { background: #fff; color: var(--on-accent); }
+.tier { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 20px; background: var(--card); }
+.tier img { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; }
+.tier .tx { flex: 1; }
+.tier .t2 { font-size: 13px; color: var(--fg2); }
+.tier .ok { color: var(--fresh); }
+.code { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 20px; background: var(--card); }
+.code .k { font: 600 16px/1 var(--display); letter-spacing: .02em; padding: 10px 12px; border-radius: 12px; border: 1.5px dashed var(--saffron); color: var(--saffron); }
+.code .tx { flex: 1; font-size: 14px; line-height: 19px; }
+.code .tx span { color: var(--fg2); font-size: 13px; }
+.code .pill { height: 34px; font-size: 14px; }
+.form { display: flex; flex-direction: column; gap: 8px; }
+
+/* Story viewer */
+.story { position: absolute; inset: 0; z-index: 80; background: var(--bg); animation: fadeIn .25s ease both; overflow: hidden; }
+.story.closing { animation: fadeOut .22s ease both; }
+.story .bg { position: absolute; inset: 0; transition: background .4s; }
+.story .bars { position: absolute; left: 12px; right: 12px; top: calc(var(--sat) + 10px); display: flex; gap: 4px; z-index: 3; }
+.story .bars span { flex: 1; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .3); overflow: hidden; }
+.story .bars i { display: block; height: 100%; width: 0; background: #fff; }
+.story .bars span.done i { width: 100%; }
+.story .bars span.cur i { animation: fill var(--dur, 6s) linear forwards; }
+.story.paused .bars span.cur i { animation-play-state: paused; }
+@keyframes fill { from { width: 0; } to { width: 100%; } }
+.story .head { position: absolute; left: 16px; right: 12px; top: calc(var(--sat) + 22px); display: flex; align-items: center; gap: 10px; z-index: 3; font-weight: 600; }
+.story .head svg.logo { width: 32px; height: 32px; }
+.story .head .icon-btn { margin-left: auto; background: rgba(0, 0, 0, .3); }
+.story .slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; padding: calc(var(--sat) + 80px) 20px calc(var(--sab) + 24px); box-sizing: border-box; }
+.story .pic { flex: 1; min-height: 0; display: grid; place-items: center; }
+.story .pic img { width: 100%; max-height: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 32px; box-shadow: 0 30px 60px rgba(0, 0, 0, .45); }
+.story h2 { margin: 0; font: 700 28px/34px var(--display); letter-spacing: -.01em; text-wrap: balance; }
+.story p { margin: 0; font-size: 17px; line-height: 24px; color: rgba(255, 255, 255, .85); }
+.story .zone { position: absolute; top: calc(var(--sat) + 70px); bottom: 120px; width: 35%; z-index: 2; }
+.story .zone.l { left: 0; }
+.story .zone.r { right: 0; }
+.story .btn { position: relative; z-index: 4; }
+
+/* Toast & overlays */
+.toast { position: absolute; left: 16px; right: 16px; bottom: calc(var(--sab) + 84px); z-index: 120; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 18px; background: #F4F4F6; color: var(--on-accent); font-weight: 500; box-shadow: 0 12px 32px rgba(0, 0, 0, .45); animation: rise .3s var(--ease) both; }
+.toast .ok { width: 26px; height: 26px; border-radius: 13px; background: var(--fresh); color: #fff; display: grid; place-items: center; flex: none; }
+.toast .ok svg.i { width: 16px; height: 16px; stroke-width: 3; }
+.toast.out { animation: fadeOut .25s ease both; }
+.paying { position: absolute; inset: 0; z-index: 150; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; padding: 32px; animation: fadeIn .2s ease both; }
+.spinner { width: 56px; height: 56px; border-radius: 50%; border: 4px solid var(--raised); border-top-color: var(--saffron); animation: spin .8s linear infinite; }
+.paying .okc { width: 72px; height: 72px; border-radius: 36px; background: var(--fresh); display: grid; place-items: center; animation: pop .5s var(--ease); }
+.paying .okc svg.i { width: 36px; height: 36px; stroke-width: 3; }
+.paying h3 { margin: 0; font: 600 20px/26px var(--display); }
+.paying p { margin: 0; color: var(--fg2); }
+.splash { position: absolute; inset: 0; z-index: 250; background: var(--saffron); color: var(--on-accent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; transition: opacity .45s ease; }
+.splash.out { opacity: 0; pointer-events: none; }
+.splash .lock { display: flex; align-items: center; gap: 16px; font: 700 46px/1 var(--display); letter-spacing: -.03em; animation: pop .7s var(--ease); }
+.splash .lock svg { width: 64px; height: 64px; }
+.splash p { margin: 0; opacity: .7; font-size: 16px; }
+.splash small { position: absolute; bottom: calc(var(--sab) + 40px); opacity: .55; font-weight: 500; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+<style>
+html, body { height: 100%; }
+@media (max-width: 760px), (max-height: 560px) {
+  .stage { padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); box-sizing: border-box; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></symbol>
+    <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.5A9 9 0 1 1 21 12Z"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.5"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 2h14v20l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-headset" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+    <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9h18l-1.5-5h-15z"/><path d="M5 9v11h14V9"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="i-dine" viewBox="0 0 24 24"><path d="M7 2v20M4 2v6a3 3 0 0 0 6 0V2M18 22V2c-2.2 0-4 2.5-4 7v4h4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/></symbol>
+    <symbol id="spit" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#FFB800"/><path d="M24 6.5v34M18.5 41h11" stroke="#141416" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M14 13.2c0-1.5 1.2-2.7 2.7-2.7h14.6c1.5 0 2.7 1.2 2.7 2.7l-3.1 19.6c-.2 1.3-1.3 2.2-2.6 2.2h-8.6c-1.3 0-2.4-.9-2.6-2.2L14 13.2z" fill="#141416"/><path d="M16.4 17.5h15.2M17.3 23h13.4M18.2 28.5h11.6" stroke="#FFB800" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="spit-dark" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#141416"/><path d="M24 6.5v34M18.5 41h11" stroke="#FFB800" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M14 13.2c0-1.5 1.2-2.7 2.7-2.7h14.6c1.5 0 2.7 1.2 2.7 2.7l-3.1 19.6c-.2 1.3-1.3 2.2-2.6 2.2h-8.6c-1.3 0-2.4-.9-2.6-2.2L14 13.2z" fill="#FFB800"/><path d="M16.4 17.5h15.2M17.3 23h13.4M18.2 28.5h11.6" stroke="#141416" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="chili" viewBox="0 0 24 24"><path d="M4.2 19.6c3.6 1.2 8.4-.6 11.4-4.2 2.4-2.9 3.3-6.2 2.6-8.6-.3-.9-1.5-1-2-.2-1.4 2.6-3.6 5.7-6.8 8-1.7 1.2-3.6 2-5.2 2.4-.9.3-.9 2.3 0 2.6Z" fill="#FF4A2E"/><path d="M17.2 6.6c0-1.8.9-3.2 2.6-3.8" stroke="#3DBE5A" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+  </defs>
+</svg>
+
+<div class="stage" id="stage">
+  <aside class="brief">
+    <div class="brief-logo"><svg><use href="#spit"/></svg>донерим</div>
+    <p>Кликабельный прототип приложения для новой донерной в Астане. Всё работает как в настоящем приложении, только заказ не уходит на кухню.</p>
+    <ol>
+      <li>Откройте сторис или переключите вкладки меню</li>
+      <li>Соберите донер: размер, лаваш, добавки, что убрать</li>
+      <li>В корзине примените промокод ДОНЕР10 или спишите донеркоины</li>
+      <li>Оформите заказ и посмотрите, как курьер едет к вам</li>
+    </ol>
+    <div class="brief-actions">
+      <button class="ghost-btn" data-act="resetDemo">Сбросить демо</button>
+      <button class="ghost-btn" data-act="replaySplash">Показать заставку</button>
+    </div>
+    <small>Меню, цены и фото — примеры для мокапа. Название и логотип временные.</small>
+  </aside>
+  <div class="device-wrap">
+    <div class="device framed" id="device">
+      <div class="statusbar" aria-hidden="true">
+        <b>9:41</b>
+        <span class="sys">
+          <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A10.4 10.4 0 0 0 8 .5 10.4 10.4 0 0 0 .8 3.3L2 4.6a8.7 8.7 0 0 1 6-2.4Z"/><path d="M8 5.6c1.4 0 2.7.5 3.7 1.4l1.2-1.3A7.2 7.2 0 0 0 8 3.9c-1.9 0-3.6.7-4.9 1.8L4.3 7c1-.9 2.3-1.4 3.7-1.4Z"/><path d="M8 9c.6 0 1.2.2 1.6.6L8 11.3 6.4 9.6C6.8 9.2 7.4 9 8 9Z"/></svg>
+          <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2.5"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+      <div class="app" id="app"></div>
+      <div class="home-ind" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+// ---------- helpers ----------
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const NF = new Intl.NumberFormat('ru-RU');
+const money = n => NF.format(Math.round(n)) + ' ₸';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ic = (name, cls = '') => `<svg class="i ${cls}"><use href="#i-${name}"/></svg>`;
+const logo = (dark = false, cls = 'logo') => `<svg class="${cls}" viewBox="0 0 48 48"><use href="#${dark ? 'spit-dark' : 'spit'}"/></svg>`;
+const chili = () => `<svg class="chili-ic" viewBox="0 0 24 24"><use href="#chili"/></svg>`;
+const img = (key, alt = '', eager = false) => `<img src="img/${key}.jpg" alt="${esc(alt)}" ${eager ? '' : 'loading="lazy"'} decoding="async">`;
+const coin = () => `<span class="coin">Д</span>`;
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
+const itemsWord = n => `${n} ${plural(n, 'товар', 'товара', 'товаров')}`;
+const clock = d => d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+// ---------- data ----------
+const DONER_REMOVE = ['томаты', 'огурцы', 'лук', 'капуста', 'соус'];
+const SIZES_DONER = [{ id: 'std', label: 'Стандарт', delta: 0 }, { id: 'big', label: 'Большой', delta: 500 }];
+const BASES = [{ id: 'lavash', label: 'Лаваш', delta: 0 }, { id: 'pita', label: 'Пита', delta: 0 }, { id: 'cheese', label: 'Сырный', full: 'Сырный лаваш', delta: 200 }];
+const TOPS = [
+  { id: 't-cheese', name: 'Сыр моцарелла', price: 350, img: 'syr-mocarella' },
+  { id: 't-jalap', name: 'Халапеньо', price: 250, img: 'halapenyo' },
+  { id: 't-fries', name: 'Картофель фри внутри', price: 300, img: 'kartofel-fri' },
+  { id: 't-meat', name: 'Двойное мясо', price: 700, img: 'dvoynoe-myaso' },
+  { id: 't-pepper', name: 'Острые перчики', price: 150, img: 'ostrye-perchiki' },
+  { id: 't-sauce', name: 'Сырный соус', price: 250, img: 'syrnyy-sous' },
+];
+const COMBO_DRINKS = [{ id: 'cola', label: 'Coca-Cola', img: 'cola', delta: 0 }, { id: 'airan', label: 'Айран', img: 'airan', delta: 0 }, { id: 'lemon', label: 'Лимонад', img: 'limonad', delta: 200 }];
+const COMBO_SAUCES = ['Сырный', 'Чесночный', 'Кетчуп'];
+
+const P = [
+  // Донеры
+  { id: 'd-firm', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Фирменный донер «Донерим»', desc: 'Говядина и курица с гриля, томаты, огурцы, хрустящий лук и два фирменных соуса', price: 2490, img: 'doner-firmennyy', w: [420, 560], kcal: 720, n: [11, 13, 21], tags: ['new'] },
+  { id: 'd-classic', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер классический', desc: 'Курица с гриля, томаты, огурцы, капуста и фирменный белый соус в тонком лаваше', price: 1890, img: 'doner-klassicheskiy', w: [380, 520], kcal: 640, n: [12, 10, 22], tags: ['hit'] },
+  { id: 'd-beef', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер говяжий', desc: 'Сочная говядина, томаты, маринованный лук и фирменный соус', price: 1830, old: 2290, img: 'doner-govyazhiy', w: [390, 530], kcal: 690, n: [13, 12, 20], tags: ['deal'] },
+  { id: 'd-spicy', cat: 'doners', sub: 'Острые', kind: 'doner', name: 'Донер острый', desc: 'Курица, халапеньо, соус чили и хрустящий лук', price: 1990, img: 'doner-ostryy', w: [380, 520], kcal: 650, n: [12, 11, 21], tags: ['new', 'spicy'], remove: ['халапеньо', 'лук', 'томаты', 'соус чили'] },
+  { id: 'd-cheese', cat: 'doners', sub: 'Сырные', kind: 'doner', name: 'Донер сырный', desc: 'Курица, двойной сыр, картофель фри и чесночный соус', price: 2190, img: 'doner-syrnyy', w: [400, 540], kcal: 760, n: [13, 15, 22], tags: [], remove: ['картофель фри', 'томаты', 'чесночный соус'] },
+  { id: 'd-pita', cat: 'doners', sub: 'Классика', kind: 'doner', name: 'Донер в пите', desc: 'Классический донер в пышной пите с овощами', price: 1990, img: 'doner-v-pite', w: [380, 520], kcal: 680, n: [12, 10, 26], tags: [] },
+  { id: 'd-plate', cat: 'doners', sub: 'На тарелке', kind: 'plate', name: 'Донер-тарелка', desc: 'Мясо, рис, картофель фри, салат и два соуса', price: 2790, img: 'doner-tarelka', w: [480], kcal: 820, n: [10, 9, 18], tags: [], remove: ['рис', 'картофель фри', 'лук', 'соус'] },
+  { id: 'd-xxl', cat: 'doners', sub: 'XXL', kind: 'doner', name: 'Донер XXL', desc: 'Двойная порция мяса, сыр и овощи для самых голодных', price: 2990, img: 'doner-xxl', w: [560, 700], kcal: 980, n: [14, 13, 19], tags: ['spicy'] },
+  { id: 'd-bowl', cat: 'doners', sub: 'На тарелке', kind: 'plate', name: 'Донер-боул', desc: 'Мясо, рис, свежие овощи, кукуруза и соус в боуле', price: 2190, img: 'doner-boul', w: [420], kcal: 560, n: [9, 6, 15], tags: ['new'], remove: ['рис', 'кукуруза', 'лук', 'соус'] },
+  // Комбо
+  { id: 'c-lunch', cat: 'combo', sub: 'Обед', kind: 'combo', name: 'Обед-комбо', desc: 'Донер классический, картофель фри, соус на выбор и напиток', price: 2990, old: 3680, img: 'obed-kombo', includes: ['Донер классический', 'Картофель фри', 'Соус на выбор', 'Напиток 0,5 л'], tags: ['hit'] },
+  { id: 'c-two', cat: 'combo', sub: 'Для двоих', kind: 'combo', name: 'Комбо для двоих', desc: '2 донера, 2 картофеля фри и 2 напитка', price: 5990, old: 6940, img: 'kombo-dlya-dvoih', includes: ['2 донера классических', '2 картофеля фри', '2 соуса', '2 напитка 0,5 л'], tags: [] },
+  { id: 'c-company', cat: 'combo', sub: 'Для компании', kind: 'combo', name: 'Комбо «Компания»', desc: 'Донер, бургер, наггетсы, фри и напитки на всю компанию', price: 11490, img: 'kombo-kompaniya', includes: ['2 донера', 'Бургер', 'Наггетсы, 9 шт', '2 большие фри', '4 напитка'], tags: [] },
+  { id: 'c-kids', cat: 'combo', sub: 'Детское', kind: 'combo', name: 'Детское комбо', desc: 'Наггетсы, картофель фри, сок и сюрприз', price: 2290, img: 'detskoe-kombo', includes: ['Наггетсы, 6 шт', 'Картофель фри', 'Сок 0,2 л', 'Игрушка-сюрприз'], tags: [], noDrink: true },
+  { id: 'c-airan', cat: 'combo', sub: 'Обед', kind: 'combo', name: 'Донер + айран', desc: 'Донер классический и айран 0,5 л', price: 2190, img: 'doner-airan', includes: ['Донер классический', 'Айран 0,5 л'], tags: [], noDrink: true },
+  { id: 'c-student', cat: 'combo', sub: 'Обед', kind: 'combo', name: 'Студенческое', desc: 'Донер в батоне, фри и напиток по студенческой цене', price: 1990, img: 'studencheskoe', includes: ['Донер в батоне', 'Картофель фри', 'Напиток 0,5 л'], tags: ['new'] },
+  { id: 'c-xxl', cat: 'combo', sub: 'Для двоих', kind: 'combo', name: 'Комбо XXL', desc: 'Донер XXL, большая фри, соус и напиток', price: 3990, img: 'kombo-xxl', includes: ['Донер XXL', 'Большая фри', 'Соус на выбор', 'Напиток 0,5 л'], tags: [] },
+  // Закуски
+  { id: 's-fries', cat: 'snacks', sub: 'Картофель', kind: 'sized', name: 'Картофель фри', desc: 'Хрустящий картофель с морской солью', price: 690, img: 'kartofel-fri', sizes: [{ id: 's', label: 'Стандарт', delta: 0 }, { id: 'l', label: 'Большой', delta: 300 }], kcal: 330, tags: [] },
+  { id: 's-wedges', cat: 'snacks', sub: 'Картофель', kind: 'sized', name: 'Картофель по-деревенски', desc: 'Дольки с паприкой и чесноком', price: 790, img: 'kartofel-derevenski', sizes: [{ id: 's', label: 'Стандарт', delta: 0 }, { id: 'l', label: 'Большой', delta: 300 }], kcal: 360, tags: [] },
+  { id: 's-nuggets', cat: 'snacks', sub: 'Курица', kind: 'sized', name: 'Наггетсы', desc: 'Куриные наггетсы с сырным соусом', price: 1190, img: 'naggetsy', sizes: [{ id: '6', label: '6 шт', delta: 0 }, { id: '9', label: '9 шт', delta: 400 }], kcal: 290, tags: [] },
+  { id: 's-chili', cat: 'snacks', sub: 'Курица', kind: 'simple', name: 'Крылышки чили', desc: 'Куриные крылья в сладко-остром соусе с кунжутом', price: 1990, img: 'chiken-chili', kcal: 520, tags: ['new', 'spicy'] },
+  { id: 's-wings', cat: 'snacks', sub: 'Курица', kind: 'simple', name: 'Крылышки баффало', desc: 'Хрустящие куриные крылья в остром соусе баффало', price: 2190, img: 'krylyshki', kcal: 560, tags: ['spicy'] },
+  { id: 's-sticks', cat: 'snacks', sub: 'Сырное', kind: 'simple', name: 'Сырные палочки', desc: 'Моцарелла в хрустящей панировке с соусом', price: 1290, img: 'syrnye-palochki', kcal: 410, tags: [] },
+  // Соусы
+  { id: 'sc-white', cat: 'sauces', kind: 'simple', name: 'Белый соус «Донерим»', desc: 'Фирменный соус на йогурте с зеленью и чесноком', price: 290, img: 'belyy-sous', tags: ['hit'] },
+  { id: 'sc-cheese', cat: 'sauces', kind: 'simple', name: 'Сырный соус', desc: 'Нежный соус из чеддера', price: 250, img: 'syrnyy-sous', tags: [] },
+  { id: 'sc-garlic', cat: 'sauces', kind: 'simple', name: 'Чесночный соус', desc: 'Сливочный, с печёным чесноком', price: 250, img: 'chesnochnyy-sous', tags: [] },
+  { id: 'sc-chili', cat: 'sauces', kind: 'simple', name: 'Соус чили', desc: 'Острый томатный соус с перцем', price: 250, img: 'sous-chili', tags: ['spicy'] },
+  { id: 'sc-ketchup', cat: 'sauces', kind: 'simple', name: 'Кетчуп', desc: 'Томатный, классический', price: 200, img: 'ketchup', tags: [] },
+  { id: 'sc-pepper', cat: 'sauces', kind: 'simple', name: 'Острые перчики', desc: 'Маринованные перчики к донеру', price: 150, img: 'ostrye-perchiki', tags: ['spicy'] },
+  // Напитки
+  { id: 'dr-airan', cat: 'drinks', sub: 'Айран и вода', kind: 'simple', name: 'Айран', desc: 'Освежающий, 0,5 л', price: 450, img: 'airan', tags: [] },
+  { id: 'dr-mango', cat: 'drinks', sub: 'Лимонады', kind: 'sized', name: 'Лимонад манго-маракуйя', desc: 'Манго, маракуйя, лайм и мята', price: 990, img: 'mango', sizes: [{ id: 's', label: '0,4 л', delta: 0 }, { id: 'l', label: 'Кувшин 1 л', delta: 800 }], tags: ['new'] },
+  { id: 'dr-citrus', cat: 'drinks', sub: 'Лимонады', kind: 'sized', name: 'Лимонад цитрусовый', desc: 'Апельсин, лимон и мята', price: 890, img: 'limonad', sizes: [{ id: 's', label: '0,4 л', delta: 0 }, { id: 'l', label: 'Кувшин 1 л', delta: 800 }], tags: [] },
+  { id: 'dr-berry', cat: 'drinks', sub: 'Лимонады', kind: 'sized', name: 'Ягодный лимонад', desc: 'Клубника, малина и смородина', price: 890, img: 'yagodnyy-limonad', sizes: [{ id: 's', label: '0,4 л', delta: 0 }, { id: 'l', label: 'Кувшин 1 л', delta: 800 }], tags: [] },
+  { id: 'dr-mojito', cat: 'drinks', sub: 'Лимонады', kind: 'sized', name: 'Мохито', desc: 'Безалкогольный, лайм и мята', price: 990, img: 'mohito', sizes: [{ id: 's', label: '0,4 л', delta: 0 }, { id: 'l', label: 'Кувшин 1 л', delta: 800 }], tags: [] },
+  { id: 'dr-cola', cat: 'drinks', sub: 'Газировка', kind: 'simple', name: 'Coca-Cola', desc: '0,5 л', price: 700, img: 'cola', tags: [] },
+  { id: 'dr-fanta', cat: 'drinks', sub: 'Газировка', kind: 'simple', name: 'Fanta', desc: '0,5 л', price: 700, img: 'fanta', tags: [] },
+  { id: 'dr-sprite', cat: 'drinks', sub: 'Газировка', kind: 'simple', name: 'Sprite', desc: '0,5 л', price: 700, img: 'sprite', tags: [] },
+  { id: 'dr-water', cat: 'drinks', sub: 'Айран и вода', kind: 'simple', name: 'Вода без газа', desc: '0,5 л', price: 400, img: 'voda', tags: [] },
+  { id: 'dr-tea', cat: 'drinks', sub: 'Холодный чай', kind: 'simple', name: 'Холодный чай', desc: 'Лимонный, 0,5 л', price: 750, img: 'holodnyy-chay', tags: [] },
+  // Десерты
+  { id: 'ds-cheesecake', cat: 'desserts', kind: 'simple', name: 'Чизкейк Сан-Себастьян', desc: 'Карамельная корочка и кремовая середина', price: 1290, img: 'chizkeyk', tags: ['hit'] },
+  { id: 'ds-pistachio', cat: 'desserts', kind: 'simple', name: 'Фисташковый рулет', desc: 'Бисквит с фисташковым кремом и клубникой', price: 990, img: 'fistashkovyy-rulet', tags: [] },
+  { id: 'ds-choco', cat: 'desserts', kind: 'simple', name: 'Шоколадный торт', desc: 'Тонкие коржи и крем с молочным шоколадом', price: 1190, img: 'shokoladnyy-tort', tags: [] },
+  { id: 'ds-classic', cat: 'desserts', kind: 'simple', name: 'Чизкейк классический', desc: 'Нью-Йорк с ванилью', price: 1190, img: 'chizkeyk-klassik', tags: [] },
+];
+const PM = Object.fromEntries(P.map(p => [p.id, p]));
+const CATS = [
+  { id: 'foryou', name: 'Для вас' },
+  { id: 'doners', name: 'Донеры', chips: ['Классика', 'Острые', 'Сырные', 'На тарелке', 'XXL'], hero: 'd-firm', arch: '#8A4A1F' },
+  { id: 'combo', name: 'Комбо', chips: ['Обед', 'Для двоих', 'Для компании', 'Детское'], promo: 'c-lunch' },
+  { id: 'snacks', name: 'Закуски', chips: ['Картофель', 'Курица', 'Сырное'], hero: 's-chili', arch: '#8A2E12' },
+  { id: 'sauces', name: 'Соусы', hero: 'sc-white', arch: '#5C5524' },
+  { id: 'drinks', name: 'Напитки', chips: ['Лимонады', 'Газировка', 'Айран и вода', 'Холодный чай'], hero: 'dr-mango', arch: '#8A5512' },
+  { id: 'desserts', name: 'Десерты', hero: 'ds-cheesecake', arch: '#5A2A4A' },
+];
+const CAT_ARCH = { doners: '#8A4A1F', combo: '#8A6112', snacks: '#8A2E12', sauces: '#5C5524', drinks: '#1F4F5A', desserts: '#5A2A4A' };
+const FOR_YOU = ['d-classic', 'd-spicy', 'c-two', 's-fries', 'dr-airan', 'd-cheese', 's-nuggets', 'dr-mango', 'd-bowl', 'sc-white', 'ds-cheesecake', 'd-beef'];
+const STORIES = [
+  { id: 'deal', title: 'Донер дня −20%', thumb: 'story-doner-dnya', color: '#7A4413', slides: [
+    { img: 'doner-govyazhiy', h: 'Донер дня', t: 'Сегодня говяжий донер со скидкой 20%: 1 830 ₸ вместо 2 290 ₸. Только до 23:00.', cta: { label: 'Заказать за 1 830 ₸', act: 'product', id: 'd-beef' } } ] },
+  { id: 'two', title: 'Комбо на двоих', thumb: 'story-kombo-na-dvoih', color: '#7A1F2B', slides: [
+    { img: 'kombo-dlya-dvoih', h: 'Комбо для двоих', t: 'Два донера, две порции фри, соусы и напитки. Выгода 950 ₸.', cta: { label: 'Смотреть комбо', act: 'product', id: 'c-two' } } ] },
+  { id: 'hot', title: 'Острая неделя', thumb: 'story-ostraya-nedelya', color: '#8A2A12', slides: [
+    { img: 'chiken-chili', h: 'Острая неделя', t: 'Крылышки чили и острый донер с халапеньо — для тех, кто любит погорячее.', cta: { label: 'Острый донер', act: 'product', id: 'd-spicy' } },
+    { img: 'krylyshki', h: 'Крылышки баффало', t: 'Хрустящие крылья в остром соусе. Берите с белым соусом, чтобы остудить.', cta: { label: 'Заказать за 2 190 ₸', act: 'product', id: 's-wings' } } ] },
+  { id: 'how', title: 'Как мы готовим', thumb: 'story-kak-gotovim', color: '#2F4A2A', slides: [
+    { img: 'dvoynoe-myaso', h: 'Маринуем 12 часов', t: 'Курицу и говядину маринуем в специях с вечера, а утром собираем вертел.' },
+    { img: 'doner-firmennyy', h: 'Срезаем при вас', t: 'Мясо снимаем с вертела перед подачей и сразу заворачиваем в тёплый лаваш.', cta: { label: 'Фирменный донер', act: 'product', id: 'd-firm' } } ] },
+  { id: 'new', title: 'Новинки сезона', thumb: 'story-novinki', color: '#3D2C70', slides: [
+    { img: 'mango', h: 'Манго-маракуйя', t: 'Новый лимонад с манго, маракуйей и лаймом. Стакан или кувшин на компанию.', cta: { label: 'Все напитки', act: 'tab', id: 'drinks' } },
+    { img: 'doner-boul', h: 'Донер-боул', t: 'Всё, что любите в донере, только в боуле: мясо, рис, овощи и соус.', cta: { label: 'Заказать за 2 190 ₸', act: 'product', id: 'd-bowl' } } ] },
+];
+const GIFTS = [
+  { at: 3000, name: 'Сырный соус', img: 'syrnyy-sous', worth: 250 },
+  { at: 6000, name: 'Картофель фри', img: 'kartofel-fri', worth: 690 },
+  { at: 9000, name: 'Лимонад 0,4 л', img: 'limonad', worth: 890 },
+];
+const CODES = {
+  'ДОНЕР10': { title: '−10% на заказ', note: 'Скидка 10% на всё, кроме подарков', calc: s => Math.round(s * 0.1) },
+  'ПЕРВЫЙ': { title: '−500 ₸ на первый заказ', note: 'При заказе от 3 000 ₸', min: 3000, calc: () => 500 },
+};
+const CODE_ALIASES = { 'DONER10': 'ДОНЕР10', 'PERVYI': 'ПЕРВЫЙ', 'FIRST': 'ПЕРВЫЙ' };
+const SPOTS = [
+  { id: 'turan', name: 'Донерим на Туране', addr: 'пр. Туран, 37', hours: 'Ежедневно 10:00–02:00' },
+  { id: 'kenesary', name: 'Донерим на Кенесары', addr: 'ул. Кенесары, 40', hours: 'Ежедневно 09:00–00:00' },
+];
+const SLOTS = ['19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
+const PAYMENTS = [
+  { id: 'kaspi', label: 'Kaspi.kz', note: 'Оплата в приложении Kaspi', icon: 'card' },
+  { id: 'card', label: 'Картой онлайн', note: 'Visa •• 4242', icon: 'card' },
+  { id: 'cash', label: 'Наличными курьеру', note: 'Подготовим сдачу', icon: 'cash' },
+];
+
+// ---------- state ----------
+const KEY = 'donerim-demo-v2';
+const fresh = () => ({
+  cart: [], coins: 1250, useCoins: false, promo: null, orderType: 'delivery', spot: 'turan',
+  addresses: [{ id: 'a1', label: 'Дом', text: 'пр. Туран, 37, кв. 12' }, { id: 'a2', label: 'Работа', text: 'ул. Сыганак, 10, офис 304' }],
+  addressId: 'a1', time: 'asap', payment: 'kaspi', change: 'none', cutlery: true, comment: '',
+  user: { name: 'Айдар', phone: '+7 701 123 45 67' }, notify: true, seq: 1287,
+  orders: [
+    { id: 1271, at: Date.now() - 11 * 864e5, type: 'delivery', status: 'done', total: 4230, rated: true, lines: [{ pid: 'd-beef', qty: 1, cfg: { size: 'std', base: 'lavash', removed: [], tops: [] } }, { pid: 's-fries', qty: 1, cfg: { size: 's' } }, { pid: 'dr-airan', qty: 2, cfg: {} }] },
+    { id: 1259, at: Date.now() - 18 * 864e5, type: 'pickup', status: 'done', total: 2990, rated: true, lines: [{ pid: 'c-lunch', qty: 1, cfg: { drink: 'cola', sauce: 'Сырный' } }] },
+  ],
+  activeId: null,
+});
+let S;
+try { S = Object.assign(fresh(), JSON.parse(localStorage.getItem(KEY) || 'null') || {}); } catch (e) { S = fresh(); }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage unavailable */ } };
+const UI = { tab: 'foryou', chip: {}, stack: [], layers: [], storyTimer: null, orderTimer: null, codeMsg: null, searchQ: '' };
+
+// ---------- pricing ----------
+const cfgDefault = p => p.kind === 'doner' ? { size: 'std', base: 'lavash', removed: [], tops: [] }
+  : p.kind === 'plate' ? { removed: [], tops: [] }
+  : p.kind === 'combo' ? { drink: p.noDrink ? null : 'cola', sauce: 'Сырный' }
+  : p.kind === 'sized' ? { size: p.sizes[0].id } : {};
+const unitPrice = (p, c) => {
+  let v = p.price;
+  if (p.kind === 'doner') { v += SIZES_DONER.find(s => s.id === c.size).delta + BASES.find(b => b.id === c.base).delta; }
+  if (p.kind === 'doner' || p.kind === 'plate') v += (c.tops || []).reduce((a, t) => a + TOPS.find(x => x.id === t).price, 0);
+  if (p.kind === 'combo' && c.drink) v += COMBO_DRINKS.find(d => d.id === c.drink).delta;
+  if (p.kind === 'sized') v += p.sizes.find(s => s.id === c.size).delta;
+  return v;
+};
+const hasOptions = p => p.kind === 'doner' || p.kind === 'sized' || (p.kind === 'combo' && !p.noDrink);
+const priceLabel = p => (hasOptions(p) ? 'от ' : '') + money(p.price);
+const weightOf = (p, c) => p.w ? (p.kind === 'doner' && c.size === 'big' ? p.w[1] : p.w[0]) : null;
+const details = (p, c) => {
+  const out = [];
+  if (p.kind === 'doner') { out.push(SIZES_DONER.find(s => s.id === c.size).label.toLowerCase(), (b => b.full || b.label)(BASES.find(b => b.id === c.base)).toLowerCase()); }
+  if (p.kind === 'sized') out.push(p.sizes.find(s => s.id === c.size).label);
+  if (p.kind === 'combo') { if (c.drink) out.push('напиток: ' + COMBO_DRINKS.find(d => d.id === c.drink).label); out.push('соус: ' + c.sauce.toLowerCase()); }
+  (c.tops || []).forEach(t => out.push('+ ' + TOPS.find(x => x.id === t).name.toLowerCase()));
+  if (c.removed && c.removed.length) out.push('без: ' + c.removed.join(', '));
+  if (!out.length) out.push(p.desc);
+  const s = out.join(', ');
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+const lineKey = (pid, c) => pid + '|' + JSON.stringify({ ...c, removed: [...(c.removed || [])].sort(), tops: [...(c.tops || [])].sort() });
+const cartCount = () => S.cart.reduce((a, l) => a + l.qty, 0);
+const totals = () => {
+  const items = S.cart.reduce((a, l) => a + unitPrice(PM[l.pid], l.cfg) * l.qty, 0);
+  const gifts = GIFTS.filter(g => items >= g.at);
+  const nextGift = GIFTS.find(g => items < g.at) || null;
+  let disc = 0, promoErr = null;
+  if (S.promo && CODES[S.promo]) {
+    const c = CODES[S.promo];
+    if (c.min && items < c.min) promoErr = `Промокод сработает от ${money(c.min)}`;
+    else disc = Math.min(items, c.calc(items));
+  }
+  const afterDisc = items - disc;
+  const fee = S.orderType === 'delivery' && items > 0 ? (afterDisc >= 3000 ? 0 : 490) : 0;
+  const coinsMax = Math.min(S.coins, Math.floor(afterDisc * 0.25));
+  const coins = S.useCoins ? coinsMax : 0;
+  const total = Math.max(0, afterDisc - coins + fee);
+  const earn = Math.floor((afterDisc - coins) * 0.05);
+  const minOk = S.orderType !== 'delivery' || items >= 1500;
+  return { items, gifts, nextGift, disc, promoErr, fee, coinsMax, coins, total, earn, minOk, count: cartCount() };
+};
+
+// ---------- toast ----------
+let toastT;
+const toast = (text) => {
+  const app = $('#app');
+  $$('.toast', app).forEach(t => t.remove());
+  const el = document.createElement('div');
+  el.className = 'toast'; el.setAttribute('role', 'status');
+  el.innerHTML = `<span class="ok">${ic('check')}</span><span>${esc(text)}</span>`;
+  app.appendChild(el);
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 260); }, 2200);
+};
+
+// ---------- navigation ----------
+const SCREENS = {};
+const topScreen = () => UI.stack[UI.stack.length - 1];
+function mountScreen(name, params = {}) {
+  const el = document.createElement('section');
+  el.className = 'screen'; el.dataset.screen = name;
+  const entry = { name, params, el };
+  el.innerHTML = SCREENS[name].render(params);
+  SCREENS[name].after && SCREENS[name].after(entry);
+  return entry;
+}
+function push(name, params = {}, anim = 'push') {
+  const app = $('#app');
+  const prev = topScreen();
+  const entry = mountScreen(name, params);
+  app.appendChild(entry.el);
+  UI.stack.push(entry);
+  if (prev && anim === 'push') {
+    entry.el.classList.add('a-inRight'); prev.el.classList.add('a-outLeft');
+    setTimeout(() => { entry.el.classList.remove('a-inRight'); prev.el.classList.remove('a-outLeft'); prev.el.classList.add('below'); }, 360);
+  } else if (prev) {
+    entry.el.classList.add('a-fadeIn');
+    setTimeout(() => { entry.el.classList.remove('a-fadeIn'); prev.el.classList.add('below'); }, 320);
+  }
+  syncChrome();
+  return entry;
+}
+function pop() {
+  if (UI.stack.length < 2) return;
+  const cur = UI.stack.pop();
+  const prev = topScreen();
+  SCREENS[cur.name].leave && SCREENS[cur.name].leave(cur);
+  prev.el.classList.remove('below');
+  refresh(prev);
+  cur.el.classList.add('a-outRight'); prev.el.classList.add('a-inLeft');
+  setTimeout(() => { cur.el.remove(); prev.el.classList.remove('a-inLeft'); }, 310);
+  syncChrome();
+}
+function popToRoot() {
+  closeAllLayers();
+  while (UI.stack.length > 1) { const cur = UI.stack.pop(); SCREENS[cur.name].leave && SCREENS[cur.name].leave(cur); cur.el.remove(); }
+  const root = topScreen(); root.el.classList.remove('below'); refresh(root); syncChrome();
+}
+function refresh(entry) {
+  if (!entry) return;
+  const sc = $('.scroll', entry.el); const top = sc ? sc.scrollTop : 0;
+  const hs = $$('.hscroll', entry.el).map(h => h.scrollLeft);
+  entry.el.innerHTML = SCREENS[entry.name].render(entry.params);
+  SCREENS[entry.name].after && SCREENS[entry.name].after(entry);
+  const sc2 = $('.scroll', entry.el); if (sc2) sc2.scrollTop = top;
+  $$('.hscroll', entry.el).forEach((h, i) => { if (hs[i] != null) h.scrollLeft = hs[i]; });
+}
+const refreshAll = () => UI.stack.forEach(refresh);
+function syncChrome() {
+  const yellow = !!$('#app .splash:not(.out)');
+  $('#device').classList.toggle('on-yellow', yellow);
+}
+
+// ---------- layers (sheets, story, overlays) ----------
+function openLayer(html, opts = {}) {
+  const app = $('#app');
+  const layer = document.createElement('div');
+  layer.className = 'layer';
+  layer.innerHTML = `<div class="backdrop" data-act="closeLayer"></div><div class="sheet ${opts.tall ? 'tall' : ''}" role="dialog" aria-modal="true">${opts.grabber === false ? '' : '<div class="grabber"></div>'}${html}</div>`;
+  app.appendChild(layer);
+  const entry = { el: layer, opts };
+  UI.layers.push(entry);
+  enableDrag(layer);
+  opts.after && opts.after(layer);
+  return entry;
+}
+function closeLayer(instant) {
+  const entry = UI.layers.pop();
+  if (!entry) return;
+  entry.opts.onClose && entry.opts.onClose();
+  if (instant) { entry.el.remove(); return; }
+  entry.el.classList.add('closing');
+  setTimeout(() => entry.el.remove(), 280);
+}
+function closeAllLayers() { while (UI.layers.length) closeLayer(true); closeStory(true); }
+function enableDrag(layer) {
+  const sheet = $('.sheet', layer); const body = $('.sheet-body', sheet);
+  let y0 = null, dy = 0;
+  sheet.addEventListener('touchstart', e => { if (body && body.scrollTop > 0 && !e.target.closest('.grabber')) return; y0 = e.touches[0].clientY; dy = 0; }, { passive: true });
+  sheet.addEventListener('touchmove', e => { if (y0 == null) return; dy = Math.max(0, e.touches[0].clientY - y0); if (dy > 4) { sheet.style.transition = 'none'; sheet.style.transform = `translateY(${dy}px)`; } }, { passive: true });
+  sheet.addEventListener('touchend', () => { if (y0 == null) return; y0 = null; sheet.style.transition = 'transform .25s var(--ease)'; if (dy > 120) { sheet.style.transform = ''; sheet.style.transition = ''; closeLayer(); } else sheet.style.transform = ''; });
+}
+
+// ---------- menu screen ----------
+const tagHtml = p => {
+  const t = [];
+  if (p.tags.includes('new')) t.push('<span class="badge badge-new">НОВИНКА</span>');
+  if (p.tags.includes('hit')) t.push('<span class="badge badge-hit">ХИТ</span>');
+  if (p.tags.includes('deal')) t.push('<span class="badge badge-deal">−20%</span>');
+  return t.length ? `<span class="tags">${t.join('')}</span>` : '';
+};
+const spicyHtml = p => p.tags.includes('spicy') ? `<span class="spicy" title="Острое">${chili()}</span>` : '';
+const cardS = p => `<button class="pcard s" data-act="product" data-id="${p.id}" aria-label="${esc(p.name)}">
+  <span class="ph">${img(p.img, p.name)}${tagHtml(p)}${spicyHtml(p)}</span>
+  <span class="nm">${esc(p.name)}</span>
+  <span class="pill num" ${p.kind === 'simple' ? `data-act="quickAdd" data-id="${p.id}"` : ''}>${priceLabel(p)}</span></button>`;
+const cardM = p => `<button class="pcard m" data-act="product" data-id="${p.id}" aria-label="${esc(p.name)}">
+  <span class="ph">${img(p.img, p.name)}${tagHtml(p)}${spicyHtml(p)}</span>
+  <span class="info"><span class="nm">${esc(p.name)}</span><span class="ds">${esc(p.desc)}</span></span>
+  <span class="ft"><span class="pill num" ${p.kind === 'simple' ? `data-act="quickAdd" data-id="${p.id}"` : ''}>${priceLabel(p)}</span>${p.old ? `<span class="old num">${money(p.old)}</span>` : ''}</span></button>`;
+const headerAddr = () => S.orderType === 'delivery' ? (S.addresses.find(a => a.id === S.addressId) || S.addresses[0]).text
+  : S.orderType === 'pickup' ? 'Самовывоз · ' + SPOTS.find(s => s.id === S.spot).addr : 'В зале · ' + SPOTS.find(s => s.id === S.spot).addr;
+function catView() {
+  const cat = CATS.find(c => c.id === UI.tab);
+  if (cat.id === 'foryou') return `<div class="cat-view"><div class="grid3">${FOR_YOU.map(id => cardS(PM[id])).join('')}</div></div>`;
+  const chip = UI.chip[cat.id] || null;
+  let items = P.filter(p => p.cat === cat.id && (!chip || p.sub === chip));
+  const chips = cat.chips ? `<div class="chips hscroll">${cat.chips.map(c => `<button class="chip ${c === chip ? 'on' : ''}" data-act="chip" data-chip="${esc(c)}">${esc(c)}</button>`).join('')}</div>` : '';
+  let hero = '';
+  if (!chip && cat.hero) {
+    const h = PM[cat.hero]; items = items.filter(p => p.id !== h.id);
+    hero = `<button class="hero" data-act="product" data-id="${h.id}"><div class="arch" style="--arch:${cat.arch}">${img(h.img, h.name, true)}</div>
+      <div class="txt">${h.tags.includes('new') ? '<span class="badge badge-new">НОВИНКА</span>' : h.tags.includes('hit') ? '<span class="badge badge-hit">ХИТ</span>' : ''}<h3>${esc(h.name)}${h.tags.includes('spicy') ? ' ' + chili() : ''}</h3><p>${esc(h.desc)}</p></div>
+      <div class="ft"><span class="pill num">${priceLabel(h)}</span></div></button>`;
+  }
+  if (!chip && cat.promo) {
+    const h = PM[cat.promo]; items = items.filter(p => p.id !== h.id);
+    hero = `<button class="promo-hero" data-act="product" data-id="${h.id}"><span class="ph">${img(h.img, h.name, true)}</span><span class="sticker">Выгода ${money(h.old - h.price)}</span>
+      <h3>${esc(h.name)}</h3><p>${esc(h.desc)}</p><span class="ft"><span class="old num">${money(h.old)}</span><span class="pill num">${priceLabel(h)}</span></span></button>`;
+  }
+  const grid = items.length ? `<div class="grid2">${items.map(cardM).join('')}</div>` : `<div class="empty-cat">В этой подборке пока пусто</div>`;
+  return `<div class="cat-view">${chips}${hero}${grid}</div>`;
+}
+const stripHtml = (o, st) => `<button class="order-strip" data-act="openOrder"><span class="dot"></span><span><b>Заказ №${o.id} · ${st.label}</b><br><span class="muted">${esc(st.sub)}</span></span>${ic('chevron-right')}</button>`;
+function activeOrder() { return S.activeId ? S.orders.find(o => o.id === S.activeId) : null; }
+SCREENS.menu = {
+  render() {
+    const t = totals();
+    const ao = activeOrder();
+    const stage = ao ? orderStage(ao) : null;
+    return `<header class="topbar">
+        <button class="logo-btn press" data-act="orderType" aria-label="Способ получения">${logo()}</button>
+        <button class="addr-btn" data-act="address"><span>${esc(headerAddr())}</span>${ic('chevron-down')}</button>
+        <button class="icon-btn" data-act="profile" aria-label="Профиль">${ic('user')}</button>
+      </header>
+      <div class="scroll" id="menuScroll">
+        <div id="orderStrip">${ao && stage.key !== 'done' ? stripHtml(ao, stage) : ''}</div>
+        <div class="promo-row hscroll">
+          <button class="promo-chip press" data-act="gifts"><span class="bubble" style="background:var(--chili)">${ic('gift')}</span>Подарки</button>
+          <button class="promo-chip press" data-act="coinsInfo"><span class="bubble" style="background:var(--raised)">${coin()}</span>+5% донеркоинами<br>с каждого заказа</button>
+          <button class="promo-chip press" data-act="promos"><span class="bubble" style="background:var(--fresh)">${ic('percent')}</span>Акции</button>
+        </div>
+        <section class="menu-sheet">
+          <div class="stories hscroll">${STORIES.map((s, i) => `<button class="story-card press" data-act="story" data-i="${i}" style="background:${s.color}">${img(s.thumb, s.title)}<span>${esc(s.title)}</span></button>`).join('')}</div>
+          <div class="tabbar" id="tabbar"><div class="tabs hscroll" id="tabs">
+            <button class="icon-btn" data-act="search" aria-label="Поиск">${ic('search')}</button>
+            <button class="coins-pill press" data-act="coinsInfo" aria-label="Донеркоины">${coin()}<span class="num">${NF.format(S.coins)}</span></button>
+            ${CATS.map(c => `<button class="tab ${c.id === UI.tab ? 'on' : ''}" data-act="tab" data-tab="${c.id}">${c.name}</button>`).join('')}
+          </div></div>
+          <div id="catView">${catView()}</div>
+        </section>
+      </div>
+      <button class="cart-fab ${t.count ? '' : 'hide'}" id="cartFab" data-act="cart" aria-label="Корзина"><span class="bagc">${ic('bag')}<span class="cnt num">${t.count}</span></span><span class="num">${money(t.items)}</span></button>`;
+  },
+};
+function updateFab(bump) {
+  const fab = $('#cartFab'); if (!fab) return;
+  const t = totals();
+  fab.classList.toggle('hide', !t.count);
+  $('.cnt', fab).textContent = t.count;
+  fab.lastElementChild.textContent = money(t.items);
+  if (bump) { fab.classList.remove('bump'); void fab.offsetWidth; fab.classList.add('bump'); }
+}
+function switchTab(id) {
+  UI.tab = id;
+  const menu = UI.stack[0];
+  $$('.tab', menu.el).forEach(b => b.classList.toggle('on', b.dataset.tab === id));
+  $('#catView', menu.el).innerHTML = catView();
+  const sc = $('#menuScroll', menu.el), bar = $('#tabbar', menu.el);
+  if (sc.scrollTop > bar.offsetTop) sc.scrollTop = bar.offsetTop;
+  const tab = $(`.tab[data-tab="${id}"]`, menu.el);
+  const tabs = $('#tabs', menu.el);
+  tabs.scrollTo({ left: tab.offsetLeft - (tabs.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
+}
+
+// ---------- product sheet ----------
+function openProduct(pid, editLine) {
+  const p = PM[pid];
+  const c = editLine ? JSON.parse(JSON.stringify(editLine.cfg)) : cfgDefault(p);
+  const arch = CAT_ARCH[p.cat] || '#5A4A2A';
+  const meta = () => {
+    const w = weightOf(p, c);
+    const parts = [];
+    if (p.kind === 'doner') parts.push(SIZES_DONER.find(s => s.id === c.size).label);
+    if (p.kind === 'sized') parts.push(p.sizes.find(s => s.id === c.size).label);
+    if (w) parts.push(w + ' г');
+    if (p.kcal) parts.push((p.kind === 'doner' && c.size === 'big' ? Math.round(p.kcal * 1.35) : p.kcal) + ' ккал');
+    if (p.kind === 'combo') parts.push(p.old ? 'Выгода ' + money(p.old - p.price) : 'Комбо');
+    return parts.join(' · ');
+  };
+  const seg = (name, opts, cur) => `<div class="seg" role="radiogroup">${opts.map(o => `<button class="${o.id === cur ? 'on' : ''}" data-opt="${name}" data-v="${o.id}" role="radio" aria-checked="${o.id === cur}">${esc(o.label)}${o.delta ? ` <span class="muted">+${o.delta}</span>` : ''}</button>`).join('')}</div>`;
+  let opts = '';
+  if (p.kind === 'doner' || p.kind === 'plate') {
+    const rm = p.remove || DONER_REMOVE;
+    opts += `<div class="grp"><div class="grp-t">Можно убрать</div><div class="ing">${rm.map(r => `<button class="${c.removed.includes(r) ? 'off' : ''}" data-opt="remove" data-v="${esc(r)}">${esc(r)}${ic(c.removed.includes(r) ? 'plus' : 'close')}</button>`).join('')}</div></div>`;
+  }
+  if (p.kind === 'doner') opts += seg('size', SIZES_DONER, c.size) + seg('base', BASES, c.base);
+  if (p.kind === 'sized') opts += seg('size', p.sizes, c.size);
+  if (p.kind === 'combo') {
+    opts += `<div class="grp"><div class="grp-t">В комбо</div><div class="includes">${p.includes.map(x => `<div>${ic('check')}${esc(x)}</div>`).join('')}</div></div>`;
+    if (!p.noDrink) opts += `<div class="grp"><div class="grp-t">Напиток</div><div class="choice">${COMBO_DRINKS.map(d => `<button class="${d.id === c.drink ? 'on' : ''}" data-opt="drink" data-v="${d.id}">${img(d.img, d.label)}${esc(d.label)}<small>${d.delta ? '+' + money(d.delta) : 'включён'}</small></button>`).join('')}</div></div>`;
+    opts += `<div class="grp"><div class="grp-t">Соус</div>${seg('sauce', COMBO_SAUCES.map(s => ({ id: s, label: s })), c.sauce)}</div>`;
+  }
+  if (p.kind === 'doner' || p.kind === 'plate') {
+    opts += `<h3 class="h-section">Добавить по вкусу</h3><div class="tops">${TOPS.map(t => `<button class="top ${c.tops.includes(t.id) ? 'on' : ''}" data-opt="top" data-v="${t.id}">${img(t.img, t.name)}<span class="nm">${esc(t.name)}</span><span class="pr num">+${money(t.price)}</span><span class="ck">${ic('check')}</span></button>`).join('')}</div>`;
+  }
+  const nutri = p.n ? `<div class="nutri" id="nutri" hidden><div><b>${p.n[0]} г</b><span>белки</span></div><div><b>${p.n[1]} г</b><span>жиры</span></div><div><b>${p.n[2]} г</b><span>углеводы</span></div><div><b>${Math.round(p.kcal / weightOf(p, c) * 100)}</b><span>ккал на 100 г</span></div></div>` : '';
+  const ctaText = () => (editLine ? 'Сохранить · ' : 'В корзину за ') + money(unitPrice(p, c));
+  const html = `<button class="icon-btn sheet-close" data-act="closeLayer" aria-label="Закрыть">${ic('close')}</button>
+    <div class="sheet-body p-body">
+      <div class="arch p-arch" style="--arch:${arch}">${img(p.img, p.name, true)}</div>
+      <div class="p-head"><h2>${esc(p.name)}${p.tags.includes('spicy') ? ' ' + chili() : ''}</h2>${p.n ? `<button class="info" data-act="nutri" aria-label="Пищевая ценность">${ic('info')}</button>` : ''}</div>
+      <div class="p-meta num" id="pmeta" ${meta() ? '' : 'hidden'}>${esc(meta())}</div>
+      ${nutri}
+      <p class="p-desc">${esc(p.desc)}</p>
+      ${p.old ? `<div class="hint ok">Акция: ${money(p.old)} → ${money(p.price)}</div>` : ''}
+      ${opts}
+    </div>
+    <div class="p-cta"><button class="btn btn-primary num" id="pcta" data-act="addConfigured">${ctaText()}</button></div>`;
+  const layer = openLayer(html, { tall: true });
+  layer.product = { p, c, editLine };
+  const el = layer.el;
+  el.addEventListener('click', e => {
+    const b = e.target.closest('[data-opt]'); if (!b) return;
+    const k = b.dataset.opt, v = b.dataset.v;
+    if (k === 'remove') { const i = c.removed.indexOf(v); i >= 0 ? c.removed.splice(i, 1) : c.removed.push(v); b.classList.toggle('off'); b.lastElementChild.outerHTML = ic(c.removed.includes(v) ? 'plus' : 'close'); }
+    else if (k === 'top') { const i = c.tops.indexOf(v); i >= 0 ? c.tops.splice(i, 1) : c.tops.push(v); b.classList.toggle('on'); }
+    else { c[k] = v; $$(`[data-opt="${k}"]`, el).forEach(x => { x.classList.toggle('on', x.dataset.v === v); x.setAttribute('aria-checked', x.dataset.v === v); }); }
+    $('#pcta', el).textContent = ctaText();
+    $('#pmeta', el).textContent = meta();
+  });
+}
+function addToCart(pid, cfg, qty = 1) {
+  const key = lineKey(pid, cfg);
+  const ex = S.cart.find(l => lineKey(l.pid, l.cfg) === key);
+  if (ex) ex.qty += qty; else S.cart.push({ id: 'l' + Date.now() + Math.random().toString(36).slice(2, 6), pid, cfg, qty });
+  save();
+  updateFab(true);
+}
+
+// ---------- search ----------
+SCREENS.search = {
+  render() {
+    return `<div class="search-top"><label class="field">${ic('search')}<input id="q" type="search" placeholder="Донер, соус или напиток" autocomplete="off" value="${esc(UI.searchQ)}"></label><button class="cancel" data-act="back">Отмена</button></div>
+      <div class="scroll"><div class="page" id="results"></div></div>`;
+  },
+  after(entry) {
+    const input = $('#q', entry.el);
+    const draw = () => {
+      const q = input.value.trim().toLowerCase(); UI.searchQ = input.value;
+      const res = $('#results', entry.el);
+      if (!q) {
+        res.innerHTML = `<div class="grp"><div class="grp-t">Часто ищут</div><div class="ing">${['донер', 'острое', 'комбо', 'лимонад', 'сыр', 'соус'].map(s => `<button data-act="searchFill" data-q="${s}">${s}</button>`).join('')}</div></div>
+          <div class="grp"><div class="grp-t">Популярное</div>${['d-classic', 'c-lunch', 'd-firm', 's-fries'].map(srow).join('')}</div>`;
+        return;
+      }
+      const hits = P.filter(p => (p.name + ' ' + p.desc + ' ' + (p.tags.includes('spicy') ? 'острое острый' : '') + ' ' + (p.sub || '')).toLowerCase().includes(q));
+      res.innerHTML = hits.length ? hits.map(srow).join('') : `<div class="empty-cat">Ничего не нашли по запросу «${esc(input.value)}». Попробуйте «донер» или «соус».</div>`;
+    };
+    input.addEventListener('input', draw);
+    draw();
+    setTimeout(() => input.focus({ preventScroll: true }), 380);
+  },
+};
+const srow = id => { const p = PM[id] || id; return `<button class="srow" data-act="product" data-id="${p.id}">${img(p.img, p.name)}<span class="tx"><div class="nm">${esc(p.name)}</div><div class="ds">${esc(p.desc)}</div></span><span class="pr num">${priceLabel(p)}</span></button>`; };
+
+// ---------- cart ----------
+SCREENS.cart = {
+  render() {
+    const t = totals();
+    if (!S.cart.length) {
+      return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>Корзина</h1><span></span></header>
+        <div class="empty">${logo(false)}<h2>В корзине пусто</h2><p>Добавьте донер, комбо или лимонад — всё появится здесь.</p><button class="btn btn-primary" data-act="toMenu">Перейти в меню</button></div>`;
+    }
+    const inCart = new Set(S.cart.map(l => l.pid));
+    const upsell = ['sc-white', 'sc-cheese', 'dr-mango', 'dr-airan', 's-nuggets', 'ds-cheesecake', 'sc-garlic', 'dr-citrus'].filter(id => !inCart.has(id)).slice(0, 6);
+    const giftLines = t.gifts.map(g => `<div class="line gift"><div class="ph">${img(g.img, g.name)}</div><div class="info"><div class="nm">${esc(g.name)}</div><div class="dt">Подарок за заказ от ${money(g.at)}</div><div class="row"><span class="pr">Бесплатно</span></div></div></div>`).join('');
+    const ng = t.nextGift;
+    const giftCard = ng ? `<div class="card-box gift-card"><div class="top"><span class="bubble">${ic('gift')}</span><div><b>${esc(ng.name)} в подарок</b><div class="muted" style="font-size:13px">Добавьте ещё на ${money(ng.at - t.items)}</div></div></div><div class="bar"><i style="width:${Math.min(100, t.items / ng.at * 100)}%"></i></div></div>` : '';
+    const promoBlock = S.promo ? `<div class="applied">${ic('tag')}<span>${esc(S.promo)} · ${esc(CODES[S.promo].title)}</span><button data-act="removePromo">Убрать</button></div>${t.promoErr ? `<div class="hint err">${esc(t.promoErr)}</div>` : ''}`
+      : `<label class="field ${UI.codeMsg && UI.codeMsg.err ? 'err' : ''}">${ic('tag')}<input id="promo" placeholder="Промокод" autocomplete="off" autocapitalize="characters"><button class="act" data-act="applyPromo">Применить</button></label>${UI.codeMsg ? `<div class="hint ${UI.codeMsg.err ? 'err' : 'ok'}">${esc(UI.codeMsg.text)}</div>` : '<div class="hint">Попробуйте ДОНЕР10 — минус 10% на заказ</div>'}`;
+    return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>Корзина</h1><button class="icon-btn" data-act="clearCart" aria-label="Очистить корзину">${ic('trash')}</button></header>
+      <div class="scroll"><div class="page">
+        <div class="page-title num">${itemsWord(t.count)} на ${money(t.items)}</div>
+        ${S.cart.map(l => { const p = PM[l.pid]; return `<div class="line" data-line="${l.id}"><button class="ph" data-act="editLine" data-line="${l.id}" aria-label="Изменить">${img(p.img, p.name)}</button><div class="info"><div class="nm">${esc(p.name)}</div><div class="dt">${esc(details(p, l.cfg))}</div><div class="row"><span class="pr num">${money(unitPrice(p, l.cfg) * l.qty)}</span><span class="stepper"><button data-act="dec" data-line="${l.id}" aria-label="Меньше">${ic('minus')}</button><span class="num">${l.qty}</span><button data-act="inc" data-line="${l.id}" aria-label="Больше">${ic('plus')}</button></span></div></div></div>`; }).join('')}
+        ${giftLines}
+        ${giftCard}
+        ${upsell.length ? `<h3 class="h-section" style="margin:8px 4px 0">Добавить к заказу?</h3><div class="upsell hscroll">${upsell.map(id => { const p = PM[id]; return `<button class="ucard" data-act="${p.kind === 'simple' ? 'quickAdd' : 'product'}" data-id="${id}"><span class="ph">${img(p.img, p.name)}</span><span class="nm">${esc(p.name)}</span><span class="pill num">${ic('plus')}${money(p.price)}</span></button>`; }).join('')}</div>` : ''}
+        <div style="height:4px"></div>
+        ${promoBlock}
+        <div class="card-box row-card"><span class="coin" style="width:32px;height:32px;font-size:15px">Д</span><span style="flex:1"><b style="font-weight:500">Списать донеркоины</b><div class="muted num" style="font-size:13px">Доступно ${NF.format(S.coins)} Д · можно до ${money(t.coinsMax)}</div></span><button class="toggle ${S.useCoins ? 'on' : ''}" data-act="toggleCoins" role="switch" aria-checked="${S.useCoins}" aria-label="Списать донеркоины"></button></div>
+        <div class="card-box sum num">
+          <div class="sum-row"><span>${itemsWord(t.count)}</span><b>${money(t.items)}</b></div>
+          ${t.disc ? `<div class="sum-row green"><span>Промокод ${esc(S.promo)}</span><b>−${money(t.disc)}</b></div>` : ''}
+          ${t.coins ? `<div class="sum-row green"><span>Донеркоины</span><b>−${money(t.coins)}</b></div>` : ''}
+          <div class="sum-row"><span>${S.orderType === 'delivery' ? 'Доставка' : 'Самовывоз'}</span><b>${t.fee ? money(t.fee) : 'Бесплатно'}</b></div>
+          ${S.orderType === 'delivery' && t.fee ? `<div class="hint" style="padding:0">Бесплатная доставка от 3 000 ₸</div>` : ''}
+          <div class="sum-row"><span>Начислим донеркоинов</span><b style="color:var(--saffron)">+${NF.format(t.earn)} Д</b></div>
+          <div class="divider"></div>
+          <div class="sum-row total"><span>Итого</span><b>${money(t.total)}</b></div>
+        </div>
+      </div></div>
+      <div class="cta-bar">${t.minOk ? '' : `<div class="cta-note">Доставка от 1 500 ₸ — добавьте ещё на ${money(1500 - t.items)}</div>`}<button class="btn btn-primary num" data-act="checkout" ${t.minOk ? '' : 'disabled'}>Оформить заказ · ${money(t.total)}</button></div>`;
+  },
+  after(entry) {
+    const input = $('#promo', entry.el);
+    if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyPromo(); } });
+  },
+  leave() { UI.codeMsg = null; },
+};
+function applyPromo() {
+  const input = $('#promo'); if (!input) return;
+  let code = input.value.trim().toUpperCase().replace(/\s+/g, '');
+  code = CODE_ALIASES[code] || code;
+  if (!code) { UI.codeMsg = { err: true, text: 'Введите промокод' }; }
+  else if (!CODES[code]) { UI.codeMsg = { err: true, text: `Промокод «${input.value.trim()}» не найден. Проверьте написание.` }; }
+  else { S.promo = code; UI.codeMsg = null; save(); toast(`Промокод ${code} применён`); }
+  refresh(topScreen()); updateFabAll();
+}
+const updateFabAll = () => { if (UI.stack[0]) { const fab = $('#cartFab', UI.stack[0].el); if (fab) updateFab(false); } };
+function changeQty(lineId, d) {
+  const l = S.cart.find(x => x.id === lineId); if (!l) return;
+  l.qty += d;
+  if (l.qty <= 0) {
+    const row = $(`.line[data-line="${lineId}"]`);
+    S.cart = S.cart.filter(x => x.id !== lineId); save();
+    if (row) { row.classList.add('removing'); setTimeout(() => { refresh(topScreen()); updateFabAll(); }, 220); return; }
+  }
+  save(); refresh(topScreen()); updateFabAll();
+}
+
+// ---------- checkout ----------
+SCREENS.checkout = {
+  render() {
+    const t = totals();
+    const addr = S.addresses.find(a => a.id === S.addressId) || S.addresses[0];
+    const spot = SPOTS.find(s => s.id === S.spot);
+    const timeText = S.time === 'asap' ? (S.orderType === 'delivery' ? 'Как можно скорее · 25–35 мин' : 'Как можно скорее · 10–15 мин') : 'Ко времени · ' + S.time;
+    const pay = PAYMENTS.map(p => `<button class="lrow" data-act="pay" data-v="${p.id}" role="radio" aria-checked="${S.payment === p.id}">${ic(p.icon)}<span class="tx"><span class="t1">${p.label}</span><span class="t2">${p.id === 'cash' && S.orderType !== 'delivery' ? 'Оплата на кассе' : p.note}</span></span><span class="radio ${S.payment === p.id ? 'on' : ''}"></span></button>${p.id === 'cash' && S.payment === 'cash' && S.orderType === 'delivery' ? `<div class="chips hscroll change">${[['none', 'Без сдачи'], ['5000', 'С 5 000 ₸'], ['10000', 'С 10 000 ₸'], ['20000', 'С 20 000 ₸']].map(([v, l]) => `<button class="chip ${S.change === v ? 'on' : ''}" data-act="change" data-v="${v}">${l}</button>`).join('')}</div>` : ''}`).join('');
+    const cashLabel = S.payment === 'cash' ? 'Заказать · ' : 'Оплатить ';
+    return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>Оформление заказа</h1><span></span></header>
+      <div class="scroll"><div class="page">
+        <div class="seg"><button class="${S.orderType === 'delivery' ? 'on' : ''}" data-act="setType" data-v="delivery">Доставка</button><button class="${S.orderType !== 'delivery' ? 'on' : ''}" data-act="setType" data-v="pickup">Самовывоз</button></div>
+        <div class="list">
+          ${S.orderType === 'delivery'
+            ? `<button class="lrow" data-act="address">${ic('pin')}<span class="tx"><span class="t1">Адрес доставки</span><span class="t2">${esc(addr.text)}</span></span>${ic('chevron-right', 'chev')}</button>`
+            : `<button class="lrow" data-act="spot">${ic('store')}<span class="tx"><span class="t1">${esc(spot.name)}</span><span class="t2">${esc(spot.addr)} · ${esc(spot.hours)}</span></span>${ic('chevron-right', 'chev')}</button>`}
+          <button class="lrow" data-act="time">${ic('clock')}<span class="tx"><span class="t1">Время</span><span class="t2">${timeText}</span></span>${ic('chevron-right', 'chev')}</button>
+          <div class="lrow" style="padding-bottom:8px">${ic('user')}<span class="tx"><span class="t1">Получатель</span></span></div>
+          <div class="inline-inputs">
+            <label class="field" id="f-name"><input id="name" value="${esc(S.user.name)}" placeholder="Имя" autocomplete="name" aria-label="Имя"></label>
+            <label class="field" id="f-phone"><input id="phone" value="${esc(S.user.phone)}" placeholder="+7 7__ ___ __ __" inputmode="tel" autocomplete="tel" aria-label="Телефон"></label>
+          </div>
+        </div>
+        <h3 class="h-section" style="margin:8px 4px 0">Способ оплаты</h3>
+        <div class="list" role="radiogroup">${pay}</div>
+        <div class="card-box row-card"><span style="flex:1"><b style="font-weight:500">Положить приборы</b><div class="muted" style="font-size:13px">Салфетки и вилка к заказу</div></span><button class="toggle ${S.cutlery ? 'on' : ''}" data-act="cutlery" role="switch" aria-checked="${S.cutlery}" aria-label="Положить приборы"></button></div>
+        <textarea class="note" id="comment" placeholder="${S.orderType === 'delivery' ? 'Комментарий курьеру: подъезд, домофон, этаж' : 'Комментарий к заказу'}" aria-label="Комментарий">${esc(S.comment)}</textarea>
+        <div class="card-box sum num">
+          <div class="sum-row"><span>Товары</span><b>${money(t.items)}</b></div>
+          ${t.disc ? `<div class="sum-row green"><span>Промокод ${esc(S.promo)}</span><b>−${money(t.disc)}</b></div>` : ''}
+          ${t.coins ? `<div class="sum-row green"><span>Донеркоины</span><b>−${money(t.coins)}</b></div>` : ''}
+          <div class="sum-row"><span>${S.orderType === 'delivery' ? 'Доставка' : 'Самовывоз'}</span><b>${t.fee ? money(t.fee) : 'Бесплатно'}</b></div>
+          <div class="divider"></div>
+          <div class="sum-row total"><span>К оплате</span><b>${money(t.total)}</b></div>
+        </div>
+      </div></div>
+      <div class="cta-bar"><button class="btn btn-primary num" data-act="placeOrder">${cashLabel}${money(t.total)}</button></div>`;
+  },
+  after(entry) {
+    const bind = (id, fn) => { const el = $('#' + id, entry.el); el && el.addEventListener('input', () => { fn(el.value); save(); el.closest('.field') && el.closest('.field').classList.remove('err'); }); };
+    bind('name', v => S.user.name = v);
+    bind('phone', v => S.user.phone = v);
+    bind('comment', v => S.comment = v);
+  },
+};
+function placeOrder() {
+  const nameOk = S.user.name.trim().length > 1, phoneOk = S.user.phone.replace(/\D/g, '').length >= 11;
+  $('#f-name') && $('#f-name').classList.toggle('err', !nameOk);
+  $('#f-phone') && $('#f-phone').classList.toggle('err', !phoneOk);
+  if (!nameOk || !phoneOk) { toast(!nameOk ? 'Укажите имя получателя' : 'Проверьте номер телефона'); return; }
+  const t = totals();
+  const app = $('#app');
+  const ov = document.createElement('div');
+  ov.className = 'paying';
+  const viaKaspi = S.payment === 'kaspi';
+  ov.innerHTML = S.payment === 'cash'
+    ? `<div class="spinner"></div><h3>Отправляем заказ</h3><p>Передаём его на кухню</p>`
+    : `<div class="spinner"></div><h3>${viaKaspi ? 'Оплата через Kaspi.kz' : 'Оплата картой'}</h3><p class="num">${money(t.total)} · подтверждаем платёж</p>`;
+  app.appendChild(ov);
+  setTimeout(() => {
+    ov.innerHTML = `<div class="okc">${ic('check')}</div><h3>${S.payment === 'cash' ? 'Заказ принят' : 'Оплачено'}</h3><p>Заказ №${S.seq + 1} уже на кухне</p>`;
+    setTimeout(() => {
+      S.seq += 1;
+      const order = { id: S.seq, at: Date.now(), type: S.orderType, spot: S.spot, address: (S.addresses.find(a => a.id === S.addressId) || {}).text, payment: S.payment, total: t.total, earn: t.earn, coinsUsed: t.coins, status: 'live', lines: S.cart.map(l => ({ pid: l.pid, qty: l.qty, cfg: l.cfg })), gifts: t.gifts.map(g => g.name), time: S.time };
+      S.coins -= t.coins;
+      S.orders.unshift(order); S.activeId = order.id;
+      S.cart = []; S.promo = null; S.useCoins = false; S.comment = '';
+      save();
+      ov.remove();
+      while (UI.stack.length > 1) { const cur = UI.stack.pop(); cur.el.remove(); }
+      UI.stack[0].el.classList.remove('below'); refresh(UI.stack[0]);
+      push('order', { id: order.id }, 'fade');
+    }, 900);
+  }, 1500);
+}
+
+// ---------- order tracking ----------
+const STAGES_DELIVERY = [{ key: 'accepted', label: 'Принят', icon: 'check', at: 0 }, { key: 'cooking', label: 'Готовим', icon: 'flame', at: 6 }, { key: 'onway', label: 'В пути', icon: 'bike', at: 16 }, { key: 'done', label: 'У вас', icon: 'home', at: 34 }];
+const STAGES_PICKUP = [{ key: 'accepted', label: 'Принят', icon: 'check', at: 0 }, { key: 'cooking', label: 'Готовим', icon: 'flame', at: 6 }, { key: 'ready', label: 'Готов', icon: 'store', at: 16 }, { key: 'done', label: 'Выдан', icon: 'bag', at: 34 }];
+function orderStage(o) {
+  const stages = o.type === 'delivery' ? STAGES_DELIVERY : STAGES_PICKUP;
+  if (o.status === 'done') return { ...stages[3], idx: 3, stages, sub: 'Приятного аппетита!', progress: 1 };
+  const sec = (Date.now() - o.at) / 1000;
+  let idx = 0; stages.forEach((s, i) => { if (sec >= s.at) idx = i; });
+  const eta = new Date(o.at + (o.type === 'delivery' ? 35 : 15) * 60000);
+  const subs = o.type === 'delivery'
+    ? ['Ресторан подтвердил заказ', `Будет у вас примерно в ${clock(eta)}`, `Курьер Ержан уже едет · ${clock(eta)}`, 'Приятного аппетита!']
+    : ['Ресторан подтвердил заказ', `Будет готов примерно в ${clock(eta)}`, 'Заказ ждёт вас на выдаче', 'Приятного аппетита!'];
+  const cur = stages[idx], next = stages[idx + 1];
+  const prog = next ? (idx + Math.min(1, (sec - cur.at) / (next.at - cur.at))) / 3 : 1;
+  return { ...cur, idx, stages, sub: subs[idx], progress: prog, sec };
+}
+const MAP_PATH = 'M58 172 C 90 172, 96 132, 132 128 S 186 92, 214 96 S 268 70, 300 52';
+function mapSvg() {
+  const blocks = [];
+  for (let x = 0; x < 360; x += 62) for (let y = 0; y < 220; y += 54) blocks.push(`<rect x="${x + 8}" y="${y + 8}" width="${48 + ((x + y) % 3) * 4}" height="40" rx="8" fill="#1D1D21"/>`);
+  return `<svg viewBox="0 0 360 210" preserveAspectRatio="xMidYMid slice" aria-label="Карта: курьер едет к вам">
+    <rect width="360" height="210" fill="#141417"/>${blocks.join('')}
+    <path d="M0 105 H360 M180 0 V210" stroke="#26262B" stroke-width="10"/>
+    <path id="route" d="${MAP_PATH}" fill="none" stroke="#FFB800" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 9"/>
+    <g transform="translate(46 160)"><circle r="16" fill="#141416" stroke="#FFB800" stroke-width="2"/><use href="#spit" x="-11" y="-11" width="22" height="22"/></g>
+    <g transform="translate(300 52)"><circle r="16" fill="#FFB800"/><path d="M-6 1 0 -5 6 1 V7 H-6Z" fill="#141416"/></g>
+    <g id="courierDot"><circle r="13" fill="#3DBE5A" opacity=".25"/><circle r="8" fill="#3DBE5A" stroke="#fff" stroke-width="2.5"/></g>
+  </svg>`;
+}
+SCREENS.order = {
+  render({ id }) {
+    const o = S.orders.find(x => x.id === id);
+    const st = orderStage(o);
+    const isDone = st.key === 'done';
+    const heroIcon = isDone ? ic('check') : st.key === 'onway' ? ic('bike') : st.key === 'ready' ? ic('store') : st.key === 'accepted' ? ic('receipt') : logo(true);
+    const titles = { accepted: 'Заказ принят', cooking: 'Готовим ваш заказ', onway: 'Курьер в пути', ready: 'Заказ готов', done: o.type === 'delivery' ? 'Заказ доставлен' : 'Заказ выдан' };
+    const lines = o.lines.map(l => { const p = PM[l.pid]; return `<div class="sum-row"><span>${esc(p.name)} × ${l.qty}</span><b>${money(unitPrice(p, l.cfg) * l.qty)}</b></div>`; }).join('');
+    const gifts = (o.gifts || []).map(g => `<div class="sum-row green"><span>${esc(g)} — подарок</span><b>0 ₸</b></div>`).join('');
+    const payLabel = (PAYMENTS.find(p => p.id === o.payment) || PAYMENTS[0]).label;
+    return `<header class="nav"><button class="icon-btn" data-act="toMenu" aria-label="Закрыть">${ic('close')}</button><h1 class="num">Заказ №${o.id}</h1><span></span></header>
+      <div class="scroll"><div class="page">
+        <div class="track-hero"><div class="ring"><div class="disc">${heroIcon}</div></div><h2>${titles[st.key]}</h2><p class="num">${esc(st.sub)}</p></div>
+        <div class="card-box steps"><div class="row">${st.stages.map((s, i) => `<div class="step ${i < st.idx || isDone ? 'done' : i === st.idx ? 'now' : ''}"><span class="b">${ic(i < st.idx || isDone ? 'check' : s.icon)}</span>${s.label}</div>`).join('')}</div><div class="bar"><i id="orderBar" style="width:${Math.round(st.progress * 100)}%"></i></div></div>
+        ${o.type === 'delivery' && st.key === 'onway' ? `<div class="map" id="map">${mapSvg()}</div><div class="card-box courier"><span class="av">Е</span><span class="tx"><b>Ержан</b><div class="muted" style="font-size:13px">Курьер на самокате · ★ 4,9</div></span><button class="icon-btn" data-act="callCourier" aria-label="Позвонить курьеру">${ic('phone')}</button></div>` : ''}
+        ${isDone && !o.rated ? `<div class="card-box sum" style="align-items:center;text-align:center"><b style="font-size:16px">Как вам заказ?</b><div class="stars" id="stars">${[1, 2, 3, 4, 5].map(n => `<button data-act="star" data-v="${n}" aria-label="${n} из 5">${ic('star')}</button>`).join('')}</div><div class="ing" style="justify-content:center">${['Вкусно', 'Горячее', 'Быстро', 'Аккуратно'].map(x => `<button data-act="rateTag">${x}</button>`).join('')}</div><button class="btn btn-primary" data-act="sendRating" style="height:48px">Отправить оценку</button></div>` : ''}
+        <div class="card-box sum num"><b style="font-size:16px">Ваш заказ</b>${lines}${gifts}<div class="divider"></div><div class="sum-row total"><span>${o.payment === 'cash' ? 'К оплате курьеру' : 'Оплачено · ' + esc(payLabel)}</span><b>${money(o.total)}</b></div></div>
+        <div class="card-box row-card" style="background:var(--gold);color:var(--on-accent)"><span class="coin" style="width:32px;height:32px;font-size:15px;background:#fff">Д</span><b style="font-weight:600">${isDone ? `Начислено +${NF.format(o.earn || 0)} донеркоинов` : `+${NF.format(o.earn || 0)} донеркоинов начислим после ${o.type === 'delivery' ? 'доставки' : 'выдачи'}`}</b></div>
+        ${isDone ? `<button class="btn btn-secondary" data-act="repeat" data-id="${o.id}">${ic('refresh')}Повторить заказ</button>` : ''}
+        <button class="btn btn-secondary" data-act="toMenu">На главную</button>
+        ${!isDone ? '<div class="demo-note">Демо-режим: статусы меняются за несколько секунд</div>' : ''}
+      </div></div>`;
+  },
+  after(entry) {
+    clearInterval(UI.orderTimer);
+    const o = S.orders.find(x => x.id === entry.params.id);
+    if (!o || o.status === 'done') return;
+    let lastKey = orderStage(o).key;
+    const tick = () => {
+      const st = orderStage(o);
+      if (st.key === 'done') finalizeOrder(o);
+      if (st.key !== lastKey) { lastKey = st.key; if (topScreen() === entry) refresh(entry); if (st.key === 'done') clearInterval(UI.orderTimer); return; }
+      const bar = $('#orderBar', entry.el); if (bar) bar.style.width = Math.round(st.progress * 100) + '%';
+      const route = $('#route', entry.el), dot = $('#courierDot', entry.el);
+      if (route && dot) { const stg = st.stages; const f = Math.min(1, Math.max(0, (st.sec - stg[2].at) / (stg[3].at - stg[2].at))); const pt = route.getPointAtLength(route.getTotalLength() * f); dot.setAttribute('transform', `translate(${pt.x} ${pt.y})`); }
+    };
+    tick();
+    UI.orderTimer = setInterval(tick, 250);
+  },
+  leave() { clearInterval(UI.orderTimer); },
+};
+
+function finalizeOrder(o) {
+  if (o.status === 'done') return;
+  o.status = 'done'; S.coins += o.earn || 0;
+  if (S.activeId === o.id) S.activeId = null;
+  save();
+  toast(o.type === 'delivery' ? `Заказ №${o.id} доставлен. Приятного аппетита!` : `Заказ №${o.id} выдан. Приятного аппетита!`);
+}
+setInterval(() => {
+  const o = activeOrder(); if (!o) return;
+  const st = orderStage(o);
+  if (st.key === 'done') finalizeOrder(o);
+  const strip = UI.stack[0] && $('#orderStrip', UI.stack[0].el);
+  if (strip) strip.innerHTML = S.activeId ? stripHtml(o, st) : '';
+}, 1000);
+
+// ---------- profile & history ----------
+SCREENS.profile = {
+  render() {
+    const rows = [['history', 'receipt', 'История заказов', `${S.orders.length} ${plural(S.orders.length, 'заказ', 'заказа', 'заказов')}`], ['address', 'pin', 'Мои адреса', `${S.addresses.length} ${plural(S.addresses.length, 'адрес', 'адреса', 'адресов')}`], ['payments', 'card', 'Способы оплаты', 'Kaspi.kz, карта, наличные'], ['promos', 'tag', 'Промокоды и акции', '2 активных'], ['support', 'headset', 'Поддержка', 'Ежедневно 09:00–02:00']];
+    return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>Профиль</h1><span></span></header>
+      <div class="scroll"><div class="page">
+        <div class="user"><span class="avatar">${esc((S.user.name || 'Г').trim().charAt(0).toUpperCase())}</span><span><div style="font:700 22px/28px var(--text)">${esc(S.user.name || 'Гость')}</div><div class="muted">${esc(S.user.phone)}</div></span></div>
+        <div class="coins-card"><span class="k">Донеркоины</span><span class="v num">${NF.format(S.coins)} ${coin()}</span><p>1 донеркоин = 1 ₸. Копите 5% с каждого заказа и оплачивайте ими до 25% следующего.</p></div>
+        <div class="list">${rows.map(([act, i, t1, t2]) => `<button class="lrow" data-act="${act}">${ic(i)}<span class="tx"><span class="t1">${t1}</span><span class="t2">${t2}</span></span>${ic('chevron-right', 'chev')}</button>`).join('')}
+          <div class="lrow">${ic('bell')}<span class="tx"><span class="t1">Уведомления о заказе</span><span class="t2">Статусы и акции</span></span><button class="toggle ${S.notify ? 'on' : ''}" data-act="notify" role="switch" aria-checked="${S.notify}" aria-label="Уведомления"></button></div></div>
+        <button class="btn btn-secondary" data-act="resetDemo">${ic('refresh')}Сбросить демо</button>
+        <div class="demo-note">Донерим · прототип v1.0</div>
+      </div></div>`;
+  },
+};
+SCREENS.history = {
+  render() {
+    return `<header class="nav"><button class="icon-btn" data-act="back" aria-label="Назад">${ic('chevron-left')}</button><h1>История заказов</h1><span></span></header>
+      <div class="scroll"><div class="page">${S.orders.map(o => {
+        const st = orderStage(o); const live = st.key !== 'done';
+        const d = new Date(o.at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+        return `<div class="card-box order-card"><div class="hd"><span><b class="num">№${o.id}</b> <span class="muted">· ${d} · ${o.type === 'delivery' ? 'доставка' : 'самовывоз'}</span></span><span class="status-tag ${live ? 'live' : ''}">${live ? st.label : o.type === 'delivery' ? 'Доставлен' : 'Выдан'}</span></div>
+          <div class="thumbs">${o.lines.map(l => img(PM[l.pid].img, PM[l.pid].name)).join('')}</div>
+          <div class="muted" style="font-size:14px">${o.lines.map(l => `${esc(PM[l.pid].name)} × ${l.qty}`).join(', ')}</div>
+          <div style="display:flex;align-items:center;gap:8px"><b class="num" style="flex:1">${money(o.total)}</b>${live ? `<button class="pill" data-act="openOrder" data-id="${o.id}">Отследить</button>` : `<button class="pill" data-act="repeat" data-id="${o.id}">${ic('refresh')}Повторить</button>`}</div></div>`;
+      }).join('')}</div></div>`;
+  },
+};
+
+// ---------- small sheets ----------
+function sheetOrderType() {
+  const o = [['delivery', 'bike', 'Доставка', '25–35 минут · бесплатно от 3 000 ₸'], ['pickup', 'store', 'Самовывоз', 'Приготовим за 10–15 минут'], ['dinein', 'dine', 'В зале', 'Закажите к столу и заберите на выдаче']];
+  openLayer(`<div class="sheet-body"><h2>Как получить заказ?</h2>${o.map(([id, i, t, s]) => `<button class="opt ${S.orderType === id ? 'on' : ''}" data-act="pickType" data-v="${id}"><span class="bubble">${ic(i)}</span><span class="tx"><div class="t1">${t}</div><div class="t2">${s}</div></span><span class="radio ${S.orderType === id ? 'on' : ''}"></span></button>`).join('')}</div>`);
+}
+function sheetAddress() {
+  openLayer(`<div class="sheet-body"><h2>Адрес доставки</h2><p class="lead">Астана · доставляем в пределах города</p>
+    <div class="list">${S.addresses.map(a => `<button class="lrow" data-act="pickAddr" data-v="${a.id}">${ic(a.label === 'Работа' ? 'store' : 'home')}<span class="tx"><span class="t1">${esc(a.label)}</span><span class="t2">${esc(a.text)}</span></span><span class="radio ${S.addressId === a.id ? 'on' : ''}"></span></button>`).join('')}</div>
+    <form class="form" id="addrForm"><div class="grp-t">Новый адрес</div><label class="field">${ic('pin')}<input id="addrStreet" placeholder="Улица и дом" autocomplete="street-address" required></label><label class="field">${ic('home')}<input id="addrApt" placeholder="Квартира или офис"></label><button class="btn btn-primary" type="submit" style="height:50px">Добавить адрес</button></form></div>`, {
+    after(layer) {
+      $('#addrForm', layer).addEventListener('submit', e => {
+        e.preventDefault();
+        const st = $('#addrStreet', layer).value.trim(), apt = $('#addrApt', layer).value.trim();
+        if (st.length < 3) { $('#addrStreet', layer).closest('.field').classList.add('err'); return; }
+        const a = { id: 'a' + Date.now(), label: 'Другой', text: st + (apt ? ', ' + apt : '') };
+        S.addresses.push(a); S.addressId = a.id; S.orderType = 'delivery'; save();
+        closeLayer(); refreshAll(); toast('Адрес добавлен');
+      });
+    },
+  });
+}
+function sheetSpot() {
+  openLayer(`<div class="sheet-body"><h2>Откуда заберёте?</h2>${SPOTS.map(s => `<button class="opt ${S.spot === s.id ? 'on' : ''}" data-act="pickSpot" data-v="${s.id}"><span class="bubble">${ic('store')}</span><span class="tx"><div class="t1">${s.name}</div><div class="t2">${s.addr} · ${s.hours}</div></span><span class="radio ${S.spot === s.id ? 'on' : ''}"></span></button>`).join('')}</div>`);
+}
+function sheetTime() {
+  openLayer(`<div class="sheet-body"><h2>Когда приготовить?</h2>
+    <button class="opt ${S.time === 'asap' ? 'on' : ''}" data-act="pickTime" data-v="asap"><span class="bubble">${ic('clock')}</span><span class="tx"><div class="t1">Как можно скорее</div><div class="t2">${S.orderType === 'delivery' ? '25–35 минут' : '10–15 минут'}</div></span><span class="radio ${S.time === 'asap' ? 'on' : ''}"></span></button>
+    <div class="grp-t">Ко времени, сегодня</div><div class="slots">${SLOTS.map(s => `<button class="${S.time === s ? 'on' : ''}" data-act="pickTime" data-v="${s}">${s}</button>`).join('')}</div></div>`);
+}
+function sheetGifts() {
+  const t = totals();
+  openLayer(`<div class="sheet-body"><h2>Подарки к заказу</h2><p class="lead">Чем больше заказ, тем больше подарков. Добавим их в корзину сами.</p>
+    ${GIFTS.map(g => `<div class="tier">${img(g.img, g.name)}<span class="tx"><div class="t1" style="font-weight:600">${g.name}</div><div class="t2 num">При заказе от ${money(g.at)}</div></span>${t.items >= g.at ? `<b class="ok">${ic('check')}</b>` : `<span class="muted num" style="font-size:13px">ещё ${money(g.at - t.items)}</span>`}</div>`).join('')}
+    <div class="bar"><i style="width:${Math.min(100, t.items / 9000 * 100)}%"></i></div><div class="hint num">В корзине сейчас ${money(t.items)}</div></div>`);
+}
+function sheetCoins() {
+  openLayer(`<div class="sheet-body"><h2>Донеркоины</h2>
+    <div class="coins-card"><span class="k">На вашем счёте</span><span class="v num">${NF.format(S.coins)} ${coin()}</span><p>1 донеркоин = 1 ₸</p></div>
+    <div class="list">${[['plus', 'Копите 5% с каждого заказа', 'Начисляем после доставки'], ['percent', 'Оплачивайте до 25% заказа', 'Включите «Списать донеркоины» в корзине'], ['gift', '+300 Д в день рождения', 'Укажите дату в профиле']].map(([i, a, b]) => `<div class="lrow">${ic(i)}<span class="tx"><span class="t1">${a}</span><span class="t2">${b}</span></span></div>`).join('')}</div></div>`);
+}
+function sheetPromos() {
+  openLayer(`<div class="sheet-body"><h2>Акции и промокоды</h2>
+    ${Object.entries(CODES).map(([k, c]) => `<div class="code"><span class="k">${k}</span><span class="tx">${c.title}<br><span>${c.note || ''}</span></span><button class="pill" data-act="usePromo" data-v="${k}">${S.promo === k ? 'Применён' : 'Применить'}</button></div>`).join('')}
+    <div class="tier">${img('doner-govyazhiy', 'Донер говяжий')}<span class="tx"><div class="t1" style="font-weight:600">Донер дня −20%</div><div class="t2">Говяжий донер за 1 830 ₸ до 23:00</div></span><button class="pill" data-act="product" data-id="d-beef">Хочу</button></div>
+    <div class="tier">${img('kombo-dlya-dvoih', 'Комбо для двоих')}<span class="tx"><div class="t1" style="font-weight:600">Комбо для двоих</div><div class="t2">Выгода 950 ₸ на двоих</div></span><button class="pill" data-act="product" data-id="c-two">Хочу</button></div></div>`);
+}
+function sheetConfirmClear() {
+  openLayer(`<div class="sheet-body" style="text-align:center;align-items:center"><h2 style="padding:0">Очистить корзину?</h2><p class="lead">Уберём все ${itemsWord(cartCount())}. Отменить не получится.</p><button class="btn btn-primary" data-act="doClear" style="background:var(--chili);color:#fff">Очистить</button><button class="btn btn-secondary" data-act="closeLayer">Оставить</button></div>`);
+}
+function sheetCall() {
+  openLayer(`<div class="sheet-body" style="text-align:center;align-items:center"><span class="courier"><span class="av" style="width:64px;height:64px;font-size:24px">Е</span></span><h2 style="padding:0">Ержан, курьер</h2><p class="lead">Позвоните, если нужно уточнить подъезд или домофон</p><div class="field" style="justify-content:center;width:100%;box-sizing:border-box"><b class="num" style="font-size:20px;user-select:all">+7 707 555 12 34</b></div><button class="btn btn-secondary" data-act="copyPhone">Скопировать номер</button></div>`);
+}
+function sheetPayments() {
+  openLayer(`<div class="sheet-body"><h2>Способы оплаты</h2><div class="list">${PAYMENTS.map(p => `<button class="lrow" data-act="payDefault" data-v="${p.id}">${ic(p.icon)}<span class="tx"><span class="t1">${p.label}</span><span class="t2">${p.note}</span></span><span class="radio ${S.payment === p.id ? 'on' : ''}"></span></button>`).join('')}</div><p class="lead" style="font-size:13px">Выбранный способ подставим при оформлении заказа.</p></div>`);
+}
+function sheetSupport() {
+  openLayer(`<div class="sheet-body"><h2>Поддержка</h2><p class="lead">Отвечаем ежедневно с 09:00 до 02:00. Обычно в течение 5 минут.</p>
+    <div class="list"><div class="lrow">${ic('phone')}<span class="tx"><span class="t1 num" style="user-select:all">+7 717 255 00 77</span><span class="t2">Горячая линия Донерим</span></span></div><div class="lrow">${ic('message')}<span class="tx"><span class="t1 num" style="user-select:all">+7 777 255 00 77</span><span class="t2">WhatsApp</span></span></div></div>
+    <button class="btn btn-secondary" data-act="closeLayer">Понятно</button></div>`);
+}
+
+// ---------- stories ----------
+let storyState = null;
+function openStory(i) {
+  closeStory(true);
+  $$('.toast').forEach(t => t.remove());
+  const el = document.createElement('div');
+  el.className = 'story'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Сторис');
+  $('#app').appendChild(el);
+  storyState = { el, i, j: 0 };
+  drawStory();
+  el.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; el.classList.add('paused'); storyState.downAt = Date.now(); });
+  el.addEventListener('pointerup', () => el.classList.remove('paused'));
+  el.addEventListener('pointerleave', () => el.classList.remove('paused'));
+}
+function drawStory() {
+  const { el, i, j } = storyState;
+  const s = STORIES[i], sl = s.slides[j];
+  el.innerHTML = `<div class="bg" style="background:radial-gradient(120% 70% at 50% 30%, ${s.color} 0%, #0A0A0B 78%)"></div>
+    <div class="bars">${s.slides.map((_, k) => `<span class="${k < j ? 'done' : k === j ? 'cur' : ''}"><i></i></span>`).join('')}</div>
+    <div class="head">${logo()}<span>донерим</span><button class="icon-btn" data-act="closeStory" aria-label="Закрыть">${ic('close')}</button></div>
+    <div class="slide"><div class="pic">${img(sl.img, sl.h, true)}</div><h2>${esc(sl.h)}</h2><p>${esc(sl.t)}</p>${sl.cta ? `<button class="btn btn-primary num" data-act="storyCta">${esc(sl.cta.label)}</button>` : ''}</div>
+    <div class="zone l" data-act="storyPrev"></div><div class="zone r" data-act="storyNext"></div>`;
+  const bar = $('.bars span.cur i', el);
+  bar.addEventListener('animationend', () => storyStep(1));
+}
+function storyStep(d) {
+  if (!storyState) return;
+  const s = STORIES[storyState.i];
+  let j = storyState.j + d, i = storyState.i;
+  if (j >= s.slides.length) { i += 1; j = 0; }
+  if (j < 0) { i -= 1; if (i < 0) { i = 0; j = 0; } else j = STORIES[i].slides.length - 1; }
+  if (i >= STORIES.length) { closeStory(); return; }
+  storyState.i = i; storyState.j = j; drawStory();
+}
+function closeStory(instant) {
+  if (!storyState) return;
+  const el = storyState.el; storyState = null;
+  if (instant) { el.remove(); return; }
+  el.classList.add('closing'); setTimeout(() => el.remove(), 220);
+}
+
+// ---------- actions ----------
+const ACT = {
+  tab: b => switchTab(b.dataset.tab),
+  chip: b => { const c = b.dataset.chip; UI.chip[UI.tab] = UI.chip[UI.tab] === c ? null : c; $('#catView', UI.stack[0].el).innerHTML = catView(); },
+  product: b => { if (storyState) closeStory(true); while (UI.layers.length) closeLayer(true); openProduct(b.dataset.id); },
+  quickAdd: (b, e) => { e.stopPropagation(); const p = PM[b.dataset.id]; addToCart(p.id, cfgDefault(p)); toast(`${p.name} — в корзине`); const old = b.innerHTML; if (b.classList.contains('pill') && !b.closest('.ucard')) { b.classList.add('added'); b.innerHTML = ic('check'); setTimeout(() => { b.classList.remove('added'); b.innerHTML = old; }, 900); } if (topScreen().name === 'cart') refresh(topScreen()); },
+  addConfigured: () => {
+    const layer = UI.layers[UI.layers.length - 1]; const { p, c, editLine } = layer.product;
+    if (editLine) { const l = S.cart.find(x => x.id === editLine.id); if (l) l.cfg = c; save(); closeLayer(); refresh(topScreen()); updateFabAll(); toast('Изменения сохранены'); return; }
+    addToCart(p.id, c); closeLayer(); toast(`${p.name} — в корзине`);
+    if (topScreen().name === 'cart') refresh(topScreen());
+  },
+  nutri: () => { const n = $('#nutri'); if (n) n.hidden = !n.hidden; },
+  closeLayer: () => closeLayer(),
+  back: () => pop(),
+  toMenu: () => popToRoot(),
+  cart: () => push('cart'),
+  search: () => push('search', {}, 'fade'),
+  searchFill: b => { const q = $('#q'); q.value = b.dataset.q; q.dispatchEvent(new Event('input')); },
+  profile: () => push('profile'),
+  history: () => push('history'),
+  story: b => openStory(+b.dataset.i),
+  closeStory: () => closeStory(),
+  storyPrev: () => { if (storyState && Date.now() - (storyState.downAt || 0) < 350) storyStep(-1); },
+  storyNext: () => { if (storyState && Date.now() - (storyState.downAt || 0) < 350) storyStep(1); },
+  storyCta: () => { const sl = STORIES[storyState.i].slides[storyState.j]; closeStory(true); if (sl.cta.act === 'product') openProduct(sl.cta.id); else { popToRoot(); switchTab(sl.cta.id); } },
+  orderType: () => sheetOrderType(),
+  pickType: b => { S.orderType = b.dataset.v === 'dinein' ? 'dinein' : b.dataset.v; save(); closeLayer(); refreshAll(); updateFabAll(); toast(b.dataset.v === 'delivery' ? 'Доставим по адресу' : b.dataset.v === 'pickup' ? 'Заберёте сами — без доставки' : 'Заказ к столу в зале'); },
+  address: () => sheetAddress(),
+  pickAddr: b => { S.addressId = b.dataset.v; S.orderType = 'delivery'; save(); closeLayer(); refreshAll(); updateFabAll(); },
+  spot: () => sheetSpot(),
+  pickSpot: b => { S.spot = b.dataset.v; save(); closeLayer(); refreshAll(); },
+  time: () => sheetTime(),
+  pickTime: b => { S.time = b.dataset.v; save(); closeLayer(); refresh(topScreen()); },
+  gifts: () => sheetGifts(),
+  coinsInfo: () => sheetCoins(),
+  promos: () => sheetPromos(),
+  usePromo: b => { S.promo = b.dataset.v; save(); closeLayer(); toast(`Промокод ${b.dataset.v} применён`); refreshAll(); updateFabAll(); },
+  applyPromo: () => applyPromo(),
+  removePromo: () => { S.promo = null; save(); refresh(topScreen()); updateFabAll(); },
+  toggleCoins: () => { S.useCoins = !S.useCoins; save(); refresh(topScreen()); updateFabAll(); },
+  inc: b => changeQty(b.dataset.line, 1),
+  dec: b => changeQty(b.dataset.line, -1),
+  editLine: b => { const l = S.cart.find(x => x.id === b.dataset.line); if (l && PM[l.pid].kind !== 'simple') openProduct(l.pid, l); },
+  clearCart: () => sheetConfirmClear(),
+  doClear: () => { S.cart = []; S.promo = null; S.useCoins = false; save(); closeLayer(); refresh(topScreen()); updateFabAll(); toast('Корзина очищена'); },
+  checkout: () => push('checkout'),
+  setType: b => { S.orderType = b.dataset.v; save(); refresh(topScreen()); updateFabAll(); },
+  pay: b => { S.payment = b.dataset.v; save(); refresh(topScreen()); },
+  change: b => { S.change = b.dataset.v; save(); refresh(topScreen()); },
+  cutlery: () => { S.cutlery = !S.cutlery; save(); refresh(topScreen()); },
+  placeOrder: () => placeOrder(),
+  openOrder: b => { const id = b.dataset.id ? +b.dataset.id : S.activeId; if (id) push('order', { id }); },
+  callCourier: () => sheetCall(),
+  copyPhone: b => { const done = () => { b.textContent = 'Номер скопирован'; }; try { navigator.clipboard.writeText('+77075551234').then(done, () => { b.textContent = 'Выделите номер и скопируйте'; }); } catch (e) { b.textContent = 'Выделите номер и скопируйте'; } },
+  star: b => { const v = +b.dataset.v; $$('#stars button').forEach((x, i) => x.classList.toggle('on', i < v)); UI.stars = v; },
+  rateTag: b => b.classList.toggle('off'),
+  sendRating: () => { const e = topScreen(); const o = S.orders.find(x => x.id === e.params.id); if (!UI.stars) { toast('Поставьте оценку звёздами'); return; } o.rated = true; save(); refresh(e); toast('Спасибо! Передадим команде'); },
+  repeat: b => { const o = S.orders.find(x => x.id === +b.dataset.id); o.lines.forEach(l => addToCart(l.pid, JSON.parse(JSON.stringify(l.cfg)), l.qty)); toast('Добавили заказ в корзину'); popToRoot(); push('cart'); },
+  payments: () => sheetPayments(),
+  payDefault: b => { S.payment = b.dataset.v; save(); closeLayer(); toast('Способ оплаты сохранён'); },
+  support: () => sheetSupport(),
+  notify: () => { S.notify = !S.notify; save(); refresh(topScreen()); },
+  resetDemo: () => { try { localStorage.removeItem(KEY); } catch (e) { /* storage unavailable */ } S = fresh(); UI.tab = 'foryou'; UI.chip = {}; closeAllLayers(); clearInterval(UI.orderTimer); $('#app').innerHTML = ''; UI.stack = []; push('menu'); toast('Демо сброшено'); },
+  replaySplash: () => showSplash(),
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || !$('#app').contains(b) && !b.closest('.brief')) return;
+  const fn = ACT[b.dataset.act];
+  if (fn) fn(b, e);
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (storyState) closeStory(); else if (UI.layers.length) closeLayer(); else if (UI.stack.length > 1) pop();
+});
+
+// ---------- boot ----------
+function showSplash() {
+  const app = $('#app');
+  const sp = document.createElement('div');
+  sp.className = 'splash';
+  sp.innerHTML = `<div class="lock">${logo(true, '')}донерим</div><p>Донеры, которые хочется повторить</p><small>Астана</small>`;
+  app.appendChild(sp); syncChrome();
+  setTimeout(() => { sp.classList.add('out'); syncChrome(); setTimeout(() => sp.remove(), 460); }, 1300);
+}
+function fit() {
+  const dev = $('#device');
+  const framed = window.innerWidth > 760 && window.innerHeight > 560;
+  dev.classList.toggle('framed', framed);
+  const s = Math.min(1, (window.innerHeight - 40) / 876, (window.innerWidth - 40) / 417);
+  dev.style.setProperty('--scale', framed ? s.toFixed(3) : 1);
+}
+window.addEventListener('resize', fit);
+fit();
+push('menu');
+showSplash();
+window.donerim = { get S() { return S; }, UI, push, pop, popToRoot, openProduct, addToCart, switchTab, openStory, refreshAll, totals, PM, ACT, closeLayer, closeStory, storyStep, placeOrder };
+})();
+</script>
+</body>
+</html>
